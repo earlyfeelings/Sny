@@ -4,8 +4,105 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "730f45b115d774a1743b00e7ce7f6626",
+    "content-hash": "e46b099fbf9cb017528f17ce6e6dc38a",
     "packages": [
+        {
+            "name": "fortawesome/font-awesome",
+            "version": "6.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "d3a7818c253fcbafff9ebd1d4abb2866c192e1d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/d3a7818c253fcbafff9ebd1d4abb2866c192e1d7",
+                "reference": "d3a7818c253fcbafff9ebd1d4abb2866c192e1d7",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-4.0",
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The Font Awesome Team",
+                    "homepage": "https://github.com/orgs/FortAwesome/people"
+                }
+            ],
+            "description": "The iconic font, CSS, and SVG framework",
+            "homepage": "https://fontawesome.com",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon",
+                "svg"
+            ],
+            "support": {
+                "docs": "http://fontawesome.com/docs",
+                "email": "hello@fontawesome.com",
+                "issues": "https://github.com/FortAwesome/Font-Awesome/issues",
+                "source": "https://github.com/FortAwesome/Font-Awesome"
+            },
+            "time": "2022-08-31T21:02:43+00:00"
+        },
+        {
+            "name": "jackocnr/intl-tel-input",
+            "version": "17.0.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackocnr/intl-tel-input.git",
+                "reference": "a21a1aee03bfd6b82a028704490547ff77d8bf98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackocnr/intl-tel-input/zipball/a21a1aee03bfd6b82a028704490547ff77d8bf98",
+                "reference": "a21a1aee03bfd6b82a028704490547ff77d8bf98",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jack O'Connor",
+                    "homepage": "http://jackocnr.com"
+                }
+            ],
+            "description": "A JavaScript plugin for entering and validating international telephone numbers",
+            "homepage": "https://github.com/jackocnr/intl-tel-input",
+            "keywords": [
+                "code",
+                "country",
+                "dial",
+                "flag",
+                "i18n",
+                "input",
+                "international",
+                "mobile",
+                "number",
+                "tel",
+                "telephone"
+            ],
+            "support": {
+                "issues": "https://github.com/jackocnr/intl-tel-input/issues",
+                "source": "https://github.com/jackocnr/intl-tel-input/tree/v17.0.19"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jackocnr",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-09-13T14:01:20+00:00"
+        },
         {
             "name": "latte/latte",
             "version": "v2.11.5",
@@ -1396,6 +1493,56 @@
                 "source": "https://github.com/nette/tracy/tree/v2.9.4"
             },
             "time": "2022-07-19T14:06:15+00:00"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "23e50829f958ea1d741d63e2781716be037e4644"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/23e50829f958ea1d741d63e2781716be037e4644",
+                "reference": "23e50829f958ea1d741d63e2781716be037e4644",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                },
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "https://getbootstrap.com/",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "mobile-first",
+                "responsive",
+                "sass",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/bootstrap/issues",
+                "source": "https://github.com/twbs/bootstrap/tree/v5.2.1"
+            },
+            "time": "2022-09-07T15:31:39+00:00"
         }
     ],
     "packages-dev": [
