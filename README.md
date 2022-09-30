@@ -1,2 +1,2 @@
 Sny\
-Staň se nejlepším člověkem na světě.
+Staň se skoro nejlepším člověkem na světě.
