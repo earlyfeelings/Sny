@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App snyapi with API Manageme
 on:
   push:
     branches:
-    - main
+    - test
 env:
   AZURE_WEBAPP_NAME: snyapi
   AZURE_WEBAPP_PACKAGE_PATH: App\Sny.Api\publish
