@@ -5,10 +5,13 @@
 
         private Uri _baseUri;
 
-        public BackendProvider(Uri baseUri)
+        public BackendProvider(Uri baseUri, bool doNotCheck)
         {
             _baseUri = baseUri;
+            DoNotCheck = doNotCheck;
         }
+
+        public bool DoNotCheck { get; set; }
 
         public Uri GetUri(string relativeUri)
         {

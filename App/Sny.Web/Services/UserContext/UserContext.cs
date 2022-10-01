@@ -13,6 +13,8 @@ namespace Sny.Web.Services.UserContext
 
         public Task Login(string JwtToken);
 
+        public void Logout();
+
         public event Action? StateChanged;
     }
 
@@ -45,14 +47,10 @@ namespace Sny.Web.Services.UserContext
                 IsLoggedIn = true;
                 Email = res.Email;
                 _jwt = jwtToken;
-               
             }
             else
             {
-                IsLoggedIn = false;
-                Email = defaultUser;
-                jwtToken = String.Empty;
-                _client.DefaultRequestHeaders.Remove("Authorization");
+                Logout();
             }
             NotifyStateChanged();
         }
@@ -62,6 +60,14 @@ namespace Sny.Web.Services.UserContext
         private void NotifyStateChanged()
         {
             StateChanged?.Invoke();
+        }
+
+        public void Logout()
+        {
+            IsLoggedIn = false;
+            Email = defaultUser;
+            _jwt = String.Empty;
+            _client.DefaultRequestHeaders.Remove("Authorization");
         }
     }
 }

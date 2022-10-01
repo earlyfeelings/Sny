@@ -1,10 +1,17 @@
 ﻿
 @page "/login"
+@using Sny.Web.Components
 @using Sny.Web.Services.UserContext
 @inject NavigationManager NavManager
 @inject IUserContext UserContext
 
-<p>Prosím přihlašte se.</p>
+<Header Title="Login"></Header>
+
+<div style="grid-area: content">
+  <p>Nejste přihlášen.</p>
+  <p>Prosím přihlaste se.</p>
+</div>
+
 
 @code {
     [Parameter]
