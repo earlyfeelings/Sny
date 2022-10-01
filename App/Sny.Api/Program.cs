@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Sny.Api.Middlewares;
 using Sny.Api.Options;
+using Sny.Api.Services;
 using Sny.Core.AccountsAggregate.Services;
 using Sny.Core.GoalsAggregate.Services;
 using Sny.Core.Interfaces.Core;
@@ -93,6 +95,7 @@ namespace Sny.Api
             builder.Services.AddSingleton<IGoalReadOnlyRepo, GoalInmemoryRepo>();
 
             builder.Services.AddScoped<IAccountManager, AccountManager>();
+            builder.Services.AddSingleton<IJwtService, JwtService>();
 
             AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
 
@@ -108,6 +111,7 @@ namespace Sny.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiddleware<FakeLoginMiddleware>();
             }
             else
             {
