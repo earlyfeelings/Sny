@@ -102,6 +102,10 @@ namespace Sny.Api
             builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
             builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
 
+            builder.Services.AddScoped<ICurrentAccountContext, CurrentAccountContext>();
+
+            
+
             var app = builder.Build();
 
             app.UseSwagger();
@@ -112,13 +116,11 @@ namespace Sny.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
             }
             else
             {
                 app.UseHsts();
             }
-
 
             app.UseCors();
             app.UseHttpsRedirection();
@@ -126,6 +128,9 @@ namespace Sny.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<CurrentLoggedContextMiddleware>();
+
             app.MapControllers();
 
             app.Run();

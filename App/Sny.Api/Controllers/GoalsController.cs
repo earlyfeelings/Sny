@@ -2,6 +2,7 @@
 using Sny.Api.Dtos.Models.Goals;
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
+using Sny.Core.Interfaces.Infrastructure;
 using System.Net;
 
 namespace Sny.Api.Controllers

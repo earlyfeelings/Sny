@@ -12,10 +12,12 @@ namespace Sny.Core.GoalsAggregate.Services
     public class GoalProvider : IGoalProvider
     {
         private readonly IGoalReadOnlyRepo _gror;
+        private readonly ICurrentAccountContext _cac;
 
-        public GoalProvider(IGoalReadOnlyRepo gror)
+        public GoalProvider(IGoalReadOnlyRepo gror, ICurrentAccountContext cac)
         {
             this._gror = gror;
+            this._cac = cac;
         }
 
         public Task<Goal> GetGoalById(Guid id)

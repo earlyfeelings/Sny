@@ -28,7 +28,7 @@ namespace Sny.Api.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, acc.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, acc.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, acc.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, acc.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, acc.Id.ToString())
             };
