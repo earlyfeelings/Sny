@@ -8,7 +8,7 @@
             Name = name;
             Active = active;
             Description = description;
-        }
+        }        
         
 
         public Guid Id { get; }

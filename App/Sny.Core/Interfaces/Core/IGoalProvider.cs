@@ -12,6 +12,8 @@ namespace Sny.Core.Interfaces.Core
         
         public Task<Goal> EditGoal(Guid id, string name, bool active, string description);
 
-        public Task<bool> DeleteGoal(Guid id);
+        public void DeleteGoal(Guid id);
+
+        public void ChangeActiveGoal(Guid id, bool activate);
     }
 }
