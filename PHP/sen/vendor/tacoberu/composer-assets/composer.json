@@ -1,0 +1,22 @@
+{
+    "name": "tacoberu/composer-assets",
+    "description": "Copies files from vendor to www directory. The list of files is stored in a json file.",
+    "type": "library",
+    "keywords": [
+        "composer",
+        "assets"
+    ],
+    "license": ["MIT"],
+    "authors": [
+        {
+            "name": "Martin Takáč",
+            "homepage": "http://martin.takac.name"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "classmap": ["."]
+    }
+}

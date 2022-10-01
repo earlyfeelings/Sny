@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sny.Api.Dtos.Models;
+using Sny.Api.Dtos.Models.Goals;
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
 using System.Net;
@@ -32,7 +32,8 @@ namespace Sny.Api.Controllers
 
         /// <summary>
         /// Returns single goal by specified ID.
-        /// Returns 404 if the goal was not found.
+        /// Returns:
+        /// - 404 if the goal was not found.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
