@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sny.Core.Goals
+﻿namespace Sny.Core.Goals
 {
     public class Goal
     {
-        public Goal(Guid id, string name, bool active, string description)
+        public Goal(Guid id, string name, bool active, string description, Guid accountId)
         {
             Id = id;
             Name = name;
             Active = active;
             Description = description;
+            AccountId = accountId;
         }
+
+        public Guid AccountId { get; }
 
         public Guid Id { get; }
 

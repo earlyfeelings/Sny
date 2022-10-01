@@ -4,18 +4,29 @@ using Sny.Api.Dtos.Models.Goals;
 using Sny.Core.AccountsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
 using Sny.Api.Mappers;
+using Microsoft.IdentityModel.Tokens;
+using Sny.Api.Options;
+using Sny.Core.AccountsAggregate;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
+using Sny.Api.Services;
 
 namespace Sny.Api.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("account")]
     public class AccountController : Controller
     {
         private readonly IAccountManager _accManager;
+        private readonly IJwtService _jwtService;
 
-        public AccountController(IAccountManager accManager)
+        public AccountController(IAccountManager accManager, IJwtService jwtService)
         {
             this._accManager = accManager;
+            this._jwtService = jwtService;
         }
 
         /// <summary>
@@ -32,13 +43,19 @@ namespace Sny.Api.Controllers
             try
             {
                 var result = await _accManager.Login(new LoginModel(model.Email, model.Password));
-                return Ok(new LoginResponseDto(result.Jwt));
+                if (result.Result.Success)
+                {
+                    return Ok(new LoginResponseDto(_jwtService.CreateJWT(result.Account)));
+                }
             }
             catch (LoginFailedException)
             {
                 return StatusCode(403);
             }
+            return StatusCode(403);
         }
+
+      
 
         /// <summary>
         /// Register new user.

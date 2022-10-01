@@ -1,16 +1,12 @@
 ﻿using Sny.Core.Goals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sny.Core.Interfaces.Infrastructure
 {
     public interface IGoalReadOnlyRepo
     {
-        public Task<Goal> GetGoalById(Guid id);
+        public Task<Goal> GetGoalById(Guid id, Func<IQueryable<Goal>, IQueryable<Goal>> filter);
 
-        public Task<IReadOnlyCollection<Goal>> GetGoals();
+        public Task<IReadOnlyCollection<Goal>> GetGoals(Func<IQueryable<Goal>, IQueryable<Goal>> filter);
+
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Sny.Core.Goals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sny.Core.Interfaces.Core
 {
@@ -12,5 +7,13 @@ namespace Sny.Core.Interfaces.Core
         public Task<Goal> GetGoalById(Guid id);
 
         public Task<IReadOnlyCollection<Goal>> GetGoals();
+
+        public Task<Goal> AddGoal(string name, bool active, string description);
+
+        public Task<Goal> EditGoal(Guid id, string name, bool active, string description);
+
+        public void DeleteGoal(Guid id);
+
+        public void ChangeActiveGoal(Guid id, bool activate);
     }
 }

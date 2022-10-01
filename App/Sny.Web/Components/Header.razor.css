@@ -1,0 +1,6 @@
+﻿#header {
+    display: grid;
+    justify-content: space-between;
+    grid-auto-flow: column;
+    background-color: #7F768411;
+}

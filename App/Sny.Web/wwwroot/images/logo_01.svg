@@ -1,0 +1,169 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="220px" height="395px" viewBox="0 0 220 395">
+<defs>
+<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<feColorMatrix in="SourceGraphic" type="matrix" values="0.88 0 0 0 0 0 0.88 0 0 0 0 0 0.88 0 0.06274509803921569 0 0 0 1 0" result="result1"/>
+</filter>
+
+<g id="String_0_Layer1_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 20.65 48.8
+L 10.95 48.8 10.95 306 20.65 306 20.65 48.8 Z"/>
+</g>
+
+<g id="Circle_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 28.95 28.95
+Q 33.9 23.95 33.9 16.95 33.9 10 28.95 5 23.95 0 16.95 0 9.95 0 5 5 0 10 0 16.95 0 23.95 5 28.95 9.95 33.9 16.95 33.9 23.95 33.9 28.95 28.95 Z"/>
+</g>
+
+<g id="Feather_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 95.65 92.8
+Q 100.75 71.05 94.3 50 91.55 40.9 87.1 34.25 83.6 28.95 79.7 26.25
+L 73.75 26.7
+Q 54.5 33.95 43.8 41.3 25.45 53.8 17.95 73.05 22.05 65.45 33.25 58.1 45.7 49.9 56.15 50.15 38.95 56.25 28.4 70.8 19.8 82.65 14.6 102 11.9 112 7.5 137.3 3.65 159.45 0 170.05 7.25 156.55 15.25 151.65 6.6 175.65 9.95 197.15 12.6 214.3 23.85 233.3 27.85 240.05 34.45 249.65 41.95 260.35 45.6 265.75 58.8 285.2 63.8 299.85 70.35 285.85 73.5 274.65 76.85 262.6 77.05 251.05 77.2 239.35 74.2 226.05 71.25 213.2 64.65 196.55 70 201.85 73.4 208.55 76.25 214.3 78.6 223.05 77.95 207.8 81.4 192.5 82.15 189.1 84.9 178.65 87.3 169.3 88.65 162.6 94.05 136.6 93 104.05 92.05 74 86.7 59.15 91.85 66.35 93.75 74.75 95.15 80.7 95.65 92.8
+M 67.7 39.4
+Q 71.819921875 36.9109375 73.5 39.4 71.7205078125 43.301953125 70.35 46.35 64.3 59.7 59.95 71.35 47.8 104.15 43.75 137.5 38.5 180.5 46.2 227.05 38.45 199.05 37.25 172.4 36 145.75 41.25 118.45 46.35 91.65 58.05 62 62.3560546875 51.1044921875 67.7 39.4 Z"/>
+</g>
+
+<g id="Feather2_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 44.65 36.85
+Q 42.9708984375 31.2369140625 41.1 25.45
+L 36.2 27.15
+Q 31.55 29.1 26.8 32.95 20.3 38.3 15.6 45.7 3.7 64.3 6.85 88.95 10 78.55 15.55 69.35 20.6 61 24.4 58.6 14.5 76.85 8.5 98.7 2.95 118.95 0.95 141.4 2.55 133.55 8.05 126.8 14 119.45 24.75 113.05 14.9 127.1 10.55 134.9 4.8 145.15 2.35 154.55 -0.2 164.6 0 177.4 0.25 189.85 3.2 208.85 6.85 200.5 10.55 195.3 14.9 189.15 20.95 184.75 4.35 213.3 2.85 243.3 1.55 268.45 10.9 300.05 35.3 291.35 53.7 266.05 72.8 239.85 79.65 203.65 87.05 164.15 78 121 69.05 78.3 44.65 36.85
+M 40.8 42.65
+Q 44.45546875 41.0224609375 46.95 44.95 49.9677734375 55.692578125 52.3 65.75 59.4 96.8 60.45 124.05 61.5 151.85 56.25 178 51.05 204.2 39.2 230.75 53.75 185.85 55.05 142.55 56.05 108.95 48.95 74.75 46.4 62.5 42.45 48.45 41.728125 45.84140625 40.8 42.65 Z"/>
+</g>
+
+<g id="Construction_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 579.9 289.95
+Q 579.9 169.85 494.95 84.9 410.05 0 289.95 0 169.85 0 84.9 84.9 0 169.85 0 289.95 0 410.05 84.9 494.95 169.85 579.9 289.95 579.9 410.05 579.9 494.95 494.95 579.9 410.05 579.9 289.95
+M 479.45 100.45
+Q 558 178.95 558 290 558 401.05 479.45 479.5 401 558 289.95 558 178.95 558 100.4 479.5 21.95 401.05 21.95 290 21.95 178.95 100.4 100.45 178.95 22 289.95 22 401 22 479.45 100.45 Z"/>
+</g>
+
+<g id="Square_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 26.75 0
+L 10 0
+Q 0 0 0 10
+L 0 20.45
+Q 0 30.45 10 30.45
+L 26.75 30.45
+Q 36.75 30.45 36.75 20.45
+L 36.75 10
+Q 36.75 0 26.75 0 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 0.34613037109375, 0, 0, 0.34613037109375, 10.65,9.9) ">
+<g transform="matrix( 1, 0, 0, 1, 10.15,487.55) ">
+<g transform="matrix( 1, 0, 0, 1, 459.95,-48.8) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#String_0_Layer1_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,233.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 0.822998046875, 0, 0, 0.822998046875, 3,128.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 259.95,39.15) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#String_0_Layer1_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,233.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 0.822998046875, 0, 0, 0.822998046875, 3,128.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 59.95,-48.8) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#String_0_Layer1_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,233.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 0.822998046875, 0, 0, 0.822998046875, 3,128.95) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Circle_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,227.4) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Feather_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 439.35,223.85) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Feather2_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 239.4,314.45) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Feather2_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -18.45,-15.85) ">
+<g transform="matrix( 1, 0, 0, 1, 15.4,14.9) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Construction_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 287,579.55) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Square_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 287,0) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Square_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 0, 1, -1, 0, 30.45,286.5) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Square_0_Layer0_0_FILL"/>
+</g>
+</g>
+
+<g transform="matrix( 0, 1, -1, 0, 610.85,286.5) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use filter="url(#Filter_1)" xlink:href="#Square_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

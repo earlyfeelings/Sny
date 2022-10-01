@@ -19,4 +19,3 @@ jobs:
         local-dir: "./PHP/"
         server-dir: "site/wwwroot/"
         protocol: ftps
-        protocol: ftps
