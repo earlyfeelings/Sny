@@ -8,10 +8,10 @@ namespace Sny.Core.AccountsAggregate
 {
     public class Account
     {
-        public Account(Guid id, string Email)
+        public Account(Guid id, string email)
         {
-            this.Id = id;
-            this.Email = Email;
+            Id = id;
+            Email = email;
         }
 
         public Guid Id { get; }
