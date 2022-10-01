@@ -1,4 +1,5 @@
-﻿using Sny.Core.Goals;
+﻿using Sny.Core.AccountsAggregate;
+using Sny.Core.Goals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Sny.Core.Interfaces.Core
 {
     public interface IAccountManager
     {
-        public Task<LoginResult> Login(LoginModel model);
+        public Task<(LoginResult Result, Account Account)> Login(LoginModel model);
 
         public Task<RegisterResult> Register(RegisterModel model);
     }
@@ -18,7 +19,7 @@ namespace Sny.Core.Interfaces.Core
 
     public record RegisterModel(string Email, string Password, string PasswordAgain);
 
-    public record LoginResult(string Jwt);
+    public record LoginResult(bool Success);
 
     public record RegisterResult(RegisterStatus RegisterStatus);
 
