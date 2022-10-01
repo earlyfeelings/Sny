@@ -17,7 +17,7 @@ namespace Sny.Api.Middlewares
         public async Task InvokeAsync(HttpContext context, IAccountManager accManager, IJwtService jwtService)
         {
             var headers = context.Request.Headers;
-            if (!headers.Values.Contains("Authorization"))
+            if (!headers.ContainsKey("Authorization"))
             {
                 try
                 {

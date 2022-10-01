@@ -12,6 +12,7 @@
 .modal {
 	--bs-modal-bg: var(--color-almost-black);
 	--bs-modal-footer-gap : 0rem;
+	--bs-modal-margin: max(calc(50vh - 157px) ,0px);
 }
 
 .alert {
@@ -31,6 +32,10 @@
 	box-shadow: none;
 }
 
+.site {
+	min-height: calc(100vh - 5.5rem);
+	margin-bottom: 2rem;
+}
 
 ::placeholder,  /* Chrome, Firefox, Opera, Safari 10.1+ */
 :-ms-input-placeholder, /* Internet Explorer 10-11 */
