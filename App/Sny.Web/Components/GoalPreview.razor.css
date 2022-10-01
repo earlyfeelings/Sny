@@ -1,0 +1,55 @@
+﻿.goal {
+    border: 3px solid rgb(var(--secondaryColor));
+    padding: 1.5em;
+    border-radius: var(--borderRadius);
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "state title"
+        "description description"
+        "button button";
+    column-gap: .5em;
+    row-gap: 4em;
+}
+.goal.active {
+    border-color: rgb(var(--highlightColor));
+}
+.goal .state {    
+    grid-area: state;
+}
+.goal .state i {
+    cursor: pointer;
+}
+.goal .state i:hover {
+    color: rgb(var(--secondaryColor));
+}
+.goal.active .state i{
+    color: rgb(var(--highlightColor));
+}
+.goal .title {
+    grid-area: title;
+    font-weight: bold;
+    padding-right: 4.5em;
+}
+.goal .description {
+    grid-area: description;
+}
+.goal .button {
+    grid-area: button;
+    background-color: rgb(var(--secondaryColor));
+    padding: .5em .7em;
+    border-radius: var(--borderRadius);
+    text-align: center;
+    justify-self: end;
+    align-self: end;
+}
+.goal .button:hover {
+    background-color: rgba(var(--secondaryColor), 0.9);
+}
+.goal.active .button {
+    background-color: rgb(var(--highlightColor));
+}
+.goal.active .button:hover {
+    background-color: rgba(var(--highlightColor), 0.9);
+}

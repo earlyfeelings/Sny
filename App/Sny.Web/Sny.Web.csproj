@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\fonts\" />
+    <Folder Include="wwwroot\libs\fontawesome\" />
   </ItemGroup>
 
 </Project>

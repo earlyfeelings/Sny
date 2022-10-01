@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Sny.Api.Dtos.Models.Goals
 {
-    public record GoalDto(Guid Id, string Name);
+    public record GoalDto(Guid Id, string Name, bool Active, string Description);
 }

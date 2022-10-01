@@ -34,11 +34,11 @@ margin: 0;
 padding: 0;
 }
 :root {
-    --backgroundColor: #1F1E23;
-    --highlightColor: #E99412;
-    --secondaryColor: #7928AD;
-    --successColor: #00A267;
-    --fontColor: #ffffff;
+    --backgroundColor: 31, 30, 35;
+    --highlightColor: 233, 148, 18;
+    --secondaryColor: 121, 40, 173;
+    --successColor: 0, 162, 103;
+    --fontColor: 255, 255, 255;
     --borderRadius: 15px;
 }
 @font-face {
@@ -46,10 +46,13 @@ padding: 0;
     src: url(fonts/Roboto-Regular.ttf);
 }
 html {
-    background: var(--backgroundColor);
-    color: var(--fontColor);
+    background: rgb(var(--backgroundColor));
+    color: rgb(var(--fontColor));
     font-family: Roboto;
 }
 #page {
     padding: 100px 200px;
+}
+.button {
+    cursor: pointer;
 }
