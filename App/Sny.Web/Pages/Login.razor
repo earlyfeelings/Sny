@@ -1,0 +1,22 @@
+﻿
+@page "/login"
+@using Sny.Web.Services.UserContext
+@inject NavigationManager NavManager
+@inject IUserContext UserContext
+
+<p>Prosím přihlašte se.</p>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "Jwt")]
+    public string? Jwt { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Jwt != null ) 
+        {
+            await UserContext.Login(Jwt);
+            NavManager.NavigateTo("/");
+        }
+    }
+}

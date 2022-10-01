@@ -8,6 +8,7 @@ using Sny.Core.Interfaces.Infrastructure;
 using Sny.Core.Options;
 using Sny.Kernel.Extensions;
 using System.Net.Mail;
+using System.Reflection;
 
 
 namespace Sny.Core.AccountsAggregate.Services
@@ -16,15 +17,18 @@ namespace Sny.Core.AccountsAggregate.Services
     {
         private readonly IAccountReadOnlyRepo _arop;
         private readonly IAccountProviderRepo _apr;
+        private readonly ICurrentAccountContext _cac;
 
         private static SemaphoreSlim _addAccountLock = new SemaphoreSlim(1, 1);
         private PasswordOptions _passwordOptions = default!;
         public AccountManager(IAccountReadOnlyRepo arop, 
             IAccountProviderRepo apr,
-            IOptions<PasswordOptions> passwordOptions)
+            IOptions<PasswordOptions> passwordOptions,
+            ICurrentAccountContext cac)
         {
             this._arop = arop;
             this._apr = apr;
+            this._cac = cac;
             this._passwordOptions = passwordOptions.Value;
         }
 
@@ -75,6 +79,14 @@ namespace Sny.Core.AccountsAggregate.Services
             {
                _addAccountLock.Release();
             }
+        }
+
+        public async Task<Account> CurrentAccount()
+        {
+            Guid id = _cac.CurrentAccountId ?? throw new AccountNotFoundException();
+            var acc = await _arop.FindAcount(id);
+            if (acc == null) throw new AccountNotFoundException();
+            return acc;
         }
     }
 }

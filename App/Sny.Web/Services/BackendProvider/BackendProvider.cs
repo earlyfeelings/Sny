@@ -3,7 +3,13 @@
     public class BackendProvider : IBackendProvider
     {
 
-        private Uri _baseUri = new Uri("https://localhost:7026");
+        private Uri _baseUri;
+
+        public BackendProvider(Uri baseUri)
+        {
+            _baseUri = baseUri;
+        }
+
         public Uri GetUri(string relativeUri)
         {
             return new Uri(_baseUri, relativeUri);

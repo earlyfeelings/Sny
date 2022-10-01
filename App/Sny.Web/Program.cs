@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Sny.Web.Services.BackendProvider;
+using Sny.Web.Services.UserContext;
 
 namespace Sny.Web
 {
@@ -9,13 +11,23 @@ namespace Sny.Web
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+ 
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddSingleton<IBackendProvider, BackendProvider>();
+          
+            if (builder.HostEnvironment.IsDevelopment())
+            {
+                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://localhost:7026")));
+            }
+            else
+            {
+                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://snyapi.azurewebsites.net")));
+            }
+            builder.Services.AddScoped<IUserContext, UserContext>();
 
-           await builder.Build().RunAsync();
+            await builder.Build().RunAsync();
         }
     }
 }

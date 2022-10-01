@@ -107,18 +107,15 @@ namespace Sny.Api
 
             builder.Services.AddScoped<ICurrentAccountContext, CurrentAccountContext>();
 
-            
-
             var app = builder.Build();
 
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseMiddleware<FakeLoginMiddleware>();
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+               // app.UseMiddleware<FakeLoginMiddleware>();
             }
             else
             {

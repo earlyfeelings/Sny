@@ -70,5 +70,21 @@ namespace Sny.Api.Controllers
             var result = await _accManager.Register(model.ToRegisterModel());
             return Ok(result.ToRegisterResponseModel());
         }
+
+
+        /// <summary>
+        /// If user is logged in, return info about Account and User. Otherwise, return 403 unauthorized.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("myinfo")]
+        [ProducesResponseType(typeof(MyInfoResponseDto), 200)]
+        [ProducesResponseType(typeof(ProblemDetails), 403)]
+        [Authorize]
+        public async Task<IActionResult> MyInfo()
+        {
+            var currAcc = await _accManager.CurrentAccount();
+            return Ok(new MyInfoResponseDto(currAcc.Email));
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace Sny.Core.Interfaces.Core
         public Task<(LoginResult Result, Account Account)> Login(LoginModel model);
 
         public Task<RegisterResult> Register(RegisterModel model);
+
+        public Task<Account> CurrentAccount();
     }
 
     public record LoginModel(string Email, string Password);

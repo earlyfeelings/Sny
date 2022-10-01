@@ -36,6 +36,16 @@ namespace Sny.Infrastructure.Services.Repos
             return (_accounts.SingleOrDefault(d => d.Account.Email == email))?.Account ?? null;
         }
 
+        /// <summary>
+        /// returns null if account not found
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<Account?> FindAcount(Guid id)
+        {
+            return (_accounts.SingleOrDefault(d => d.Account.Id == id))?.Account ?? null;
+        }
+
         public async Task<string> FindAcountPasswordHash(Guid id)
         {
             string? passwordHash = (_accounts.SingleOrDefault(d => d.Account.Id == id))?.PasswordHash;

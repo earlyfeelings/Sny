@@ -13,6 +13,8 @@ namespace Sny.Api.Dtos.Models.Accounts
 
     public record LoginResponseDto(string Jwt);
 
+    public record MyInfoResponseDto(string Email);
+
     public record RegisterResponseDto(RegisterStatusDto RegisterStatus);
 
     public enum RegisterStatusDto

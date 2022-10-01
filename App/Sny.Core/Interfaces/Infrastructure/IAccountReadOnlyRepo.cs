@@ -11,6 +11,8 @@ namespace Sny.Core.Interfaces.Infrastructure
     {
         public Task<Account?> FindAcountByEmail(string email);
 
+        public Task<Account?> FindAcount(Guid id);
+
         public Task<string> FindAcountPasswordHash(Guid id);
     }
 }

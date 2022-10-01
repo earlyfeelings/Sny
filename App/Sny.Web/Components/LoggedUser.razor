@@ -1,10 +1,30 @@
-﻿<div id="LoggedUserBar">
-    <div class="circle"></div>
+﻿@using Sny.Web.Services.UserContext
+@inject IUserContext UserContext
+
+<div id="LoggedUserBar">
     <div>@UserName</div>
     <div>Log out</div>
 </div>
 
 @code {
-    [Parameter]
-    public string UserName { get; set; } = default!;
+
+    private string UserName = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+        UserContext.StateChanged += Refresh;
+        Refresh();
+        return Task.CompletedTask;
+    }
+
+    private void Refresh()
+    {
+        UserName = UserContext.Email;
+        this.StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        UserContext.StateChanged -= Refresh;
+    }
 }
