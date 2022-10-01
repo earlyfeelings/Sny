@@ -4,14 +4,15 @@
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
 
-<div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
+<div class="goal @(Goal.Active ? "active" : null)">
     <div @onclick:stopPropagation @onclick="() => ChangeActive()" class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>
     <div class="title">@Goal.Name</div>    
     <div class="description">@Goal.Description</div>
-    <div class="button">Zobrazit</div>
+    <Button Text="Zobrazit" OnClick="() => GoToDetail()"></Button>
 </div>
 
-@code {
+@code
+{
     [Parameter]
     public GoalDto Goal { get; set; } = default!;
 

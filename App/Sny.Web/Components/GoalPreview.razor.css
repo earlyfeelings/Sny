@@ -35,7 +35,7 @@
 .goal .description {
     grid-area: description;
 }
-.goal .button {
+.goal ::deep .button {
     grid-area: button;
     background-color: rgb(var(--secondaryColor));
     padding: .5em .7em;
@@ -44,12 +44,12 @@
     justify-self: end;
     align-self: end;
 }
-.goal .button:hover {
+.goal ::deep .button:hover {
     background-color: rgba(var(--secondaryColor), 0.9);
 }
-.goal.active .button {
+.goal.active ::deep .button {
     background-color: rgb(var(--highlightColor));
 }
-.goal.active .button:hover {
+.goal.active ::deep .button:hover {
     background-color: rgba(var(--highlightColor), 0.9);
 }
