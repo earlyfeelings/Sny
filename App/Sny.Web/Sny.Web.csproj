@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Sny.Api.Dtos\Sny.Api.Dtos.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\fonts\" />
+  </ItemGroup>
+
 </Project>

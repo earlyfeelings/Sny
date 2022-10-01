@@ -1,0 +1,20 @@
+﻿#goals {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(100px,200px));
+    grid-gap: 2em;
+}
+::deep .goal {
+    border: 1px solid;
+    padding: 1.5em;
+    border-radius: var(--borderRadius);
+}
+::deep .goal.active {
+    border-color: var(--highlightColor);
+}
+::deep .goal .title {
+}
+.goal .description {
+}
+.goal .button {
+}
