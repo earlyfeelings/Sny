@@ -9,54 +9,96 @@
 	<link rel="stylesheet" href="style.css" media="screen,projection,tv">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
 	      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
-	        integrity="sha384-i61gTtaoovXtAbKjo903+O55Jkn2+RtzHtvNez+yI49HAASvznhe9sZyjaSHTau9" crossorigin="anonymous"></script>
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="style.css" media="screen,projection,tv">
 </head>
 
-<body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<body class="bg-black text-white">
 
-<script src="script.js"></script>
-
-<nav class="navbar navbar-expand-lg bg-orange">
-	<div class="container">
-		<a class="navbar-brand" href="#">Sny.cz</a>
-		<span class="navbar-nav d-flex">
-			<button type="button" class="btn btn-green px-5" data-bs-toggle="modal" data-bs-target="#registrationModal">
-				Join
-			</button>
-		</span>
-	</div>
-</nav>
-
-<div class="container text-center pt-3">
-
-
-	<div class="row">
-		<div class="col-lg-6">
-			Splň si svůj sen a vydej se na cestu.
+	<nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<a class="navbar-brand" href="#">Sny.cz</a>
+			<span class="navbar-nav d-flex">
+				<button type="button" class="btn btn-green px-5" data-bs-toggle="modal" data-bs-target="#registrationModal">
+					Join
+				</button>
+			</span>
 		</div>
+	</nav>
 
-		<div class="col-lg-6">
-			<form>
-				<div class="input-group pt-3">
-					<span class="input-group-text w-25 text-end" id="basic-addon1"> label </span>
-					<input alt="" aria-label="basic-addon1">
+	<div id="alerts">
+
+	</div>
+
+	<div class="modal fade bg-almost-black" id="registrationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Registrace</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-			</form>
-		</div>
-
-		<div class="col-lg-8">
-			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Duis condimentum augue id magna semper rutrum. Integer vulputate sem a nibh rutrum consequat. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nulla quis diam. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Aenean fermentum risus id tortor. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Integer in sapien. Mauris elementum mauris vitae tortor. Phasellus faucibus molestie nisl. Aliquam ornare wisi eu metus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Aliquam id dolor. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Curabitur bibendum justo non orci. Aliquam erat volutpat. Aliquam erat volutpat.
-		</div>
-
-		<div class="col-lg-4">
-			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Duis condimentum augue id magna semper rutrum. Integer vulputate sem a nibh rutrum consequat. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nulla quis diam. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Aenean fermentum risus id tortor. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Integer in sapien. Mauris elementum mauris vitae tortor. Phasellus faucibus molestie nisl. Aliquam ornare wisi eu metus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Aliquam id dolor. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Curabitur bibendum justo non orci. Aliquam erat volutpat. Aliquam erat volutpat.
+				<form id="RegForm">
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon3"><i class="bi bi-at"></i></span>
+							<input type="email" aria-label="Mail" class="form-control has-validation" id="reg-email" aria-describedby="basic-addon3"
+							       placeholder="michal.kavka@volny.cz">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon4"><i class="bi bi-key"></i></span>
+							<input type="password" aria-label="Password" class="form-control has-validation" id="reg-password" aria-describedby="basic-addon4"
+							       placeholder="heslo">
+						</div>
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon5"><i class="bi bi-key"></i></span>
+							<input type="password" aria-label="Password" class="form-control has-validation" id="reg-password2" aria-describedby="basic-addon5"
+							       placeholder="heslo2">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<span class="w-25 m-0 pe-2"><button type="button" class="btn btn-purple w-100" data-bs-dismiss="modal">Ještě ne</button></span>
+						<span class="w-75 m-0 ps-2"><button type="submit" class="btn btn-green w-100">Začít</button></span>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 
-</div>
+	<div class="container text-center pt-3">
+		<div class="row">
+			<div class="col-lg-6">
+				Splňte si své sny.
+			</div>
+			<div class="col-lg-6 border">
+				<form id="LogForm">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1"><i class="bi bi-at"></i></span>
+						<input type="email" aria-label="Mail" class="form-control has-validation" id="email" aria-describedby="basic-addon1"
+						       placeholder="michal.kavka@volny.cz">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+						<input type="password" aria-label="Password" class="form-control has-validation" id="password" aria-describedby="basic-addon2"
+						       placeholder="heslo">
+					</div>
+					<button type="submit" class="btn btn-green w-100">Přihlásit</button>
+				</form>
+			</div>
+
+			<div class="col-lg-8">
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Duis condimentum augue id magna semper rutrum. Integer vulputate sem a nibh rutrum consequat. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nulla quis diam. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Aenean fermentum risus id tortor. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Integer in sapien. Mauris elementum mauris vitae tortor. Phasellus faucibus molestie nisl. Aliquam ornare wisi eu metus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Aliquam id dolor. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Curabitur bibendum justo non orci. Aliquam erat volutpat. Aliquam erat volutpat.
+			</div>
+
+			<div class="col-lg-4">
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Duis condimentum augue id magna semper rutrum. Integer vulputate sem a nibh rutrum consequat. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nulla quis diam. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Aenean fermentum risus id tortor. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Integer in sapien. Mauris elementum mauris vitae tortor. Phasellus faucibus molestie nisl. Aliquam ornare wisi eu metus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Aliquam id dolor. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Curabitur bibendum justo non orci. Aliquam erat volutpat. Aliquam erat volutpat.
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+	        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	        integrity="sha384-i61gTtaoovXtAbKjo903+O55Jkn2+RtzHtvNez+yI49HAASvznhe9sZyjaSHTau9" crossorigin="anonymous"></script>
+	<script src="script.js"></script>
 </body>
 </html>
