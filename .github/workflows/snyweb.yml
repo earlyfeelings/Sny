@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App snyweb
 on:
   push:
     branches:
-    - test
+    - publishweb
 env:
   AZURE_WEBAPP_NAME: snyweb
   AZURE_WEBAPP_PACKAGE_PATH: App\Sny.Web\published
