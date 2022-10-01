@@ -5,7 +5,8 @@
     justify-content: end;
     align-items: center;
     gap: 20px;
-    margin: 0 20px
+    margin: 0 20px;
+    grid-area: loggnedUser;
 }
 
 .circle {

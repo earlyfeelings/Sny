@@ -50,8 +50,15 @@ html {
     color: rgb(var(--fontColor));
     font-family: Roboto;
 }
+
 #page {
-    padding: 100px 200px;
+    display: grid;
+    grid: 50px 100px auto 100px / 10vw 80vw 10vw;
+    grid-template-areas:
+        "empty loggnedUser loggnedUser"
+        "empty header empty2"
+        "empty content empty2"
+        "empty button empty2";
 }
 .button {
     cursor: pointer;
