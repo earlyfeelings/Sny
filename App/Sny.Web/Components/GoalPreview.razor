@@ -1,11 +1,19 @@
-﻿<div class="goal @(IsActive ? "active" : null)">
+﻿@using Sny.Api.Dtos.Models.Goals
+@inject NavigationManager _navManager
+
+
+<div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
     <div class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>   
-    <div class="title">Být sexy</div>    
-    <div class="description">Být nařachaná svině se sixpackem a vlasy jako Ježíš.</div>
+    <div class="title">@Goal.Name</div>    
+    <div class="description">@Goal.Description</div>
     <div class="button">Zobrazit</div>
 </div>
 
 @code {
     [Parameter]
-    public bool IsActive { get; set; } 
+    public GoalDto Goal { get; set; } = default!;
+
+    private void GoToDetail() {
+        _navManager.NavigateTo($"/goals/{Goal.Id}");
+    }
 }
