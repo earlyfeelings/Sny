@@ -1,7 +1,25 @@
 ﻿@page "/goals"
+@using Sny.Api.Dtos.Models.Goals
 @using Sny.Web.Components;
+@using Services.BackendProvider
+@inject HttpClient Http
+
+@inject IBackendProvider _backendProvider
 
 <div id="page">
+
+    @if(_goals == null) {
+        <p>Načítám ....</p>
+    }
+    else {
+        foreach (var goal in _goals) {
+            <GoalPreview></GoalPreview>
+        }
+    }
+
+
+    <hr style="margin: 10px 0px" />
+
     <div id="goals">
         <GoalPreview IsActive=true></GoalPreview>
         <GoalPreview></GoalPreview>
@@ -26,5 +44,11 @@
 
 
 @code {
+    private IEnumerable<GoalDto>? _goals;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        _goals = await Http.GetFromJsonAsync<GoalDto[]>(_backendProvider.GetUri("goals"));
+    }
 }

@@ -1,8 +1,14 @@
 ﻿@page "/"
+@inject NavigationManager _navManager
 
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<button @onclick='() => GoTo("/goals")'>Goals</button>
 
+@code {
+    public void GoTo(string relativePath) {
+        _navManager.NavigateTo(relativePath);
+    }
+}

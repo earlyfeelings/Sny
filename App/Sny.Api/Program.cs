@@ -14,6 +14,15 @@ namespace Sny.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //TODO: restrict for production use!
+            builder.Services.AddCors(options =>
+            {
+                 options.AddDefaultPolicy(builder =>
+                 builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
             builder.Services.AddControllers().AddJsonOptions(x =>
             {
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -42,7 +51,10 @@ namespace Sny.Api
             app.UseSwagger();
             app.UseSwaggerUI();
 
+            app.UseCors();
+
             app.UseHttpsRedirection();
+            
 
             app.UseAuthorization();
 
