@@ -106,6 +106,7 @@ namespace Sny.Api.Controllers
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ProblemDetails), 404)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             try 
@@ -120,7 +121,7 @@ namespace Sny.Api.Controllers
         }
 
         /// <summary>
-        /// Remove goal
+        /// Change state Active of goal to specified state
         /// Returns:
         /// - 404 if the goal was not found.
         /// </summary>
@@ -130,6 +131,7 @@ namespace Sny.Api.Controllers
         [HttpPost]
         [Route("{id}/activate/{activate}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ProblemDetails), 404)]
         public async Task<IActionResult> ChangeActiveGoal([FromRoute] Guid id, [FromRoute] bool activate)
         {
             try

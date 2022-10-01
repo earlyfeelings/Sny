@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Sny.Kernel\Sny.Kernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TasksAggregate\Exceptions\" />
+  </ItemGroup>
+
 </Project>
