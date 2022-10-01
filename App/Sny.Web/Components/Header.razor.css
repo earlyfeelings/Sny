@@ -2,7 +2,7 @@
     display: grid;
     justify-content: space-between;
     grid-auto-flow: column;
-    background-color: #7F768411;
+    background-color: rgba(var(--greyShadowColor));
     grid-area: header;
     align-items: center;
     padding: 0 10%;

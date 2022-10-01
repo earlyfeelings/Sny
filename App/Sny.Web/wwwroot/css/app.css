@@ -63,4 +63,6 @@ html {
         "empty3 footer empty2";
     grid-row-gap: 30px;
 }
+.content{
+    grid-area: content;
 }
