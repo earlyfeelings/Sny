@@ -107,11 +107,12 @@ namespace Sny.Api
             app.UseSwagger();
             app.UseSwaggerUI();
 
+            app.UseMiddleware<FakeLoginMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMiddleware<FakeLoginMiddleware>();
+               
             }
             else
             {
