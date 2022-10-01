@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sny.Infrastructure.Services.Repos
 {
-    public class GoalInmemoryRepo : IGoalReadOnlyRepo
+    public class GoalInmemoryRepo : IGoalReadOnlyRepo, IGoalProviderRepo
     {
 
         private List<Goal> _goals = new List<Goal>()
@@ -22,6 +22,22 @@ namespace Sny.Infrastructure.Services.Repos
             new Goal(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b6"), "Cíl test6", false, "Tak ale toto je cool popisek!6"),
         };
 
+        public Task<Goal> AddGoal(string name, bool active, string description)
+        {
+            var guid = Guid.NewGuid();
+            var goal = new Goal(guid, name, active, description);
+            _goals.Add(goal);
+            return Task.FromResult(goal);
+        }
+
+        public Task<Goal> EditGoal(Guid id, string name, bool active, string description)
+        {
+            DeleteGoal(id);
+            var goal = new Goal(id, name, active, description);
+            _goals.Add(goal);
+            return Task.FromResult(goal);
+        }
+
         public async Task<Goal> GetGoalById(Guid id)
         {
             var goal = _goals.SingleOrDefault(d => d.Id == id);
@@ -31,6 +47,13 @@ namespace Sny.Infrastructure.Services.Repos
         public async Task<IReadOnlyCollection<Goal>> GetGoals()
         {
             return _goals;
+        }
+
+        public Task<bool> DeleteGoal(Guid id)
+        {
+            var goal = GetGoalById(id);
+            _goals.Remove(goal.Result);
+            return Task.FromResult(true);
         }
     }
 }

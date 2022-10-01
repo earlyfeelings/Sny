@@ -12,5 +12,6 @@ namespace Sny.Core.Interfaces.Infrastructure
         public Task<Goal> GetGoalById(Guid id);
 
         public Task<IReadOnlyCollection<Goal>> GetGoals();
+
     }
 }

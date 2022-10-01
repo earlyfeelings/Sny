@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Sny.Api.Middlewares;
 using Sny.Api.Options;
+using Sny.Api.Services;
 using Sny.Core.AccountsAggregate.Services;
 using Sny.Core.GoalsAggregate.Services;
 using Sny.Core.Interfaces.Core;
@@ -90,20 +92,29 @@ namespace Sny.Api
             });
 
             builder.Services.AddScoped<IGoalProvider, GoalProvider>();
-            builder.Services.AddSingleton<IGoalReadOnlyRepo, GoalInmemoryRepo>();
+
+            GoalInmemoryRepo inMemoryGoalRepo = new GoalInmemoryRepo();
+            builder.Services.AddSingleton<IGoalReadOnlyRepo>(inMemoryGoalRepo);
+            builder.Services.AddSingleton<IGoalProviderRepo>(inMemoryGoalRepo);
 
             builder.Services.AddScoped<IAccountManager, AccountManager>();
+            builder.Services.AddSingleton<IJwtService, JwtService>();
 
             AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
 
             builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
             builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
 
+            builder.Services.AddScoped<ICurrentAccountContext, CurrentAccountContext>();
+
+            
+
             var app = builder.Build();
 
             app.UseSwagger();
             app.UseSwaggerUI();
 
+            app.UseMiddleware<FakeLoginMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
@@ -114,13 +125,15 @@ namespace Sny.Api
                 app.UseHsts();
             }
 
-
             app.UseCors();
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<CurrentLoggedContextMiddleware>();
+
             app.MapControllers();
 
             app.Run();

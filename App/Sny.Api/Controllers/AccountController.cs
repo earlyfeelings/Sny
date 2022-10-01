@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
+using Sny.Api.Services;
 
 namespace Sny.Api.Controllers
 {
@@ -20,12 +21,12 @@ namespace Sny.Api.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountManager _accManager;
-        private readonly JwtOptions _jwtOptions;
+        private readonly IJwtService _jwtService;
 
-        public AccountController(IAccountManager accManager, IOptions<JwtOptions> jwtOptions)
+        public AccountController(IAccountManager accManager, IJwtService jwtService)
         {
             this._accManager = accManager;
-            this._jwtOptions = jwtOptions.Value;
+            this._jwtService = jwtService;
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Sny.Api.Controllers
                 var result = await _accManager.Login(new LoginModel(model.Email, model.Password));
                 if (result.Result.Success)
                 {
-                    return Ok(new LoginResponseDto(CreateJWT(result.Account)));
+                    return Ok(new LoginResponseDto(_jwtService.CreateJWT(result.Account)));
                 }
             }
             catch (LoginFailedException)
@@ -54,22 +55,7 @@ namespace Sny.Api.Controllers
             return StatusCode(403);
         }
 
-        private string CreateJWT(Account acc)
-        {
-            var secretkey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtOptions.Secret));
-            var credentials = new SigningCredentials(secretkey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, acc.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, acc.Email),
-                new Claim(JwtRegisteredClaimNames.Email, acc.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, acc.Id.ToString())
-            };
-
-            var token = new JwtSecurityToken(issuer: _jwtOptions.Issuer, audience: _jwtOptions.Audience, claims: claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+      
 
         /// <summary>
         /// Register new user.
