@@ -11,10 +11,12 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2          
     - name: 📂 Sync files
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
       with:
         server: waws-prod-am2-545.ftp.azurewebsites.windows.net
         username: snylanding\$snylanding
         password: ${{ secrets.FTP_LANDING }}
-        local_path: "./PHP/*"
-        remote_path: "/site/wwwroot"
+        local-dir: "./PHP/"
+        server-dir: "site/wwwroot/"
+        protocol: ftps
+        protocol: ftps
