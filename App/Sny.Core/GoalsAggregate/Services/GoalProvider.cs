@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Sny.Core.GoalsAggregate.Services
 {
-    public class GoalsProvider : IGoalsProvider
+    public class GoalProvider : IGoalProvider
     {
-        private readonly IGoalsReadOnlyRepo _gror;
+        private readonly IGoalReadOnlyRepo _gror;
 
-        public GoalsProvider(IGoalsReadOnlyRepo gror)
+        public GoalProvider(IGoalReadOnlyRepo gror)
         {
             this._gror = gror;
         }

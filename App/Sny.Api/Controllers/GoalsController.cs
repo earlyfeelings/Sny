@@ -10,9 +10,9 @@ namespace Sny.Api.Controllers
     [Route("goals")]
     public class GoalsController : Controller
     {
-        private readonly IGoalsProvider _gp;
+        private readonly IGoalProvider _gp;
 
-        public GoalsController(IGoalsProvider gp)
+        public GoalsController(IGoalProvider gp)
         {
             this._gp = gp;
         }

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sny.Core.Interfaces.Core
+namespace Sny.Core.Interfaces.Infrastructure
 {
-    public interface IGoalsProvider
+    public interface IGoalReadOnlyRepo
     {
         public Task<Goal> GetGoalById(Guid id);
 

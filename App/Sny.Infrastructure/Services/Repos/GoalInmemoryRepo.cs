@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sny.Infrastructure.Services.Repos
 {
-    public class GoalsInmemoryRepo : IGoalsReadOnlyRepo
+    public class GoalInmemoryRepo : IGoalReadOnlyRepo
     {
 
         private List<Goal> _goals = new List<Goal>()

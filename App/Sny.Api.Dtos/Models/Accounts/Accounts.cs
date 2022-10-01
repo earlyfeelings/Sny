@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Sny.Api.Dtos.Models.Accounts
@@ -12,13 +13,14 @@ namespace Sny.Api.Dtos.Models.Accounts
 
     public record LoginResponseDto(string Jwt);
 
-    public record RegisterResponseDto(RegisterStatus RegisterStatus);
+    public record RegisterResponseDto(RegisterStatusDto RegisterStatus);
 
-    public enum RegisterStatus
+    public enum RegisterStatusDto
     {
         Success,
         AlreadyExists,
         WeakPassword,
+        PasswordsNotSame,
         BadEmailFormat,
         Error
     }

@@ -1,8 +1,10 @@
+using Sny.Core.AccountsAggregate.Services;
 using Sny.Core.GoalsAggregate.Services;
 using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
 using Sny.Infrastructure.Services.Repos;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Sny.Api
 {
@@ -12,10 +14,11 @@ namespace Sny.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddControllers().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(opt =>
             {
@@ -24,12 +27,18 @@ namespace Sny.Api
                 opt.IncludeXmlComments(xmlPath);
             });
 
-            builder.Services.AddScoped<IGoalsProvider, GoalsProvider>();
-            builder.Services.AddScoped<IGoalsReadOnlyRepo, GoalsInmemoryRepo>();
+            builder.Services.AddScoped<IGoalProvider, GoalProvider>();
+            builder.Services.AddSingleton<IGoalReadOnlyRepo, GoalInmemoryRepo>();
+
+            builder.Services.AddScoped<IAccountManager, AccountManager>();
+
+            AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
+
+            builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
+            builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
