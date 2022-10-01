@@ -4,8 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e46b099fbf9cb017528f17ce6e6dc38a",
+    "content-hash": "bcc0d1add43e5ef0964cba22dc0f5f6d",
     "packages": [
+        {
+            "name": "apalfrey/select2-bootstrap-5-theme",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apalfrey/select2-bootstrap-5-theme.git",
+                "reference": "ab448b2ac36a6f7f90b162e384ca2b1469a3cc1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apalfrey/select2-bootstrap-5-theme/zipball/ab448b2ac36a6f7f90b162e384ca2b1469a3cc1f",
+                "reference": "ab448b2ac36a6f7f90b162e384ca2b1469a3cc1f",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Palfrey",
+                    "email": "apalfrey@apalfrey.me"
+                }
+            ],
+            "description": "Select2 theme for Bootstrap 5",
+            "homepage": "https://github.com/apalfrey/select2-bootstrap-5-theme",
+            "keywords": [
+                "bootstrap",
+                "bootstrap-5",
+                "bootstrap5",
+                "css",
+                "scss",
+                "select2",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/apalfrey/select2-bootstrap-5-theme/issues",
+                "source": "https://github.com/apalfrey/select2-bootstrap-5-theme/tree/1.3.0"
+            },
+            "time": "2022-05-08T00:12:43+00:00"
+        },
         {
             "name": "fortawesome/font-awesome",
             "version": "6.2.0",
@@ -1419,6 +1461,92 @@
                 "source": "https://github.com/nette/utils/tree/v3.2.8"
             },
             "time": "2022-09-12T23:36:20+00:00"
+        },
+        {
+            "name": "select2/select2",
+            "version": "4.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2.git",
+                "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2/zipball/45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
+                "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/js/select2.js"
+                    ],
+                    "styles": [
+                        "dist/css/select2.css"
+                    ],
+                    "files": [
+                        "dist/js/select2.js",
+                        "dist/js/i18n/*.js",
+                        "dist/css/select2.css"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Select2 is a jQuery based replacement for select boxes.",
+            "homepage": "https://select2.org/",
+            "support": {
+                "issues": "https://github.com/select2/select2/issues",
+                "source": "https://github.com/select2/select2/tree/4.0.13"
+            },
+            "time": "2020-01-28T05:01:22+00:00"
+        },
+        {
+            "name": "tacoberu/composer-assets",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tacoberu/composer-assets.git",
+                "reference": "dffd9eae63a2c17fca6a4cb4f269af8eaa760b7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tacoberu/composer-assets/zipball/dffd9eae63a2c17fca6a4cb4f269af8eaa760b7f",
+                "reference": "dffd9eae63a2c17fca6a4cb4f269af8eaa760b7f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "."
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Takáč",
+                    "homepage": "http://martin.takac.name"
+                }
+            ],
+            "description": "Copies files from vendor to www directory. The list of files is stored in a json file.",
+            "keywords": [
+                "assets",
+                "composer"
+            ],
+            "support": {
+                "issues": "https://github.com/tacoberu/composer-assets/issues",
+                "source": "https://github.com/tacoberu/composer-assets/tree/v2.0.1"
+            },
+            "time": "2022-07-29T01:16:40+00:00"
         },
         {
             "name": "tracy/tracy",
