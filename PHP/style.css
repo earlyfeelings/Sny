@@ -3,8 +3,7 @@
 	--color-green: rgba(0, 162, 103, 1);
 	--color-purple: rgba(121, 40, 173, 1);
 	--color-black: rgba(31, 30, 35, 1);
-	--color-almost-black: rgba(127, 118, 132, 0.9);
-	--color-input: rgba(136, 136, 136, 0.9);
+	--color-almost-black: rgba(41, 39, 44, 1);
 	--color-white: rgba(255, 255, 255, 1);
 
 }
@@ -16,8 +15,26 @@
 
 
 .modal {
-	--bs-modal-bg: var(--color-almost-black);
+	--bs-modal-bg: var(--color-black);
 	--bs-modal-footer-gap : 0rem;
+	--bs-modal-padding: 1.5rem;
+	--bs-modal-header-padding: 1.5rem;
+}
+
+.mb-45 {
+	margin-bottom: 2rem;
+}
+.rotate1 {
+	transform: rotate(25deg);
+	-moz-transform: rotate(25deg);
+	-webkit-transform: rotate(25deg);
+	-ms-transform: rotate(5deg);
+}
+.rotate2 {
+	transform: rotate(-25deg);
+	-moz-transform: rotate(-25deg);
+	-webkit-transform: rotate(-25deg);
+	-ms-transform: rotate(-25deg);
 }
 
 .alert {
@@ -28,7 +45,7 @@
 .form-control, .form-control:focus, .form-control:active,
 .input-group-text
 {
-	background-color: var(--color-input);
+	background-color: var(--color-almost-black);
 }
 
 .form-control:focus
@@ -86,8 +103,8 @@
 .siter>div>div,
 .siter>div>form,
 .border {
-	border-radius: 1rem;
-	padding: 1rem;
+	border-radius: 1.5rem;
+	padding: 1.5rem;
 }
 
 .siter>div img
@@ -101,6 +118,7 @@
 }
 
 .navbar {
+	--bs-navbar-brand-hover-color: var(--color-white);
 	background-color: var(--color-almost-black);
 	--bs-navbar-brand-color: --color-white;
 }

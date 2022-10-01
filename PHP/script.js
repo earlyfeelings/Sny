@@ -4,20 +4,33 @@ const $snyweb = "https://snyweb.azurewebsites.net/";
 $( "#LogForm" ).submit(function( event ) {
     event.preventDefault();
     FormReset();
-    callLOGIN($("#email").val(), $("#password").val());
+    let $email = $("#email").val();
+    let $password = $("#password").val();
+    switch (true) {
+        case !!$email && !!$password: callLOGIN($email, $password); break;
+        case !$email && !$password: addError("#email", 'Email je potřeba napsat'); addError("#password", 'a heslo taky'); break;
+        case !$email: addError("#email", 'Zapoměl jsi napsat email'); break;
+        case !$password: addError("#password", 'Zapoměl jsi heslo?'); break;
+        default: addError("#email", 'Něco je špatně'); addError("#password");
+    }
 });
 
 $( "#RegForm" ).submit(function( event ) {
     event.preventDefault();
     FormReset();
-    callREG($("#reg-email").val(), $("#reg-password").val(), $("#reg-password2").val());
+    let $email = $("#reg-email").val();
+    let $password = $("#reg-password").val();
+    let $password2 = $("#reg-password2").val();
+    if (!!$email && !!$password && !!$password2) {
+        callREG($email, $password, $password2);
+    } else {
+        if (!$email) addError("#reg-email", 'Email je potřeba napsat');
+        if (!$password) addError("#reg-password", 'Heslo je potřeba napsat');
+        if (!$password2) addError("#reg-password2", 'Heslo je potřeba napsat ještě jednou');
+    }
 });
 
 
-function loginFail() {
-    addError("#email", 'Bohužel špatně');
-    addError("#password");
-}
 function loginSuccess(data) {
     window.location.replace($snyweb + "/login?jwt=" + data.jwt);
 }
@@ -32,8 +45,9 @@ function callLOGIN($email, $password) {
         data : JSON.stringify({ "email": $email, "password": $password }),
     }).done(function(data) {
         loginSuccess(data);
-    }).fail(function(errorThrown) {
-        loginFail(errorThrown);
+    }).fail(function() {
+        addError("#email", 'Bohužel špatně');
+        addError("#password");
     });
 }
 
@@ -64,8 +78,8 @@ function addError($id, $error) {
 
 
 function regSuccess() {
-    $("#registrationModal").hide();
-    addAlert('<i class="bi bi-check-circle-fill"></i> Registrace se podařila. Rychle se přihlaš než zapomenš heslo', 'success');
+    $('#registrationModal').modal('hide');
+    addAlert('<i class="bi bi-check-circle-fill"></i> Registrace se podařila. Rychle se přihlaš než zapomeneš heslo', 'success');
 }
 
 function callREG($email, $password, $password2) {
@@ -78,8 +92,8 @@ function callREG($email, $password, $password2) {
         data : JSON.stringify({ "email": $email, "password": $password, 'passwordAgain': $password2 }),
     }).done(function(data) {
         switch (data.registerStatus) {
-            case 'Success': regSuccess(data.registerStatus); break;
-            case 'WeakPassword': addError("#reg-password", 'Nastav si silnější heslo'); break
+            case 'Success': regSuccess(); break;
+            case 'WeakPassword': addError("#reg-password", 'Nastav si silnější heslo'); addError("#reg-password2"); break
             case 'PasswordsNotSame': addError("#reg-password2", 'Obě hesla musí být stejný'); break;
             case 'AlreadyExists': addError("#reg-email", 'Tento Email už známe'); break;
             case 'BadEmailFormat': addError("#reg-email", 'Takto email nevypadá'); break;
