@@ -1,0 +1,10 @@
+﻿.progressBar {
+    width: 100%;
+    border-radius: var(--borderRadius);
+    background: rgb(var(--greyShadowColor));
+    overflow: hidden;
+}
+.fill {
+    background: rgb(var(--successColor));
+    height: 100%;
+}

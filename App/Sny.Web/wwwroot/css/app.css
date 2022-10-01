@@ -41,6 +41,7 @@ box-sizing: border-box;
     --successColor: 0, 162, 103;
     --fontColor: 255, 255, 255;
     --borderRadius: 15px;
+    --greyShadow: 127, 118, 132, 0.1;
 }
 @font-face {
     font-family: Roboto;

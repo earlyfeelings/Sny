@@ -4,11 +4,11 @@
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
 
-<div class="goal @(Goal.Active ? "active" : null)">
+<div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
     <div @onclick:stopPropagation @onclick="() => ChangeActive()" class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>
     <div class="title">@Goal.Name</div>    
     <div class="description">@Goal.Description</div>
-    <Button Text="Zobrazit" OnClick="() => GoToDetail()"></Button>
+    <Button Text="Zobrazit" ></Button>
 </div>
 
 @code

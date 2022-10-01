@@ -11,22 +11,27 @@
         "button button";
     column-gap: .5em;
     row-gap: 4em;
+    cursor: pointer;
 }
 .goal.active {
     border-color: rgb(var(--highlightColor));
 }
+    .goal:hover {
+        background-color: rgb(var(--greyShadow);
+    }
 .goal .state {    
     grid-area: state;
 }
 .goal .state i {
     cursor: pointer;
 }
-.goal .state i:hover {
-    color: rgb(var(--secondaryColor));
-}
+    .goal .state i:hover {
+        color: rgb(var(--highlightColor));
+    }
 .goal.active .state i{
     color: rgb(var(--highlightColor));
 }
+
 .goal .title {
     grid-area: title;
     font-weight: bold;
