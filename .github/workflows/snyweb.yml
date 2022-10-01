@@ -1,14 +1,14 @@
-name: Build and deploy .NET Core application to Web App snyapi
+name: Build and deploy .NET Core application to Web App snyweb
 on:
   push:
     branches:
-    - publishapi
+    - publishweb
 env:
-  AZURE_WEBAPP_NAME: snyapi
-  AZURE_WEBAPP_PACKAGE_PATH: App\Sny.Api\publish
-  CONFIGURATION: Development
+  AZURE_WEBAPP_NAME: snyweb
+  AZURE_WEBAPP_PACKAGE_PATH: App\Sny.Web\published
+  CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: App\Sny.Api
+  WORKING_DIRECTORY: App\Sny.Web
 jobs:
   build:
     runs-on: windows-latest
@@ -30,7 +30,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.snyapi_FFFF }}
+        publish-profile: ${{ secrets.snyweb_FFFF }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
