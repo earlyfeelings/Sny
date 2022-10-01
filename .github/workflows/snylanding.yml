@@ -3,7 +3,6 @@ on:
   push:
     branches:
     - publishlanding
-name: 🚀 Deploy website on push
 jobs:
   web-deploy:
     name: 🎉 Deploy
@@ -13,8 +12,12 @@ jobs:
       uses: actions/checkout@v2
           
     - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.2
-      with:
-        server: waws-prod-am2-545.ftp.azurewebsites.windows.net/site/wwwroot
-        username: snylanding\$snylanding
-        password: ${{ secrets.FTP_LANDING }}
+
+uses: amKirkland/FTP-Deploy-Action@4.3.2
+with:
+  ftp_host: waws-prod-am2-545.ftp.azurewebsites.windows.net
+  ftp_username: snylanding\$snylanding
+  ftp_password: ${{ secrets.FTP_LANDING }}
+  local_source_dir: "PHP"
+  dist_target_dir: "site/wwwroot"
+  delete: "true"
