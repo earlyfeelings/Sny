@@ -128,7 +128,7 @@ namespace Sny.Api.Controllers
         /// <param name="activate"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("{id}/{activate}")]
+        [Route("{id}/activate/{activate}")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> ChangeActiveGoal([FromRoute] Guid id, [FromRoute] bool activate)
         {

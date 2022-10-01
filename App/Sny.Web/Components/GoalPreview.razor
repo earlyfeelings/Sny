@@ -1,9 +1,11 @@
 ﻿@using Sny.Api.Dtos.Models.Goals
+@using Sny.Web.Services.BackendProvider
 @inject NavigationManager _navManager
-
+@inject HttpClient Http
+@inject IBackendProvider _backendProvider
 
 <div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
-    <div class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>   
+    <div @onclick:stopPropagation @onclick="() => ChangeActive()" class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>
     <div class="title">@Goal.Name</div>    
     <div class="description">@Goal.Description</div>
     <div class="button">Zobrazit</div>
@@ -15,5 +17,11 @@
 
     private void GoToDetail() {
         _navManager.NavigateTo($"/goals/{Goal.Id}");
+    }
+
+    private async Task ChangeActive()
+    {
+        Goal = Goal with { Active = !Goal.Active };
+        await Http.PostAsync(_backendProvider.GetUri($"goals/{Goal.Id}/activate/{Goal.Active}"), null);
     }
 }
