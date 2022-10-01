@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sny.Api.Dtos.Models.Accounts;
 using Sny.Api.Dtos.Models.Goals;
+using Sny.Core.AccountsAggregate.Exceptions;
+using Sny.Core.Interfaces.Core;
+using Sny.Api.Mappers;
 
 namespace Sny.Api.Controllers
 {
@@ -8,19 +11,33 @@ namespace Sny.Api.Controllers
     [Route("account")]
     public class AccountController : Controller
     {
+        private readonly IAccountManager _accManager;
+
+        public AccountController(IAccountManager accManager)
+        {
+            this._accManager = accManager;
+        }
+
         /// <summary>
-        /// If login is sucess, return 200 OK. Otherwise, return 401 unauthorized.
+        /// If login is sucess, return 200 OK. Otherwise, return 403 unauthorized.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("login")]
         [ProducesResponseType(typeof(LoginResponseDto), 200)]
-        [ProducesResponseType(typeof(ProblemDetails), 401)]
+        [ProducesResponseType(typeof(ProblemDetails), 403)]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
-            var resp = new LoginResponseDto("test_jwt");
-            return Ok(resp);
+            try
+            {
+                var result = await _accManager.Login(new LoginModel(model.Email, model.Password));
+                return Ok(new LoginResponseDto(result.Jwt));
+            }
+            catch (LoginFailedException)
+            {
+                return StatusCode(403);
+            }
         }
 
         /// <summary>
@@ -33,8 +50,8 @@ namespace Sny.Api.Controllers
         [ProducesResponseType(typeof(RegisterResponseDto), 200)]
         public async Task<IActionResult> Register(RegisterRequestDto model)
         {
-            var resp = new RegisterResponseDto(RegisterStatus.Success);
-            return Ok(resp);
+            var result = await _accManager.Register(model.ToRegisterModel());
+            return Ok(result.ToRegisterResponseModel());
         }
     }
 }

@@ -10,6 +10,15 @@
         'dev' => true,
     ),
     'versions' => array(
+        'apalfrey/select2-bootstrap-5-theme' => array(
+            'pretty_version' => '1.3.0',
+            'version' => '1.3.0.0',
+            'reference' => 'ab448b2ac36a6f7f90b162e384ca2b1469a3cc1f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../apalfrey/select2-bootstrap-5-theme',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'fortawesome/font-awesome' => array(
             'pretty_version' => '6.2.0',
             'version' => '6.2.0.0',
@@ -208,6 +217,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'select2/select2' => array(
+            'pretty_version' => '4.0.13',
+            'version' => '4.0.13.0',
+            'reference' => '45f2b83ceed5231afa7b3d5b12b58ad335edd82e',
+            'type' => 'component',
+            'install_path' => __DIR__ . '/../select2/select2',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/thanks' => array(
             'pretty_version' => 'v1.2.10',
             'version' => '1.2.10.0',
@@ -216,6 +234,15 @@
             'install_path' => __DIR__ . '/../symfony/thanks',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'tacoberu/composer-assets' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => 'dffd9eae63a2c17fca6a4cb4f269af8eaa760b7f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tacoberu/composer-assets',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'tracy/tracy' => array(
             'pretty_version' => 'v2.9.4',
