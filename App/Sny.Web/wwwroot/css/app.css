@@ -59,6 +59,7 @@ html {
         "empty header empty2"
         "empty content empty2"
         "empty button empty2";
+    gap: 30px;
 }
 .button {
     cursor: pointer;
