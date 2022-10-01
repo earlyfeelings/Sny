@@ -3,46 +3,27 @@
 @using Sny.Web.Components;
 @using Services.BackendProvider
 @inject HttpClient Http
-
 @inject IBackendProvider _backendProvider
 
 <div id="page">
-
-@*    @if(_goals == null) {
-        <p>Načítám ....</p>
+    <div id="goals">
+    @if(_goals is null)
+    {
+        <Loading></Loading>
     }
-    else {
-        foreach (var goal in _goals) {
+    else
+    {
+        foreach (var goal in _goals)
+        {
             <GoalPreview></GoalPreview>
         }
-    }*@
-
-    <div id="goals">
-        <GoalPreview IsActive=true></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
-        <GoalPreview></GoalPreview>
+    }
     </div>
 </div>
 
-
-@code {
+@code
+{
     private IEnumerable<GoalDto>? _goals;
-
 
     protected override async Task OnInitializedAsync()
     {
