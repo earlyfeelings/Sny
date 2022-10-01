@@ -39,11 +39,11 @@ padding: 0;
     --secondaryColor: #7928AD;
     --successColor: #00A267;
     --fontColor: #ffffff;
-    --borderRadius: 7px;
+    --borderRadius: 15px;
 }
 @font-face {
     font-family: Roboto;
-    src: url(fonts/Roboto-Medium.ttf);
+    src: url(fonts/Roboto-Regular.ttf);
 }
 html {
     background: var(--backgroundColor);
