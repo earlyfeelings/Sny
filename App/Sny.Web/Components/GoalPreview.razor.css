@@ -17,7 +17,7 @@
     border-color: rgb(var(--highlightColor));
 }
     .goal:hover {
-        background-color: rgb(var(--greyShadow);
+        background-color: rgba(var(--greyShadowColor));
     }
 .goal .state {    
     grid-area: state;
