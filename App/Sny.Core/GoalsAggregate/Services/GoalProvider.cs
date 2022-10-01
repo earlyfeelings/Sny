@@ -37,9 +37,14 @@ namespace Sny.Core.GoalsAggregate.Services
             return _gpr.EditGoal(id, name, active, description);
         }
 
-        public Task<bool> DeleteGoal(Guid id)
+        public void DeleteGoal(Guid id)
         {
-            return _gpr.DeleteGoal(id);
+            _gpr.DeleteGoal(id);
+        }
+
+        public void ChangeActiveGoal(Guid id, bool activate)
+        {
+            _gpr.ChangeActiveGoal(id, activate);
         }
     }
 }

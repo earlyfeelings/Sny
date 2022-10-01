@@ -1,11 +1,6 @@
 ﻿using Sny.Core.Goals;
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sny.Infrastructure.Services.Repos
 {
@@ -24,8 +19,7 @@ namespace Sny.Infrastructure.Services.Repos
 
         public Task<Goal> AddGoal(string name, bool active, string description)
         {
-            var guid = Guid.NewGuid();
-            var goal = new Goal(guid, name, active, description);
+            var goal = new Goal(Guid.NewGuid(), name, active, description);
             _goals.Add(goal);
             return Task.FromResult(goal);
         }
@@ -49,11 +43,18 @@ namespace Sny.Infrastructure.Services.Repos
             return _goals;
         }
 
-        public Task<bool> DeleteGoal(Guid id)
+        public void DeleteGoal(Guid id)
         {
             var goal = GetGoalById(id);
             _goals.Remove(goal.Result);
-            return Task.FromResult(true);
+        }
+
+        public void ChangeActiveGoal(Guid id, bool activate)
+        {
+            var goal = GetGoalById(id).Result;
+            DeleteGoal(id);
+            goal.Active = activate;
+            _goals.Add(goal);
         }
     }
 }

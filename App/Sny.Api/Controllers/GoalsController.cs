@@ -83,12 +83,19 @@ namespace Sny.Api.Controllers
         [ProducesResponseType(typeof(EditResponseGoalDto), 200)]
         [ProducesResponseType(typeof(ProblemDetails), 404)]
         public async Task<IActionResult> Edit(EditRequestGoalDto model)
-        {
-            var goal = (await _gp.EditGoal(model.Id, model.Name, model.Active, model.Description));
-            var goalMapped = new EditResponseGoalDto(goal.Id, goal.Name, goal.Active, goal.Description);
-            return Ok(goalMapped);
+        { 
+            try
+            {
+                var goal = (await _gp.EditGoal(model.Id, model.Name, model.Active, model.Description));
+                var goalMapped = new EditResponseGoalDto(goal.Id, goal.Name, goal.Active, goal.Description);
+                return Ok(goalMapped);
+            }
+            catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
         }
-        
+
         /// <summary>
         /// Remove goal
         /// Returns:
@@ -98,11 +105,42 @@ namespace Sny.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
-        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var success = await _gp.DeleteGoal(id);
-            return Ok(success);
+            try 
+            {
+                _gp.DeleteGoal(id);
+                return Ok();
+            }
+            catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Remove goal
+        /// Returns:
+        /// - 404 if the goal was not found.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="activate"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{id}/{activate}")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> ChangeActiveGoal([FromRoute] Guid id, [FromRoute] bool activate)
+        {
+            try
+            {
+                _gp.ChangeActiveGoal(id, activate);
+                return Ok();
+            }
+            catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }
