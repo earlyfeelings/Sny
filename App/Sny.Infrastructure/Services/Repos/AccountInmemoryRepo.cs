@@ -11,17 +11,18 @@ namespace Sny.Infrastructure.Services.Repos
 {
     public class AccountInmemoryRepo : IAccountProviderRepo, IAccountReadOnlyRepo
     {
+        private static string password_1234_hash = "rq6QAAvjqmE2Xqfxl8eNwQ==";
 
-        private List<Account> _accounts = new List<Account>()
+        private List<AccountInternal> _accounts = new List<AccountInternal>()
         {
-            new Account(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b1"), "dev@dev.cz"),
-            new Account(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b1"), "test@test.cz"),
+            new AccountInternal(new Account(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b1"), "dev@dev.cz"), password_1234_hash),
+            new AccountInternal(new Account(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b4"), "test@dev.cz"), password_1234_hash),
         };
 
-        public Guid AddAccount(string email)
+        public Guid AddAccount(string email, string hashedPassword)
         {
             Guid guid = Guid.NewGuid();
-            _accounts.Add(new Account(guid, email));
+            _accounts.Add(new AccountInternal(new Account(guid, email), hashedPassword));
             return guid;
         }
 
@@ -32,7 +33,15 @@ namespace Sny.Infrastructure.Services.Repos
         /// <returns></returns>
         public async Task<Account?> FindAcountByEmail(string email)
         {
-            return (_accounts.SingleOrDefault(d => d.Email == email)) ?? null;
+            return (_accounts.SingleOrDefault(d => d.Account.Email == email))?.Account ?? null;
         }
+
+        public async Task<string> FindAcountPasswordHash(Guid id)
+        {
+            string? passwordHash = (_accounts.SingleOrDefault(d => d.Account.Id == id))?.PasswordHash;
+            return passwordHash ?? throw new AccountNotFoundException();
+        }
+
+        private record AccountInternal(Account Account, string PasswordHash);
     }
 }

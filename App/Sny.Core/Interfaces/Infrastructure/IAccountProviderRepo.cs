@@ -2,6 +2,6 @@
 {
     public interface IAccountProviderRepo
     {
-        public Guid AddAccount(string email);
+        public Guid AddAccount(string email, string hashedPassword);
     }
 }

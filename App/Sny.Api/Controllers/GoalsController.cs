@@ -26,7 +26,7 @@ namespace Sny.Api.Controllers
         [Route("")]
         public async Task<IActionResult> GetList()
         {
-            var list = (await _gp.GetGoals()).Select(d => new GoalDto(d.Id, d.Name));
+            var list = (await _gp.GetGoals()).Select(d => new GoalDto(d.Id, d.Name, d.Active, d.Description));
             return Ok(list);
         }
 
@@ -46,7 +46,7 @@ namespace Sny.Api.Controllers
             try
             {
                 var goal = (await _gp.GetGoalById(id));
-                var goalMapped = new GoalDto(goal.Id, goal.Name);
+                var goalMapped = new GoalDto(goal.Id, goal.Name, goal.Active, goal.Description);
                 return Ok(goalMapped);
             }
             catch (GoalNotFoundException)

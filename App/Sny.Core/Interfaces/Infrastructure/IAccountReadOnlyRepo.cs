@@ -10,5 +10,7 @@ namespace Sny.Core.Interfaces.Infrastructure
     public interface IAccountReadOnlyRepo
     {
         public Task<Account?> FindAcountByEmail(string email);
+
+        public Task<string> FindAcountPasswordHash(Guid id);
     }
 }

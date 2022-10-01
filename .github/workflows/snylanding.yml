@@ -1,60 +1,23 @@
-name: Build and deploy PHP app to Azure Web App
-
+name: Deploy static app to Azure Web App
 on:
   push:
-    branches: publishphp
-  workflow_dispatch:
-
-env:
-  AZURE_WEBAPP_NAME: snylandingpage
-  AZURE_WEBAPP_PACKAGE_PATH: 'PHP\sen'
-  PHP_VERSION: '8.0'
-  COMPOSER: 'PHP/sen/composer.json'
-  WORKING_DIRECTORY_PATH : 'PHP/sen'
-
-
-permissions:
-  contents: read
-
+    branches:
+    - publishlanding
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+          
+    - name: 📂 Sync files
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@7c0b4c8c8ebed23eca9ec2802474895d105b11bc
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-
-
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: php-app
-          path: .
-
-  deploy:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: php-app
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_LANDING_PUBLISH_PROFILE }}
-          package: .
+uses: amKirkland/FTP-Deploy-Action@4.3.2
+with:
+  ftp_host: waws-prod-am2-545.ftp.azurewebsites.windows.net
+  ftp_username: snylanding\$snylanding
+  ftp_password: ${{ secrets.FTP_LANDING }}
+  local_source_dir: "PHP"
+  dist_target_dir: "site/wwwroot"
+  delete: "true"

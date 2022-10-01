@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sny.Kernel", "Sny.Kernel\Sny.Kernel.csproj", "{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{C4F32583-F5D4-40C1-862B-CBFF318E58D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4F32583-F5D4-40C1-862B-CBFF318E58D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4F32583-F5D4-40C1-862B-CBFF318E58D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{90CBB16E-432E-4A5A-AC63-BD85E5991D24} = {31150DE3-84CC-4C60-88AD-5B45E9DA332E}
 		{F1815316-A22E-4B6B-A62D-C3DD42771992} = {ACA7FEB6-B41A-4D81-B007-5A66A959AFE2}
 		{C4F32583-F5D4-40C1-862B-CBFF318E58D8} = {E3CC6557-491C-4EA6-9C40-44CB58B3097F}
+		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE} = {E3CC6557-491C-4EA6-9C40-44CB58B3097F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B835BCB5-18D5-4885-B2D0-88527A9DFAF3}
