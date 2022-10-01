@@ -1,8 +1,8 @@
 name: Deploy static app to Azure Web App
-
-on: 
+on:
   push:
-    branches: publishlanding
+    branches:
+    - publishlanding
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
