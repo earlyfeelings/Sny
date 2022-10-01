@@ -1,0 +1,10 @@
+﻿<div id="LoggedUserBar">
+    <div class="circle"></div>
+    <div>@UserName</div>
+    <div>Log out</div>
+</div>
+
+@code {
+    [Parameter]
+    public string UserName { get; set; } = default!;
+}

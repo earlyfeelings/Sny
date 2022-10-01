@@ -5,7 +5,8 @@
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
 
-<div id="page">
+<LoggedUser UserName="Kristýna Bartošová"></LoggedUser>
+<div id="page"> 
     <div id="goals">
     @if(_goals is null)
     {
@@ -13,9 +14,9 @@
     }
     else
     {
-        foreach (var goal in _goals)
+        foreach (var goal in _goals.OrderByDescending(d => d.Active))
         {
-            <GoalPreview></GoalPreview>
+            <GoalPreview IsActive="goal.Active"></GoalPreview>
         }
     }
     </div>
