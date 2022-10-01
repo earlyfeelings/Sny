@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sny.Core.Goals
+﻿namespace Sny.Core.Goals
 {
     public class Goal
     {
@@ -15,6 +9,7 @@ namespace Sny.Core.Goals
             Active = active;
             Description = description;
         }
+        
 
         public Guid Id { get; }
 

@@ -1,22 +1,19 @@
 ﻿using Sny.Core.Goals;
 using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sny.Core.GoalsAggregate.Services
 {
     public class GoalProvider : IGoalProvider
     {
         private readonly IGoalReadOnlyRepo _gror;
+        private readonly IGoalProviderRepo _gpr;
         private readonly ICurrentAccountContext _cac;
 
-        public GoalProvider(IGoalReadOnlyRepo gror, ICurrentAccountContext cac)
+        public GoalProvider(IGoalReadOnlyRepo gror, IGoalProviderRepo gpr, ICurrentAccountContext cac)
         {
             this._gror = gror;
+            this._gpr = gpr;
             this._cac = cac;
         }
 
@@ -28,6 +25,21 @@ namespace Sny.Core.GoalsAggregate.Services
         public Task<IReadOnlyCollection<Goal>> GetGoals()
         {
             return _gror.GetGoals();
+        }
+        
+        public Task<Goal> AddGoal(string name, bool active, string description)
+        {
+            return _gpr.AddGoal(name, active, description);
+        }
+
+        public Task<Goal> EditGoal(Guid id, string name, bool active, string description)
+        {
+            return _gpr.EditGoal(id, name, active, description);
+        }
+
+        public Task<bool> DeleteGoal(Guid id)
+        {
+            return _gpr.DeleteGoal(id);
         }
     }
 }

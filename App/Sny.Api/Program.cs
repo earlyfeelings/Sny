@@ -92,7 +92,10 @@ namespace Sny.Api
             });
 
             builder.Services.AddScoped<IGoalProvider, GoalProvider>();
-            builder.Services.AddSingleton<IGoalReadOnlyRepo, GoalInmemoryRepo>();
+
+            GoalInmemoryRepo inMemoryGoalRepo = new GoalInmemoryRepo();
+            builder.Services.AddSingleton<IGoalReadOnlyRepo>(inMemoryGoalRepo);
+            builder.Services.AddSingleton<IGoalProviderRepo>(inMemoryGoalRepo);
 
             builder.Services.AddScoped<IAccountManager, AccountManager>();
             builder.Services.AddSingleton<IJwtService, JwtService>();
