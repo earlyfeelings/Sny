@@ -1,4 +1,5 @@
-const $serverurl = "https://snyapi.azurewebsites.net/"
+const $snyapi = "https://snyapi.azurewebsites.net/";
+const $snyweb = "https://snyweb.azurewebsites.net/";
 
 $( "#LogForm" ).submit(function( event ) {
     event.preventDefault();
@@ -18,12 +19,11 @@ function loginFail() {
     addError("#password");
 }
 function loginSuccess(data) {
-    addAlert('<i class=\"bi bi-check-circle-fill\"></i> Přihlásil ses, Jupí', 'success');
-    addAlert('<i class="bi bi-emoji-wink-fill"></i> Nezapomeň si token: ' + data.jwt, 'warning');
+    window.location.replace($snyweb + "/login?jwt=" + data.jwt);
 }
 
 function callLOGIN($email, $password) {
-    let url = $serverurl + "account/login";
+    let url = $snyapi + "account/login";
     $.ajax({
         type: 'POST',
         crossDomain: true,
@@ -65,11 +65,11 @@ function addError($id, $error) {
 
 function regSuccess() {
     $("#registrationModal").hide();
-    addAlert('<i class="bi bi-check-circle-fill"></i> Registrace proběhla úspěšně', 'success');
+    addAlert('<i class="bi bi-check-circle-fill"></i> Registrace se podařila. Rychle se přihlaš než zapomenš heslo', 'success');
 }
 
 function callREG($email, $password, $password2) {
-    let url = $serverurl + "account/register";
+    let url = $snyapi + "account/register";
     $.ajax({
         type: 'POST',
         crossDomain: true,
@@ -77,7 +77,6 @@ function callREG($email, $password, $password2) {
         contentType: 'application/json',
         data : JSON.stringify({ "email": $email, "password": $password, 'passwordAgain': $password2 }),
     }).done(function(data) {
-        console.log(data.registerStatus);
         switch (data.registerStatus) {
             case 'Success': regSuccess(data.registerStatus); break;
             case 'WeakPassword': addError("#reg-password", 'Nastav si silnější heslo'); break
