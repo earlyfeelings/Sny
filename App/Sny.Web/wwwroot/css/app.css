@@ -32,6 +32,7 @@
 * {
 margin: 0;
 padding: 0;
+box-sizing: border-box;
 }
 :root {
     --backgroundColor: 31, 30, 35;
@@ -53,13 +54,13 @@ html {
 
 #page {
     display: grid;
-    grid: 50px 100px auto 100px / 10vw 80vw 10vw;
+    grid: 50px 100px auto 100px / 10% 80% 10%;
     grid-template-areas:
         "empty loggnedUser loggnedUser"
-        "empty header empty2"
-        "empty content empty2"
-        "empty button empty2";
-    gap: 30px;
+        "header header header"
+        "empty3 content empty2"
+        "empty3 button empty2";
+    grid-row-gap: 30px;
 }
 .button {
     cursor: pointer;
