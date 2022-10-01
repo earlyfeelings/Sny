@@ -115,7 +115,7 @@ namespace Sny.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               // app.UseMiddleware<FakeLoginMiddleware>();
+                app.UseMiddleware<FakeLoginMiddleware>();
             }
             else
             {
