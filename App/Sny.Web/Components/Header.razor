@@ -1,8 +1,23 @@
-﻿<div id="header">
-    <h1>Dashboard snů</h1>
-    <div>tlačítko</div>
+﻿@inject NavigationManager _navManager
+
+<div id="header">
+    <h1>@Title</h1>
+    <Button Text="@ContextButtonText" Style="highlight" OnClick="() => GoTo(ContextButtonDestination)"></Button>
 </div>
 
-@code {
+@code
+{
+    [Parameter]
+    public string Title { get; set; } = default!;
 
+    [Parameter]
+    public string ContextButtonText { get; set; } = default!;
+
+    [Parameter]
+    public string ContextButtonDestination { get; set; } = default!;
+
+    public void GoTo(string relativePath)
+    {
+        _navManager.NavigateTo(relativePath);
+    }
 }

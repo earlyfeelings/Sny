@@ -1,14 +1,4 @@
 ﻿@page "/"
-@inject NavigationManager _navManager
+@using Sny.Web.Components
 
-<PageTitle>Dashboarad</PageTitle>
-
-<h1>Dashboard</h1>
-
-<button @onclick='() => GoTo("/goals")'>Moje cíle</button>
-
-@code {
-    public void GoTo(string relativePath) {
-        _navManager.NavigateTo(relativePath);
-    }
-}
+<Header Title="Dashboard" ContextButtonText="Nastavit cíle" ContextButtonDestination="/goals"></Header>

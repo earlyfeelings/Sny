@@ -5,18 +5,20 @@
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
 
+<Header Title="Cíle" ContextButtonText="Přidat cíl"></Header>
+
 <div id="goals">
-@if(_goals is null)
-{
-    <Loading></Loading>
-}
-else
-{
-    foreach (var goal in _goals.OrderByDescending(d => d.Active))
+    @if(_goals is null)
     {
-        <GoalPreview Goal="goal"></GoalPreview>
+        <Loading></Loading>
     }
-}
+    else
+    {
+        foreach (var goal in _goals.OrderByDescending(d => d.Active))
+        {
+            <GoalPreview Goal="goal"></GoalPreview>
+        }
+    }
 </div>
 
 @code

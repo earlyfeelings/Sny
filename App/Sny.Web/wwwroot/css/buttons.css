@@ -1,0 +1,24 @@
+﻿.button {
+    cursor: pointer;
+    padding: .5em .7em;
+    border-radius: var(--borderRadius);
+    text-align: center;
+}
+.button.highlight {
+    background: rgb(var(--highlightColor));
+}
+.button.highlight:hover {
+    background: rgba(var(--highlightColor), 0.9);
+}
+.button.secondary {
+    background: rgb(var(--secondaryColor));
+}
+.button.secondary:hover {
+    background: rgba(var(--secondaryColor), 0.9);
+}
+.button.success {
+    background: rgb(var(--successColor));
+}
+.button.success:hover {
+    background: rgba(var(--successColor), 0.9);
+}
