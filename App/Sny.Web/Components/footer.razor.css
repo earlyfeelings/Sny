@@ -1,0 +1,6 @@
+﻿#footer {
+    grid-area: footer;
+    display: grid;
+    justify-content: end;
+    align-content: center;
+}

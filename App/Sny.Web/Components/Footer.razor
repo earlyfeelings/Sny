@@ -1,0 +1,19 @@
+﻿@inject NavigationManager _navManager
+
+<div id="footer">
+    <Button Text="@ContextButtonText" Style="secondary" OnClick="() => GoTo(ContextButtonDestination)"></Button>
+</div>
+
+@code
+{
+    [Parameter]
+    public string ContextButtonText { get; set; } = default!;
+
+    [Parameter]
+    public string ContextButtonDestination { get; set; } = default!;
+
+    public void GoTo(string relativePath)
+    {
+        _navManager.NavigateTo(relativePath);
+    }
+}
