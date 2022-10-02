@@ -24,11 +24,7 @@
 
         <TextInput Placeholder="Název" Value="@_goal.Name" OnChange="(value) => UpdateName(value)"></TextInput>
         <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
-
-        <p>@_goal.Id</p>
-        <p>@_goal.Name</p>
-        <p>@_goal.Description</p>
-        <p>@_goal.Active</p>
+        <DateInput Value="DateTime.Now" OnChange="(value) => UpdateTaskDate(value)"></DateInput>
 
         <div class="d-flex taskHeader">
           <div><b>Úkoly:</b></div> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
@@ -123,6 +119,11 @@
     private async Task UpdateActive(bool value)
     {
         _goal = _goal! with { Active = value};
+        await OnChange();
+    }
+
+    private async Task UpdateTaskDate(DateTime value)
+    {
         await OnChange();
     }
 
