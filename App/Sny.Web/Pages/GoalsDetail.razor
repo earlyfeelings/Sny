@@ -23,7 +23,7 @@
         <p><b>Info o cíli:</b></p>
 
         <TextInput Placeholder="Název" Value="@_goal.Name" OnChange="(value) => UpdateName(value)"></TextInput>
-        <TextAreaInput Placeholder="Popis" Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
+        <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
 
         <p>@_goal.Id</p>
         <p>@_goal.Name</p>

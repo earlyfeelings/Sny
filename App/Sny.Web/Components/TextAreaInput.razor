@@ -1,4 +1,4 @@
-﻿<textarea value="@Value" @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"></textarea>
+﻿<textarea value="@Value" @onchange="@((e) => ChangeEvent(e))"></textarea>
 
 @code
 {
@@ -9,10 +9,11 @@
     public string Value { get; set; } = string.Empty;
 
     [Parameter]
-    public EventCallback<string> OnChange { get; set; }    
+    public EventCallback<string> OnChange { get; set; }
 
-    protected async Task ChangeEvent(string value)
+    protected async Task ChangeEvent(ChangeEventArgs e)
     {
-        await OnChange.InvokeAsync(Value);
+        string value = e?.Value?.ToString() ?? string.Empty;
+        await OnChange.InvokeAsync(value);
     }
 }
