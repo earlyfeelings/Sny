@@ -37,6 +37,13 @@ let $quotes = [
     'Více času na rodinu',
     'Více času na sebe',
     'Víc peněz na drogy',
+
+    'A von hodně trpěl, protože trpěl. - Jolanda',
+    'Ale ze sraček můžete vytáhnout se. - Jolanda',
+    'Hodně budeš někde. - Jolanda',
+    'Šíří se fámy, že mám velmi rád becherovku a pivo. Obě jsou pravdivé. —  Miloš Zeman',
+    'ÚSPĚCH je 80% spěch, 20% Ú a 0% kritické myšlení. —  Mikýř',
+
     'Zatímco ztrácíme svůj čas váháním a odkládáním, život utíká.',
     'Přijmi to co je. Nech plavat to, co bylo. A měj víru v to, co přijde.',
     'Jestli chceš něco, co jsi nikdy neměl, tak musíš dělat něco, co jsi nikdy nedělal.',
