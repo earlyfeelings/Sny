@@ -5,6 +5,8 @@
     cursor: pointer;
 }
 
-#goal-detail {
-    grid-area: content;
+.gridEditTask{
+    display: grid;
+    grid-template-columns: 50px 80px auto 5px;
+    grid-auto-rows: auto;
 }
