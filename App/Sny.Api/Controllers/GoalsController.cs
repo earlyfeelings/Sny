@@ -62,7 +62,6 @@ namespace Sny.Api.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("{id}")]
         [ProducesResponseType(typeof(AddResponseGoalDto), 200)]
         public async Task<IActionResult> Add(AddRequestGoalDto model)
         {
@@ -79,7 +78,7 @@ namespace Sny.Api.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("")]
+        [Route("{id}")]
         [ProducesResponseType(typeof(EditResponseGoalDto), 200)]
         [ProducesResponseType(typeof(ProblemDetails), 404)]
         public async Task<IActionResult> Edit(EditRequestGoalDto model)

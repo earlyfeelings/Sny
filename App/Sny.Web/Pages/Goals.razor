@@ -36,7 +36,16 @@
 
     private IEnumerable<HeaderButton> HeaderButtons() 
     {
-        yield return new HeaderButton("Přidat cíl", () => _navManager.NavigateTo("goals/detail"));
+        yield return new HeaderButton("Přidat cíl", async () => await AddNewGoal());
+    }
+
+    private async Task AddNewGoal() {
+        AddRequestGoalDto addGoal = new AddRequestGoalDto("Nový cíl", false, "Popisek cíle. Můžete napsat třeba svojí motivaci, proč stojíte o dosíhnutí vybraného cíle.");
+        var response = await Http.PostAsJsonAsync<AddRequestGoalDto>(_backendProvider.GetUri("goals"), addGoal);
+        var responseObject = await response.Content.ReadFromJsonAsync<AddResponseGoalDto>();
+        if (responseObject == null) throw new ApplicationException("Response is null");
+
+        _navManager.NavigateTo($"goals/{responseObject.Id}");
     }
 
     private IEnumerable<HeaderButton> FooterButtons()
