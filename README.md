@@ -1,6 +1,12 @@
 # Sny
 
-Staň se skoro nejlepším člověkem na světě.
+<p align="center">
+    Staň se skoro nejlepším člověkem na světě.
+ 
+</p>
+
+   ![logo-png](https://user-images.githubusercontent.com/28567403/193453152-0ab3a513-be03-4a3f-984e-ef1de8720571.png)
+
 
 ## Popis aplikace
 
