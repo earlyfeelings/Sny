@@ -22,6 +22,9 @@
     {
         <p><b>Info o cíli:</b></p>
 
+        <TextInput Placeholder="Název" Value="@_goal.Name" OnChange="(value) => UpdateName(value)"></TextInput>
+        <TextAreaInput Placeholder="Popis" Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
+
         <p>@_goal.Id</p>
         <p>@_goal.Name</p>
         <p>@_goal.Description</p>
@@ -77,5 +80,28 @@
     private Task DeleteTask(TaskDto task)
     {
         return Task.CompletedTask;
+    }
+
+    void UpdateName(string value)
+    {
+        _goal = _goal! with { Name = value};
+        OnChange();
+    }
+
+    void UpdateDescription(string value)
+    {
+        _goal = _goal! with { Description = value};
+        OnChange();
+    }
+
+    void UpdateActive(bool value)
+    {
+        _goal = _goal! with { Active = value};
+        OnChange();
+    }
+
+    void OnChange()
+    {
+        // update goal in db
     }
 }

@@ -1,4 +1,4 @@
-﻿<input placeholder="@Placeholder" value="@Value" @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"  />
+﻿<textarea value="@Value" @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"></textarea>
 
 @code
 {
@@ -13,6 +13,6 @@
 
     protected async Task ChangeEvent(string value)
     {
-        await OnChange.InvokeAsync(value);
+        await OnChange.InvokeAsync(Value);
     }
 }
