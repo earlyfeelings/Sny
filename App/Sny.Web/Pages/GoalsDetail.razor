@@ -30,11 +30,8 @@
         <p>@_goal.Description</p>
         <p>@_goal.Active</p>
 
-
-
-        
-        <div class="d-flex">
-          <p><b>Úkoly:</b></p> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
+        <div class="d-flex taskHeader">
+          <div><b>Úkoly:</b></div> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
         </div>
         <div class="gridEditTask">
             @foreach (var a in _tasks)
