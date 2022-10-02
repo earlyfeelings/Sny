@@ -1,4 +1,4 @@
-﻿.text_input {
+﻿input {
     border: none;
     background-color: rgba(var(--greyShadowColor));
     width: 100%;
@@ -8,8 +8,8 @@
     border-radius: 5px;
 }
 
-    .text_input:active,
-    .text_input:focus,
-    .text_input:hover {
+    input:active,
+    input:focus,
+    input:hover {
         outline: none;
     }
