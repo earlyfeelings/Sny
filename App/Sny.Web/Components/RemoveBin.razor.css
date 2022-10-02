@@ -1,0 +1,8 @@
+﻿i {
+    color: grey;
+    cursor: pointer;
+    font-size: 1.4em;
+}
+i:hover {
+    color: rgb(var(--secondaryColor));
+}

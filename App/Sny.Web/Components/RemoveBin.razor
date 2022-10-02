@@ -1,0 +1,12 @@
+﻿<i class="fa-solid fa-square-minus" @onclick="(e) => ClickEvent(e)"></i>
+
+@code
+{
+    [Parameter]
+    public EventCallback<bool> OnClick { get; set; }    
+
+    protected async Task ClickEvent(MouseEventArgs e)
+    {
+        await OnClick.InvokeAsync(true);
+    }
+}
