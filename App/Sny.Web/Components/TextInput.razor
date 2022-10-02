@@ -1,11 +1,18 @@
-﻿<div>
-    <input n:name="name"
-           type="text"
-           class="text_input"
-           placeholder= @_placeHolder/>
-</div>
+﻿<input placeholder="@Placeholder" value="@Value" bind="Value" @bind:event="oninput" @oninput="() => InputEvent()" />
 
-@code {
-    private string _placeHolder = string.Empty;
+@code
+{
+    [Parameter]
+    public string Placeholder { get; set; } = string.Empty;
 
+    [Parameter]
+    public string Value { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> OnInput { get; set; }    
+
+    protected async Task InputEvent()
+    {
+        await OnInput.InvokeAsync(Value);
+    }
 }
