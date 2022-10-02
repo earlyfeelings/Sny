@@ -2,10 +2,12 @@
 @using Sny.Api.Dtos.Models.Goals
 @using Sny.Web.Components;
 @using Services.BackendProvider
+@using Sny.Web.Model
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
+@inject NavigationManager _navManager
 
-<Header Title="Cíle" ContextButtonText="Přidat cíl"></Header>
+<Header Title="Cíle" Buttons="HeaderButtons()"></Header>
 
 <div id="goals">
     @if(_goals is null)
@@ -21,7 +23,7 @@
     }
 </div>
 
-<Footer ContextButtonText="Zpět na Dashboard" ContextButtonDestination="/"></Footer>
+<Footer Buttons="FooterButtons()"></Footer>
 
 @code
 {
@@ -30,5 +32,15 @@
     protected override async Task OnInitializedAsync()
     {
         _goals = await Http.GetFromJsonAsync<GoalDto[]>(_backendProvider.GetUri("goals"));
+    }
+
+    private IEnumerable<HeaderButton> HeaderButtons() 
+    {
+        yield return new HeaderButton("Přidat cíl", () => _navManager.NavigateTo("goals/detail"));
+    }
+
+    private IEnumerable<HeaderButton> FooterButtons()
+    {
+        yield return new HeaderButton("Zpět na Dashboard", () => _navManager.NavigateTo("/"));
     }
 }

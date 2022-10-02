@@ -51,6 +51,7 @@ namespace Sny.Web.Services.UserContext
             else
             {
                 Logout();
+                return;
             }
             NotifyStateChanged();
         }
@@ -68,6 +69,7 @@ namespace Sny.Web.Services.UserContext
             Email = defaultUser;
             _jwt = String.Empty;
             _client.DefaultRequestHeaders.Remove("Authorization");
+            NotifyStateChanged();
         }
     }
 }

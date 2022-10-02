@@ -9,8 +9,8 @@
     {
         <div>@_userName</div>
         <div>
-           <a @onclick="() => Logout()">Odhlásit se</a>
-       </div>
+            <Button Text="Odhlásit se" Style="secondary" OnClick='() => _navManager.NavigateTo("/login")'></Button>
+        </div>
     }
 </div>
 
@@ -19,11 +19,6 @@
     private string _userName = string.Empty;
 
     private bool _logged = false;
-
-    private void Logout() 
-    {
-        UserContext.Logout();
-    }
 
     protected override Task OnInitializedAsync()
     {
@@ -34,12 +29,6 @@
 
     private void Refresh()
     {
-        if (!_backendProvider.DoNotCheck)
-        {
-            if (!UserContext.IsLoggedIn && !_navManager.Uri.EndsWith("login"))
-                _navManager.NavigateTo("login");
-        }
-
         _userName = UserContext.Email;
         _logged = UserContext.IsLoggedIn;
         this.StateHasChanged();

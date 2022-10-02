@@ -25,5 +25,9 @@
             await UserContext.Login(Jwt);
             NavManager.NavigateTo("/");
         }
+        else {
+            UserContext.Logout();
+            this.StateHasChanged();
+        }
     }
 }

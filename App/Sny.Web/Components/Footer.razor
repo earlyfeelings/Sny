@@ -1,19 +1,19 @@
-﻿@inject NavigationManager _navManager
+﻿@using Sny.Web.Model
+@inject NavigationManager _navManager
 
 <div id="footer">
-    <Button Text="@ContextButtonText" Style="secondary" OnClick="() => GoTo(ContextButtonDestination)"></Button>
+    <div class="btn-group">
+    @foreach (var btn in Buttons)
+    {
+        var title = btn.Title;
+        var onClick = btn.Action;
+        <Button Text="@title" Style="secondary" OnClick="() => onClick()"></Button>
+    }
+    </div>
 </div>
 
 @code
 {
     [Parameter]
-    public string ContextButtonText { get; set; } = default!;
-
-    [Parameter]
-    public string ContextButtonDestination { get; set; } = default!;
-
-    public void GoTo(string relativePath)
-    {
-        _navManager.NavigateTo(relativePath);
-    }
+    public IEnumerable<HeaderButton> Buttons { get; set; } = Enumerable.Empty<HeaderButton>();
 }

@@ -4,3 +4,8 @@
     justify-content: end;
     align-content: center;
 }
+
+.btn-group {
+    display: flex;
+    gap: 0.6em;
+}

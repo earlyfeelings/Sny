@@ -1,7 +1,15 @@
 ﻿@page "/"
 @using Sny.Web.Components
+@using Sny.Web.Model
+@inject NavigationManager _navManager
 
-<Header Title="Dashboard" ContextButtonText="Nastavit cíle" ContextButtonDestination="/goals"></Header>
+<Header Title="Dashboard" Buttons="HeaderButtons()"></Header>
 <div class="content">
     <SwitchButton></SwitchButton>
 </div>
+@code {
+    private IEnumerable<HeaderButton> HeaderButtons()
+    {
+        yield return new HeaderButton("Nastavit cíle", () => _navManager.NavigateTo("goals"));
+    }
+}

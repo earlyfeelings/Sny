@@ -1,4 +1,10 @@
-﻿<Router AppAssembly="@typeof(Sny.Web.App).Assembly">
+﻿@using Sny.Web.Services.BackendProvider
+@using Sny.Web.Services.UserContext
+@inject IUserContext UserContext
+@inject NavigationManager _navManager
+@inject IBackendProvider _backendProvider
+
+<Router OnNavigateAsync="OnNavigate" AppAssembly="@typeof(Sny.Web.App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,3 +16,14 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+    public Task OnNavigate() {
+        if (!_backendProvider.DoNotCheck)
+        {
+            if (!UserContext.IsLoggedIn && !_navManager.Uri.EndsWith("login"))
+                _navManager.NavigateTo("login");
+        }
+        return Task.CompletedTask;
+    }
+}
