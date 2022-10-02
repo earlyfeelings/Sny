@@ -1,6 +1,6 @@
 ﻿@using System.Globalization
 
-<input type="date" value="@Value?.ToString("yyyy-MM-dd")" @onchange="(e) => ChangeEvent(e.Value?.ToString())" />
+<input class="text_input" type="date" value="@Value?.ToString("yyyy-MM-dd")" @onchange="(e) => ChangeEvent(e.Value?.ToString())" />
 
 @code
 {
