@@ -24,17 +24,19 @@
 
         <TextInput Placeholder="Název" Value="@_goal.Name" OnChange="(value) => UpdateName(value)"></TextInput>
         <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
-        <DateInput Value="DateTime.Now" OnChange="(value) => UpdateTaskDate(value)"></DateInput>
+       
 
         <div class="d-flex taskHeader">
           <div><b>Úkoly:</b></div> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
         </div>
         <div class="gridEditTask">
-            @foreach (var a in _tasks)
+            @foreach (var a in _tasks.OrderBy(d => d.Name))
             {
                 <div><TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox></div>
-                <div><i class="fa-solid fa-calendar-days"></i> @(a.DueDate?.ToString("dd.MM.yyyy") ?? "")</div>
-                <div>@a.Name</div>
+                <div> 
+                    <DateInput Value="a.DueDate" OnChange="(value) => UpdateTaskDate(a, value)"></DateInput>
+                </div>
+                <div><TextInput Placeholder="Název úkolu" Value="@a.Name" OnChange="(value) => UpdateName(a, value)"></TextInput></div>
                 <div><a @onclick="async () => await DeleteTask(a)"><RemoveBin></RemoveBin></a></div>
             }
         </div>
@@ -92,7 +94,7 @@
     private async Task AddTask() {
         if (_tasks == null) return;
 
-        AddRequestTaskDto addTask = new AddRequestTaskDto("Nový úkol", string.Empty, null, false, Id);
+        AddRequestTaskDto addTask = new AddRequestTaskDto(string.Empty, string.Empty, null, false, Id);
         var response = await Http.PostAsJsonAsync<AddRequestTaskDto>(_backendProvider.GetUri("tasks"), addTask);
         var responseObject = await response.Content.ReadFromJsonAsync<AddResponseTaskDto>();
         if (responseObject == null) throw new ApplicationException("Response is null");
@@ -135,9 +137,16 @@
         await OnChange();
     }
 
-    private async Task UpdateTaskDate(DateTime value)
+    private async Task UpdateTaskDate(TaskDto task, DateTime? value)
     {
-        await OnChange();
+        task = task with { DueDate = value };
+        await UpdateTask(task);
+    }
+
+    private async Task UpdateName(TaskDto task, string value)
+    {
+        task = task with { Name = value };
+        await UpdateTask(task);
     }
 
     private async Task OnChange()

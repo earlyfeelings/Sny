@@ -1,17 +1,22 @@
 ﻿@using System.Globalization
 
-<input type="date" value="@Value.ToString("YYYY-MM-DD")" @onchange="(e) => ChangeEvent(e.Value?.ToString() ?? string.Empty)" />
+<input type="date" value="@Value?.ToString("yyyy-MM-dd")" @onchange="(e) => ChangeEvent(e.Value?.ToString())" />
 
 @code
 {
     [Parameter]
-    public DateTime Value { get; set; }
+    public DateTime? Value { get; set; }
 
     [Parameter]
-    public EventCallback<DateTime> OnChange { get; set; }    
+    public EventCallback<DateTime?> OnChange { get; set; }    
 
-    protected async Task ChangeEvent(string value)
+    protected async Task ChangeEvent(string? value)
     {
-        await OnChange.InvokeAsync(DateTime.ParseExact(value, "YYYY-MM-DD", CultureInfo.InvariantCulture));
+        if (string.IsNullOrEmpty(value)) {
+            await OnChange.InvokeAsync(null);
+            return;
+        }
+        DateTime dt = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        await OnChange.InvokeAsync(dt);
     }
 }
