@@ -66,3 +66,7 @@ html {
 .content{
     grid-area: content;
 }
+
+.d-flex{
+    display:flex;
+}

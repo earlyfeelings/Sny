@@ -30,8 +30,12 @@
         <p>@_goal.Description</p>
         <p>@_goal.Active</p>
 
-        <p><b>Tasky:</b></p>
 
+
+        <p><b>Tasky:</b></p>
+        <div class="d-flex">
+           <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
+        </div>
         <div>
             @foreach (var a in _tasks)
             {
@@ -69,17 +73,42 @@
         _tasks = (await taskTask)?.ToList();
     }
 
-    private Task ChangeTaskComplete(TaskDto task) {
-        var updatedTask = task with { IsCompleted = !task.IsCompleted };
-        var goalTask = Http.GetFromJsonAsync<GoalDto>(_backendProvider.GetUri($"tasks/{Id}/complete/{updatedTask.IsCompleted}"));
-        return Task.CompletedTask;
+    private async Task ChangeTaskComplete(TaskDto task) {
+        if (_tasks == null) return;
 
+        var updatedTask = task with { IsCompleted = !task.IsCompleted };
+        int index = _tasks.FindIndex(d => d.Id == updatedTask.Id);
+        _tasks[index] = updatedTask;
+
+        var goalTask = await Http.PostAsync(_backendProvider.GetUri($"tasks/{task.Id}/complete/{updatedTask.IsCompleted}"), null);
     }
 
+    private async Task AddTask() {
+        if (_tasks == null) return;
 
-    private Task DeleteTask(TaskDto task)
+        AddRequestTaskDto addTask = new AddRequestTaskDto("Nový úkol", string.Empty, null, false, Id);
+        var response = await Http.PostAsJsonAsync<AddRequestTaskDto>(_backendProvider.GetUri("tasks"), addTask);
+        var responseObject = await response.Content.ReadFromJsonAsync<AddResponseTaskDto>();
+        if (responseObject == null) throw new ApplicationException("Response is null");
+
+        _tasks.Add(new TaskDto(responseObject.Id,
+            responseObject.Name, 
+            responseObject.Description,
+            responseObject.DueDate,
+            responseObject.IsCompleted,
+            Id));
+
+        if (_tasks == null) return;
+    }
+
+    private async Task DeleteTask(TaskDto task)
     {
-        return Task.CompletedTask;
+        if (_tasks == null) return;
+
+        int index = _tasks.FindIndex(d => d.Id == task.Id);
+        _tasks.RemoveAt(index);
+
+        var goalTask = await Http.DeleteAsync(_backendProvider.GetUri($"tasks/{task.Id}"));
     }
 
     void UpdateName(string value)
