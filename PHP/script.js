@@ -12,9 +12,12 @@ let $images = [
     'silné-stránky.jpg',
     'soft-hard-skills.png',
     'Want-to-develop-a-culture-of-continuous-improvement_Blog.jpg',
+    'process-improvement-planning.png',
+    '197094-3.jpg',
+    '11-best-ways-to-improve-Personal-Development.jpg',
 ];
 let $quotes = [
-    'Nepropadejte Panice',
+    'Nepropadejte Panice!',
     'Všechno bude v pořádku',
     'Přestaňte krvácet z konečníku',
     'Nemusíš se bát',
@@ -30,7 +33,10 @@ let $quotes = [
     'Čti víc knih',
     'Více času na rodinu',
     'Více času na sebe',
+    'Víc peněz na drogy',
 ];
+
+$counter = 3;
 
 
 $( "#LogForm" ).submit(function( event ) {
@@ -71,8 +77,9 @@ window.onscroll = function() {
 };
 
 function addImage() {
-    if ($images.length > 0 && $quotes.length > 0) {
+    if ($images.length > 0 && $quotes.length > 0 && $counter > 0) {
         $('.siter').append(generateLine());
+        $counter--;
     }
 }
 
@@ -103,12 +110,13 @@ function callLOGIN($email, $password) {
         data : JSON.stringify({ "email": $email, "password": $password }),
     }).done(function(data) {
         loginSuccess(data);
+        Loading(false);
     }).fail(function() {
         addError("#email", 'Bohužel špatně');
         addError("#password");
+        Loading(false);
     });
 
-    Loading(false);
 }
 
 
@@ -160,10 +168,11 @@ function callREG($email, $password, $password2) {
             case 'BadEmailFormat': addError("#reg-email", 'Takto email nevypadá'); break;
             case 'Error': addError("#reg-email", 'Něco je špatně'); break;
         }
+        Loading(false);
     }).fail(function() {
         addError("#reg-email", 'Něco je šeredně špatně');
+        Loading(false);
     });
-    Loading(false);
 }
 
 
