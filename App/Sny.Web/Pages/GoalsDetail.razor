@@ -76,6 +76,19 @@
         var goalTask = await Http.PostAsync(_backendProvider.GetUri($"tasks/{task.Id}/complete/{updatedTask.IsCompleted}"), null);
     }
 
+    private async Task UpdateTask(TaskDto updatedTask)
+    {
+        if (_tasks == null) return;
+
+        int index = _tasks.FindIndex(d => d.Id == updatedTask.Id);
+        _tasks[index] = updatedTask;
+
+        EditRequestTaskDto editTask = new EditRequestTaskDto(updatedTask.Id, updatedTask.Name, updatedTask.Description, updatedTask.DueDate, updatedTask.IsCompleted, updatedTask.GoalId);
+        var response = await Http.PutAsJsonAsync<EditRequestTaskDto>(_backendProvider.GetUri($"tasks/{updatedTask.Id}"), editTask);
+        var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
+        if (responseObject == null) throw new ApplicationException("Response is null");
+    }
+
     private async Task AddTask() {
         if (_tasks == null) return;
 
@@ -136,4 +149,6 @@
         var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
         if (responseObject == null) throw new ApplicationException("Response is null");
     }
+
+ 
 }
