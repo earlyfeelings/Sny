@@ -8,9 +8,21 @@
 
 }
 @media (min-width: 576px) {
-	.modal {
-		--bs-modal-margin: max(calc(50vh - 157px) ,0px);
+	#loading .modal-dialog {
+		margin-top: max(calc(50vh - 3rem) , 0px);
 	}
+	#registrationModal .modal-dialog {
+		margin-top: max(calc(50vh - 13rem) , 0px);
+	}
+}
+
+#loading .modal-content {
+	background-color: transparent;
+	width: fit-content;
+}
+
+#loading .modal-dialog {
+	width: fit-content;
 }
 
 
@@ -134,7 +146,7 @@
 	--bs-btn-active-color: var(--color-white);
 	--bs-btn-active-bg: var(--color-purple);
 	--bs-btn-active-border-color: var(--color-purple);
-	--bs-btn-active-shadow: inset 0 3px 5px var(--color-black);
+	--bs-btn-active-shadow: inset 0 .2rem .3rem var(--color-black);
 	--bs-btn-disabled-color: var(--color-white);
 	--bs-btn-disabled-bg: var(--color-purple);
 	--bs-btn-disabled-border-color: var(--color-purple);
@@ -151,7 +163,7 @@
 	--bs-btn-active-color: var(--color-white);
 	--bs-btn-active-bg: var(--color-green);
 	--bs-btn-active-border-color: var(--color-green);
-	--bs-btn-active-shadow: inset 0 3px 5px var(--color-black);
+	--bs-btn-active-shadow: inset 0 .2rem .3rem var(--color-black);
 	--bs-btn-disabled-color: var(--color-white);
 	--bs-btn-disabled-bg: var(--color-green);
 	--bs-btn-disabled-border-color: var(--color-green);

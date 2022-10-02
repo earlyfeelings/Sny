@@ -35,8 +35,21 @@ function loginSuccess(data) {
     window.location.replace($snyweb + "/login?jwt=" + data.jwt);
 }
 
+function Loading($do) {
+    if ($do) {
+        $('#loading').modal('show');
+    }
+    else {
+        setTimeout(function() {
+            $('#loading').modal('hide');
+        }, 500);
+    }
+}
+
 function callLOGIN($email, $password) {
+    Loading(true);
     let url = $snyapi + "account/login";
+
     $.ajax({
         type: 'POST',
         crossDomain: true,
@@ -49,6 +62,8 @@ function callLOGIN($email, $password) {
         addError("#email", 'Bohužel špatně');
         addError("#password");
     });
+
+    Loading(false);
 }
 
 
@@ -83,6 +98,7 @@ function regSuccess() {
 }
 
 function callREG($email, $password, $password2) {
+    Loading(true);
     let url = $snyapi + "account/register";
     $.ajax({
         type: 'POST',
@@ -99,10 +115,10 @@ function callREG($email, $password, $password2) {
             case 'BadEmailFormat': addError("#reg-email", 'Takto email nevypadá'); break;
             case 'Error': addError("#reg-email", 'Něco je špatně'); break;
         }
-
     }).fail(function() {
         addError("#reg-email", 'Něco je šeredně špatně');
     });
+    Loading(false);
 }
 
 
