@@ -1,15 +1,1 @@
-﻿input {
-    border: none;
-    background-color: rgba(var(--greyShadowColor));
-    width: 100%;
-    transition: .2s;
-    color: rgb(var(--fontColor));
-    padding: 10px;
-    border-radius: 5px;
-}
-
-    input:active,
-    input:focus,
-    input:hover {
-        outline: none;
-    }
+﻿

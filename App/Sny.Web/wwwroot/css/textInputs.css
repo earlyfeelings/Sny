@@ -1,0 +1,16 @@
+﻿.text_input {
+    border: none;
+    background-color: rgba(var(--greyShadowColor));
+    width: 100%;
+    transition: .2s;
+    color: rgb(var(--fontColor));
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+    .text_input:active,
+    .text_input:focus,
+    .text_input:hover {
+        outline: none;
+    }
