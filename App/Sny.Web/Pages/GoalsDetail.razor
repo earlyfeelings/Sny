@@ -1,9 +1,13 @@
 ﻿@page "/goals/{Id:guid}"
+@using Sny.Web.Components
 @inject NavigationManager _navManager
 
 <PageTitle>Detail cíle</PageTitle>
 
-<h1>Detail cíle</h1>
+<Header Title="Detail cíle"></Header>
+<div class="content"><TextInput></TextInput>
+</div>
+
 
 <p>@Id</p>
 
