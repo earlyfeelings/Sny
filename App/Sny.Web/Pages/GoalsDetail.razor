@@ -33,7 +33,7 @@
             @foreach (var a in _tasks)
             {
                 <div><TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox></div>
-                <div>@(a.DueDate?.ToLongDateString() ?? "nevyplněno")</div>
+                <div>@(a.DueDate?.ToString("dd.MM.yyyy") ?? "nevyplněno")</div>
                 <div>@a.Name</div>
                 <div><a @onclick="async () => await DeleteTask(a)"><RemoveBin></RemoveBin></a></div>
             }
