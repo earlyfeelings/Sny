@@ -29,11 +29,16 @@
 
         <p><b>Tasky:</b></p>
 
-        <ul>
-            @foreach (var a in _tasks) {
-                <li>@a.Id - @a.Name</li>
+        <div>
+            @foreach (var a in _tasks)
+            {
+                <div>@a.IsCompleted <a @onclick="async () => await ChangeTaskComplete(a)">Změnit</a></div>
+                <div>@(a.DueDate?.ToLongDateString() ?? "nevyplněno")</div>
+                <div>@a.Name</div>
+                <div><a @onclick="async () => await DeleteTask(a)">Smazat</a></div>
             }
-        </ul>
+        </div>
+
     }
 </div>
 
@@ -45,7 +50,7 @@
 
     private GoalDto? _goal;
 
-    private TaskDto[]? _tasks;
+    private List<TaskDto>? _tasks;
 
     private IEnumerable<HeaderButton> FooterButtons()
     {
@@ -58,6 +63,19 @@
         var taskTask = Http.GetFromJsonAsync<TaskDto[]>(_backendProvider.GetUri($"tasks/byGoal/{Id}"));
 
         _goal = await goalTask;
-        _tasks = await taskTask;
+        _tasks = (await taskTask)?.ToList();
+    }
+
+    private Task ChangeTaskComplete(TaskDto task) {
+        var updatedTask = task with { IsCompleted = !task.IsCompleted };
+        var goalTask = Http.GetFromJsonAsync<GoalDto>(_backendProvider.GetUri($"tasks/{Id}/complete/{updatedTask.IsCompleted}"));
+        return Task.CompletedTask;
+
+    }
+
+
+    private Task DeleteTask(TaskDto task)
+    {
+        return Task.CompletedTask;
     }
 }
