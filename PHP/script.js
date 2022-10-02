@@ -1,6 +1,38 @@
 const $snyapi = "https://snyapi.azurewebsites.net/";
 const $snyweb = "https://snyweb.azurewebsites.net/";
 
+let $images = [
+    'HappyPerson1.jpg',
+    'plan.jpg',
+    'scales.jpg',
+    'secret-to-success.jpg',
+    '1_FJk7Rcb64pK-Kv0AfauTKw.png',
+    'FOTO_6-752x500.jpg',
+    '5e22-image.png',
+    'silné-stránky.jpg',
+    'soft-hard-skills.png',
+    'Want-to-develop-a-culture-of-continuous-improvement_Blog.jpg',
+];
+let $quotes = [
+    'Nepropadejte Panice',
+    'Všechno bude v pořádku',
+    'Přestaňte krvácet z konečníku',
+    'Nemusíš se bát',
+    'Dosáhni úspěchu',
+    'Splň si své sny',
+    'Jdi do toho',
+    'Pracuj na sobě',
+    'Dokážete to',
+    'Nevzdávej se',
+    'Nauč se něco nového',
+    'Nauč se nový jazyk',
+    'Pravidelně cvič',
+    'Čti víc knih',
+    'Více času na rodinu',
+    'Více času na sebe',
+];
+
+
 $( "#LogForm" ).submit(function( event ) {
     event.preventDefault();
     FormReset();
@@ -30,6 +62,19 @@ $( "#RegForm" ).submit(function( event ) {
     }
 });
 
+$('.randomQuote').text(getRandomQuote());
+
+window.onscroll = function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        addImage();
+    }
+};
+
+function addImage() {
+    if ($images.length > 0 && $quotes.length > 0) {
+        $('.siter').append(generateLine());
+    }
+}
 
 function loginSuccess(data) {
     window.location.replace($snyweb + "/login?jwt=" + data.jwt);
@@ -127,4 +172,32 @@ function addAlert(text, type) {
         + text +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
     $('#alerts').append(alert);
+}
+
+
+function getRandomQuote() {
+    if ($quotes.length === 0) return '';
+    let random = Math.floor(Math.random() * $quotes.length);
+    let $ret = $quotes[random];
+    $quotes.splice(random, 1);
+    return $ret;
+}
+
+function getRandomImage() {
+    if ($images.length === 0) return '';
+    let random = Math.floor(Math.random() * $images.length);
+    let $ret = $images[random];
+    $images.splice(random, 1);
+    return 'HappyImages/' + $ret;
+}
+
+function getRandomSize() {
+    return Math.floor(Math.random() * 5) + 4;
+}
+
+function generateLine() {
+    let $size = getRandomSize();
+    let $imageLine = '<div class="col-lg-' + $size + '"><div class="border"><img alt="image" src="' + getRandomImage() + '"></div></div>';
+    let $quoteLine = '<div class="col-lg-' + (12 - $size) + '"> ' + getRandomQuote() + '</div>';
+    return (Math.floor(Math.random() * 2) === 0 ) ? $imageLine + $quoteLine : $quoteLine + $imageLine;
 }
