@@ -13,7 +13,7 @@
 <Header Title="Detail cíle"></Header>
 
 
-<div id="goal-detail">
+<div class="content">
     @if (_goal is null || _tasks is null) 
     {
         <Loading></Loading>
@@ -36,13 +36,13 @@
         <div class="d-flex">
            <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
         </div>
-        <div>
+        <div class="gridEditTask">
             @foreach (var a in _tasks)
             {
-                <div>@a.IsCompleted <a @onclick="async () => await ChangeTaskComplete(a)">Změnit</a></div>
+                <div><TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox></div>
                 <div>@(a.DueDate?.ToLongDateString() ?? "nevyplněno")</div>
                 <div>@a.Name</div>
-                <div><a @onclick="async () => await DeleteTask(a)">Smazat</a></div>
+                <div><a @onclick="async () => await DeleteTask(a)"><RemoveBin></RemoveBin></a></div>
             }
         </div>
 
