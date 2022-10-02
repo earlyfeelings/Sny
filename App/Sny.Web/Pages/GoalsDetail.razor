@@ -1,17 +1,63 @@
 ﻿@page "/goals/{Id:guid}"
+@using Sny.Api.Dtos.Models.Goals
 @using Sny.Web.Components
+@using Sny.Web.Model
+@using Sny.Web.Services.BackendProvider
+@using static Sny.Api.Dtos.Models.Tasks.Tasks
 @inject NavigationManager _navManager
+@inject HttpClient Http
+@inject IBackendProvider _backendProvider
+
 
 <PageTitle>Detail cíle</PageTitle>
-
 <Header Title="Detail cíle"></Header>
-<div class="content"><TextInput></TextInput>
+
+
+<div id="goal-detail">
+    @if (_goal is null || _tasks is null) 
+    {
+        <Loading></Loading>
+    }
+    else 
+    {
+        <p><b>Info o cíli:</b></p>
+
+        <p>@_goal.Id</p>
+        <p>@_goal.Name</p>
+        <p>@_goal.Description</p>
+        <p>@_goal.Active</p>
+
+        <p><b>Tasky:</b></p>
+
+        <ul>
+            @foreach (var a in _tasks) {
+                <li>@a.Id - @a.Name</li>
+            }
+        </ul>
+    }
 </div>
 
-
-<p>@Id</p>
+<Footer Buttons="FooterButtons()"></Footer>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    private GoalDto? _goal;
+
+    private TaskDto[]? _tasks;
+
+    private IEnumerable<HeaderButton> FooterButtons()
+    {
+        yield return new HeaderButton("Zpět na Cíle", () => _navManager.NavigateTo("/goals"));
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var goalTask = Http.GetFromJsonAsync<GoalDto>(_backendProvider.GetUri($"goals/{Id}"));
+        var taskTask = Http.GetFromJsonAsync<TaskDto[]>(_backendProvider.GetUri($"tasks/byGoal/{Id}"));
+
+        _goal = await goalTask;
+        _tasks = await taskTask;
+    }
 }
