@@ -1,0 +1,17 @@
+﻿.checkbox {
+    width: 2em;
+    height: 2em;
+    border: 3px solid rgb(var(--successColor));
+    border-radius: 50%;
+    cursor: pointer;
+}
+.checkbox:hover {
+    background: rgba(var(--successColor), 0.1);
+}
+.checkbox.checked {
+    background: rgb(var(--successColor));
+}
+.checkbox.checked:hover {
+    border: none;
+    background: rgba(var(--successColor), 0.8);
+}

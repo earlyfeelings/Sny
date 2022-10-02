@@ -1,0 +1,15 @@
+﻿<div class="checkbox @(Value ? "checked" : null)" @onclick="(e) => ClickEvent(e)"></div>
+
+@code
+{
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnClick { get; set; }    
+
+    protected async Task ClickEvent(MouseEventArgs e)
+    {
+        await OnClick.InvokeAsync(true);
+    }
+}
