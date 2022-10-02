@@ -23,7 +23,10 @@
     }
 </div>
 
-<Footer Buttons="FooterButtons()"></Footer>
+@if (_goals is not null)
+{
+    <Footer Buttons="FooterButtons()"></Footer>
+}
 
 @code
 {

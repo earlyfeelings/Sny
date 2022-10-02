@@ -111,26 +111,31 @@
         var goalTask = await Http.DeleteAsync(_backendProvider.GetUri($"tasks/{task.Id}"));
     }
 
-    void UpdateName(string value)
+    private async Task UpdateName(string value)
     {
         _goal = _goal! with { Name = value};
-        OnChange();
+        await OnChange();
     }
 
-    void UpdateDescription(string value)
+    private async Task UpdateDescription(string value)
     {
         _goal = _goal! with { Description = value};
-        OnChange();
+        await OnChange();
     }
 
-    void UpdateActive(bool value)
+    private async Task UpdateActive(bool value)
     {
         _goal = _goal! with { Active = value};
-        OnChange();
+        await OnChange();
     }
 
-    void OnChange()
+    private async Task OnChange()
     {
-        // update goal in db
+        if (_goal == null) return;
+
+        EditRequestGoalDto addGoal = new EditRequestGoalDto(_goal.Id, _goal.Name, _goal.Active, _goal.Description);
+        var response = await Http.PutAsJsonAsync<EditRequestGoalDto>(_backendProvider.GetUri($"goals/{Id}"), addGoal);
+        var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
+        if (responseObject == null) throw new ApplicationException("Response is null");
     }
 }
