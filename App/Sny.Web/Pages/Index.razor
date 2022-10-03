@@ -1,7 +1,9 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
 @using Sny.Web.Components
 @using Sny.Web.Model
 @inject NavigationManager _navManager
+@attribute [Authorize]
 
 <Header Title="Dashboard" Buttons="HeaderButtons()"></Header>
 <div class="content">

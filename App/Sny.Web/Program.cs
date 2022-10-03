@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sny.Web.Services.BackendProvider;
+using Sny.Web.Services.LocalStorageService;
 using Sny.Web.Services.UserContext;
 
 namespace Sny.Web
@@ -19,15 +20,22 @@ namespace Sny.Web
           
             if (builder.HostEnvironment.IsDevelopment())
             {
-                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://localhost:7026"), true));
+                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://localhost:7026")));
             }
             else
             {
-                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://snyapi.azurewebsites.net"), false));
+                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://snyapi.azurewebsites.net")));
             }
+            
             builder.Services.AddScoped<IUserContext, UserContext>();
+            builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+
+            var uc = host.Services.GetRequiredService<IUserContext>();
+            await uc.Initialize();
+
+            await host.RunAsync();
         }
     }
 }

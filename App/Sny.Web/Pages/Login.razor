@@ -1,15 +1,35 @@
 ﻿
 @page "/login"
+@using Sny.Api.Dtos.Models.Accounts
 @using Sny.Web.Components
 @using Sny.Web.Services.UserContext
+@using Services.BackendProvider
 @inject NavigationManager NavManager
+@inject IBackendProvider _backendProvider
 @inject IUserContext UserContext
+@inject HttpClient Http
 
 <Header Title="Login"></Header>
 
-<div style="grid-area: content">
-  <p>Nejste přihlášen.</p>
-  <p>Prosím přihlaste se.</p>
+<div class="login-panel">
+
+    <p class="login-title">Prosím přihlaste se.</p>
+    <div class="login-form">
+        <div>
+          <p>Email:</p>
+          <TextInput Type="text" Value="@_email" OnChange="(val) => _email = val"></TextInput>
+        </div>
+        <div>
+          <p>Heslo:</p>
+          <TextInput Type="password" Value="@_password" OnChange="(val) => _password = val"></TextInput>
+        </div>
+        <Button OnClick="() => TryLogin()" Style="secondary" Text="Přihlásit se"></Button>
+        @if (_loginErrorMessage is not null) {
+            <p class="msg msg-error">
+                @_loginErrorMessage
+            </p>
+        }
+    </div>
 </div>
 
 
@@ -17,6 +37,36 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "Jwt")]
     public string? Jwt { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "returnUrl")]
+    public string? ReturnUrl { get; set; }
+
+    private string _email { get; set; } = default!;
+
+    private string _password { get; set; } = default!;
+
+    private string? _loginErrorMessage { get; set; } = default!;
+
+    private async Task TryLogin()
+    {
+        LoginRequestDto loginDto = new LoginRequestDto(_email, _password);
+        var response = await Http.PostAsJsonAsync<LoginRequestDto>(_backendProvider.GetUri("account/login"), loginDto);
+
+        if (!response.IsSuccessStatusCode) 
+        {
+            _password = string.Empty;
+            _loginErrorMessage = "Nepodařilo se přihlásit.";
+            return;
+        }
+
+        var responseObject = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+        if (responseObject == null) throw new ApplicationException("Response is null");
+
+        await UserContext.Login(responseObject.Jwt);
+        
+        NavManager.NavigateTo(ReturnUrl ?? "/");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,7 +76,7 @@
             NavManager.NavigateTo("/");
         }
         else {
-            UserContext.Logout();
+            await UserContext.Logout();
             this.StateHasChanged();
         }
     }

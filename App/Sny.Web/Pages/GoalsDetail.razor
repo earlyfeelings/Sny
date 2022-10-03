@@ -1,4 +1,5 @@
 ﻿@page "/goals/{Id:guid}"
+@using Microsoft.AspNetCore.Authorization
 @using Sny.Api.Dtos.Models.Goals
 @using Sny.Web.Components
 @using Sny.Web.Model
@@ -7,6 +8,7 @@
 @inject NavigationManager _navManager
 @inject HttpClient Http
 @inject IBackendProvider _backendProvider
+@attribute [Authorize]
 
 
 <PageTitle>Detail cíle</PageTitle>
