@@ -20,15 +20,28 @@ namespace Sny.Api
 {
     public class Program
     {
+
+        private static string[] prodCors = new string[] 
+        {
+            "https://snyweb.azurewebsites.net", 
+            "http://snyweb.azurewebsites.net",
+            "https://snylanding.azurewebsites.net",
+            "http://snylanding.azurewebsites.net"
+        };
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //TODO: restrict for production use!
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                options.AddPolicy("dev", builder =>
                 builder.AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader());
+
+                options.AddPolicy("prod", builder =>
+                builder.WithOrigins(prodCors)
                        .AllowAnyMethod()
                        .AllowAnyHeader());
             });
@@ -121,15 +134,17 @@ namespace Sny.Api
 
             if (app.Environment.IsDevelopment())
             {
+                app.UseCors("dev");
                 app.UseDeveloperExceptionPage();
                 app.UseMiddleware<FakeLoginMiddleware>();
             }
             else
             {
+                app.UseCors("prod");
                 app.UseHsts();
             }
 
-            app.UseCors();
+           
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
