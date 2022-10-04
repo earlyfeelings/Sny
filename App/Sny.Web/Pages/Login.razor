@@ -17,16 +17,16 @@
     <div class="login-form">
         <div>
           <p>Email:</p>
-          <TextInput Type="text" Value="@_email" OnChange="(val) => _email = val"></TextInput>
+          <TextInput Type="text" @bind-Value="Email"></TextInput>
         </div>
         <div>
           <p>Heslo:</p>
-          <TextInput Type="password" Value="@_password" OnChange="(val) => _password = val"></TextInput>
+            <TextInput Type="password" @bind-Value="Password"></TextInput>
         </div>
         <Button OnClick="() => TryLogin()" Style="secondary" Text="Přihlásit se"></Button>
-        @if (_loginErrorMessage is not null) {
+        @if (LoginErrorMessage is not null) {
             <p class="msg msg-error">
-                @_loginErrorMessage
+                @LoginErrorMessage
             </p>
         }
     </div>
@@ -42,21 +42,21 @@
     [SupplyParameterFromQuery(Name = "returnUrl")]
     public string? ReturnUrl { get; set; }
 
-    private string _email { get; set; } = default!;
+    private string Email { get; set; } = default!;
 
-    private string _password { get; set; } = default!;
+    private string Password { get; set; } = default!;
 
-    private string? _loginErrorMessage { get; set; } = default!;
+    private string? LoginErrorMessage { get; set; } = default!;
 
     private async Task TryLogin()
     {
-        LoginRequestDto loginDto = new LoginRequestDto(_email, _password);
+        LoginRequestDto loginDto = new LoginRequestDto(Email, Password);
         var response = await Http.PostAsJsonAsync<LoginRequestDto>(_backendProvider.GetUri("account/login"), loginDto);
 
         if (!response.IsSuccessStatusCode) 
         {
-            _password = string.Empty;
-            _loginErrorMessage = "Nepodařilo se přihlásit.";
+            Password = string.Empty;
+            LoginErrorMessage = "Nepodařilo se přihlásit.";
             return;
         }
 

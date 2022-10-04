@@ -1,4 +1,8 @@
-﻿<input class="text_input" type="@Type" placeholder="@Placeholder" value="@Value" @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"  />
+﻿<input class="text_input" 
+    type="@Type" 
+    placeholder="@Placeholder" 
+    value="@Value" 
+    @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"  />
 
 @code
 {
@@ -12,10 +16,10 @@
     public string Value { get; set; } = string.Empty;
 
     [Parameter]
-    public EventCallback<string> OnChange { get; set; }    
+    public EventCallback<string> ValueChanged { get; set; }
 
     protected async Task ChangeEvent(string value)
     {
-        await OnChange.InvokeAsync(value);
+        await ValueChanged.InvokeAsync(value);
     }
 }

@@ -16,7 +16,7 @@ using Sny.Api.Services;
 namespace Sny.Api.Controllers
 {
     [ApiController]
-    [AllowAnonymous]
+   
     [Route("account")]
     public class AccountController : Controller
     {
@@ -38,6 +38,7 @@ namespace Sny.Api.Controllers
         [Route("login")]
         [ProducesResponseType(typeof(LoginResponseDto), 200)]
         [ProducesResponseType(typeof(ProblemDetails), 403)]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
             try
@@ -65,6 +66,7 @@ namespace Sny.Api.Controllers
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(typeof(RegisterResponseDto), 200)]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterRequestDto model)
         {
             var result = await _accManager.Register(model.ToRegisterModel());
@@ -73,7 +75,7 @@ namespace Sny.Api.Controllers
 
 
         /// <summary>
-        /// If user is logged in, return info about Account and User. Otherwise, return 403 unauthorized.
+        /// If user is logged in, return info about Account and User. Otherwise, return 401 unauthorized.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

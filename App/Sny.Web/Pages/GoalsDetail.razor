@@ -10,10 +10,8 @@
 @inject IBackendProvider _backendProvider
 @attribute [Authorize]
 
-
 <PageTitle>Detail cíle</PageTitle>
 <Header Title="Detail cíle"></Header>
-
 
 <div class="content">
     @if (_goal is null || _tasks is null) 
@@ -22,11 +20,12 @@
     }
     else 
     {
-        <p><b>Info o cíli:</b></p>
+        <p>
+            <b>Info o cíli:</b>
+        </p>
 
-        <TextInput Placeholder="Název" Value="@_goal.Name" OnChange="(value) => UpdateName(value)"></TextInput>
-        <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateDescription(value)"></TextAreaInput>
-       
+        <TextInput Placeholder="Název" Value="@_goal.Name" ValueChanged="(value) => UpdateGoal(_goal with { Name = value })"></TextInput>
+        <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateGoal(_goal with { Description = value })"></TextAreaInput>
 
         <div class="d-flex taskHeader">
           <div><b>Úkoly</b></div> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
@@ -34,12 +33,18 @@
         <div class="gridEditTask">
             @foreach (var a in _tasks)
             {
-                <div><TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox></div>
-                <div> 
-                    <DateInput Value="a.DueDate" OnChange="(value) => UpdateTaskDate(a, value)"></DateInput>
+                <div>
+                    <TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox>
                 </div>
-                <div><TextInput Placeholder="Název úkolu" Value="@a.Name" OnChange="(value) => UpdateName(a, value)"></TextInput></div>
-                <div><a @onclick="async () => await DeleteTask(a)"><RemoveBin></RemoveBin></a></div>
+                <div>
+                    <DateInput Value="a.DueDate" OnChange="(value) => UpdateTask(a with { DueDate = value })"></DateInput>
+                </div>
+                <div>
+                    <TextInput Placeholder="Název úkolu" Value="@a.Name" ValueChanged="(value) => UpdateTask(a with { Name = value })"></TextInput>
+                </div>
+                <div>
+                    <a @onclick="async () => await DeleteTask(a)"><RemoveBin></RemoveBin></a>
+                </div>
             }
         </div>
 
@@ -121,45 +126,13 @@
         var goalTask = await Http.DeleteAsync(_backendProvider.GetUri($"tasks/{task.Id}"));
     }
 
-    private async Task UpdateName(string value)
+    private async Task UpdateGoal(GoalDto goal)
     {
-        _goal = _goal! with { Name = value};
-        await OnChange();
-    }
-
-    private async Task UpdateDescription(string value)
-    {
-        _goal = _goal! with { Description = value};
-        await OnChange();
-    }
-
-    private async Task UpdateActive(bool value)
-    {
-        _goal = _goal! with { Active = value};
-        await OnChange();
-    }
-
-    private async Task UpdateTaskDate(TaskDto task, DateTime? value)
-    {
-        task = task with { DueDate = value };
-        await UpdateTask(task);
-    }
-
-    private async Task UpdateName(TaskDto task, string value)
-    {
-        task = task with { Name = value };
-        await UpdateTask(task);
-    }
-
-    private async Task OnChange()
-    {
-        if (_goal == null) return;
+        _goal = goal;
 
         EditRequestGoalDto addGoal = new EditRequestGoalDto(_goal.Id, _goal.Name, _goal.Active, _goal.Description);
         var response = await Http.PutAsJsonAsync<EditRequestGoalDto>(_backendProvider.GetUri($"goals/{Id}"), addGoal);
         var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
         if (responseObject == null) throw new ApplicationException("Response is null");
     }
-
- 
 }

@@ -19,7 +19,7 @@ namespace Sny.Api.Middlewares
         public async Task InvokeAsync(HttpContext context, ICurrentAccountContext icac)
         {
             var user = context.User;
-            if (user == null) 
+            if (user?.Identity == null || !user.Identity.IsAuthenticated) 
                 goto next;
             var userId = GetUserId(user);
             if (userId == null)
