@@ -42,6 +42,10 @@
     [SupplyParameterFromQuery(Name = "returnUrl")]
     public string? ReturnUrl { get; set; }
 
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "logout")]
+    public bool? Logout { get; set; }
+
     private string Email { get; set; } = default!;
 
     private string Password { get; set; } = default!;
@@ -64,18 +68,26 @@
         if (responseObject == null) throw new ApplicationException("Response is null");
 
         await UserContext.Login(responseObject.Jwt);
-        
+
         NavManager.NavigateTo(ReturnUrl ?? "/");
     }
 
     protected override async Task OnInitializedAsync()
     {
+        if (Logout.HasValue && Logout == true) 
+        {
+            await UserContext.Logout();
+            NavManager.NavigateTo("/");
+            return;
+        }
+
         if (Jwt != null ) 
         {
             await UserContext.Login(Jwt);
             NavManager.NavigateTo("/");
         }
-        else {
+        else
+        {
             await UserContext.Logout();
             this.StateHasChanged();
         }

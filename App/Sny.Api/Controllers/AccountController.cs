@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Sny.Api.Services;
+using Sny.Api.Middlewares;
 
 namespace Sny.Api.Controllers
 {
@@ -29,15 +30,63 @@ namespace Sny.Api.Controllers
             this._jwtService = jwtService;
         }
 
+        [HttpGet]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var acc = await _accManager.CurrentAccount();
+            await _accManager.SetValidSecurityRefreshTokenId(acc, Guid.NewGuid().ToString());
+            return Ok();
+        }
+        
+
+        [HttpGet]
+        [Route("refresh-token")]
+        [ProducesResponseType(typeof(LoginResponseDto), 200)]
+        [ProducesResponseType(typeof(ProblemDetails), 401)]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken(string jwt, string refreshToken)
+        {
+            var validated = _jwtService.ValidateJwtAndGetPrincipal(refreshToken);
+            if (validated == null) goto response401;
+
+            var principal = _jwtService.GetPrincipalFromExpiredToken(jwt);
+            if (principal == null) goto response401;
+
+            var userId = CurrentLoggedContextMiddleware.GetUserId(principal);
+            if (userId == null) goto response401;
+
+            var acc = await _accManager.GetAccountById(userId.Value);
+            var validRefreshTokenId = await _accManager.GetValidSecurityRefreshTokenId(acc);
+            if (validRefreshTokenId == null) goto response401;
+
+            var refreshTokenId = validated.Claims.SingleOrDefault(d => d.Type == ClaimTypes.Sid);
+            if (refreshTokenId == null) goto response401;
+
+            if (refreshTokenId.Value != validRefreshTokenId) goto response401;
+
+            var newRefreshToken = _jwtService.CreateRefreshJwt();
+            var newJwtToken = _jwtService.CreateJWT(acc);
+
+            //persist new token
+            await _accManager.SetValidSecurityRefreshTokenId(acc, newRefreshToken.RefreshTokenId);
+
+            return Ok(new LoginResponseDto(newJwtToken.Jwt, newRefreshToken.Jwt, newJwtToken.expiryAt));
+
+        response401:
+            return StatusCode(401);
+        }
+
+
         /// <summary>
-        /// If login is sucess, return 200 OK. Otherwise, return 403 unauthorized.
+        /// If login is sucess, return 200 OK. Otherwise, return 401 unauthorized.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("login")]
         [ProducesResponseType(typeof(LoginResponseDto), 200)]
-        [ProducesResponseType(typeof(ProblemDetails), 403)]
+        [ProducesResponseType(typeof(ProblemDetails), 401)]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
@@ -46,17 +95,22 @@ namespace Sny.Api.Controllers
                 var result = await _accManager.Login(new LoginModel(model.Email, model.Password));
                 if (result.Result.Success)
                 {
-                    return Ok(new LoginResponseDto(_jwtService.CreateJWT(result.Account)));
+                    var refreshToken = _jwtService.CreateRefreshJwt();
+                    var jwtToken = _jwtService.CreateJWT(result.Account);
+
+                    //persist new token
+                    await _accManager.SetValidSecurityRefreshTokenId(result.Account, refreshToken.RefreshTokenId);
+
+                    return Ok(new LoginResponseDto(jwtToken.Jwt, refreshToken.Jwt, jwtToken.expiryAt));
                 }
             }
             catch (LoginFailedException)
             {
-                return StatusCode(403);
+                return StatusCode(401);
             }
-            return StatusCode(403);
+            return StatusCode(401);
         }
 
-      
 
         /// <summary>
         /// Register new user.

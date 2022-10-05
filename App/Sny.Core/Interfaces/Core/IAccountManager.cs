@@ -15,6 +15,12 @@ namespace Sny.Core.Interfaces.Core
         public Task<RegisterResult> Register(RegisterModel model);
 
         public Task<Account> CurrentAccount();
+
+        public Task<Account> GetAccountById(Guid id);
+
+        public Task SetValidSecurityRefreshTokenId(Account acc, string tokenIdentifier);
+
+        public Task<string?> GetValidSecurityRefreshTokenId(Account acc);
     }
 
     public record LoginModel(string Email, string Password);

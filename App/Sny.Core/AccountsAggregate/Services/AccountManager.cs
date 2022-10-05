@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.Extensions.Options;
-using Sny.Api.Options;
 using Sny.Core.AccountsAggregate.Exceptions;
 using Sny.Core.Exceptions;
 using Sny.Core.Interfaces.Core;
@@ -19,6 +18,9 @@ namespace Sny.Core.AccountsAggregate.Services
         private readonly IAccountProviderRepo _apr;
         private readonly ICurrentAccountContext _cac;
 
+        //TODO: make validRefreshTokens as service
+        private static Dictionary<Guid, string> _validRefreshTokens { get; set; } = new Dictionary<Guid, string>();
+        
         private static SemaphoreSlim _addAccountLock = new SemaphoreSlim(1, 1);
         private PasswordOptions _passwordOptions = default!;
         public AccountManager(IAccountReadOnlyRepo arop, 
@@ -85,8 +87,31 @@ namespace Sny.Core.AccountsAggregate.Services
         {
             Guid id = _cac.CurrentAccountId ?? throw new AccountNotFoundException();
             var acc = await _arop.FindAcount(id);
-            if (acc == null) throw new AccountNotFoundException();
-            return acc;
+            return acc ?? throw new AccountNotFoundException();
+        }
+
+        /// <summary>
+        /// Returns account by Id. 
+        /// Do not apply any permission restrictions!
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Account> GetAccountById(Guid id)
+        {
+            var acc = await _arop.FindAcount(id);
+            return acc ?? throw new AccountNotFoundException(); 
+        }
+
+        public async Task SetValidSecurityRefreshTokenId(Account acc, string tokenIdentifier)
+        {
+            _validRefreshTokens[acc.Id] = tokenIdentifier;
+        }
+
+        public async Task<string?> GetValidSecurityRefreshTokenId(Account acc)
+        {
+            if (_validRefreshTokens.TryGetValue(acc.Id, out var token))
+                return token;
+            return null;
         }
     }
 }

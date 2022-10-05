@@ -94,6 +94,10 @@ namespace Sny.Web.Services.UserContext
             _jwt = String.Empty;
             _client.DefaultRequestHeaders.Remove("Authorization");
             await _localStorageService.RemoveItem("jwt");
+
+            //invalidate refresh token on server side
+            var _ = await _client.GetAsync(_ibp.GetUri("account/logout"));
+
             NotifyStateChanged();
         }
     }

@@ -36,14 +36,16 @@ namespace Sny.Api
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("dev", builder =>
-                builder.AllowAnyOrigin()
-                     .AllowAnyMethod()
+                builder.AllowAnyMethod()
+                     .AllowCredentials()
+                     .SetIsOriginAllowed((origin) => true)
                      .AllowAnyHeader());
 
                 options.AddPolicy("prod", builder =>
-                builder.WithOrigins(prodCors)
-                       .AllowAnyMethod()
-                       .AllowAnyHeader());
+                builder.AllowAnyMethod()
+                     .AllowCredentials()
+                     .SetIsOriginAllowed((origin) => prodCors.Contains(origin))
+                     .AllowAnyHeader());
             });
 
             JwtOptions jwtOptions = new JwtOptions();
@@ -62,7 +64,8 @@ namespace Sny.Api
                     ValidIssuer = jwtOptions.Issuer,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtOptions.Secret))
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtOptions.Secret)),
+                    ClockSkew = TimeSpan.FromSeconds(10)
                 };
             });
 

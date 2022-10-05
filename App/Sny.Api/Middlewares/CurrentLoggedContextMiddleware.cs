@@ -25,16 +25,17 @@ namespace Sny.Api.Middlewares
             if (userId == null)
                 goto next;
 
-            icac.CurrentAccountId = new Guid(userId);
+            icac.CurrentAccountId = userId;
 
             next:
             await _next.Invoke(context);
         }
 
-        public static string? GetUserId(ClaimsPrincipal principal)
+        public static Guid? GetUserId(ClaimsPrincipal principal)
         {
             var claim = principal.FindFirst(ClaimTypes.NameIdentifier);
-            return claim?.Value;
+            if (claim?.Value == null) return null;
+            return new Guid(claim.Value);
         }
     }
 }
