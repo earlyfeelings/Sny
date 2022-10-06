@@ -7,10 +7,13 @@
     align-items: center;
     padding: 0 10%;
 }
+
 #header h1 {
     outline: none;
 }
+
 #header .btn-group {
     display: flex;
     gap: 0.6em;
+    align-items: baseline;
 }

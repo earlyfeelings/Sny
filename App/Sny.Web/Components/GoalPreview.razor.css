@@ -22,15 +22,7 @@
 .goal .state {    
     grid-area: state;
 }
-.goal .state i {
-    cursor: pointer;
-}
-    .goal .state i:hover {
-        color: rgb(var(--highlightColor));
-    }
-.goal.active .state i{
-    color: rgb(var(--highlightColor));
-}
+
 
 .goal .title {
     grid-area: title;

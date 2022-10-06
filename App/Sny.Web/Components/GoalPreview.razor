@@ -4,7 +4,9 @@
 @inject IBackendProvider _backendProvider
 
 <div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
-    <div @onclick:stopPropagation @onclick="() => ChangeActive()" class="state"><i class="fa-sharp fa-solid fa-record-vinyl"></i></div>
+    <div class="state">
+        <ActiveIndicator Active="Goal.Active" OnChange="(value) => ChangeActive(value)"></ActiveIndicator>
+    </div>
     <div class="title">@Goal.Name</div>    
     <div class="description">@Goal.Description</div>
     <Button Text="Zobrazit" ></Button>
@@ -19,9 +21,9 @@
         _navManager.NavigateTo($"/goals/{Goal.Id}");
     }
 
-    private async Task ChangeActive()
+    private async Task ChangeActive(bool val)
     {
-        Goal = Goal with { Active = !Goal.Active };
+        Goal = Goal with { Active = val };
         await _backendProvider.SetGoalActive(Goal.Id, Goal.Active);
     }
 }

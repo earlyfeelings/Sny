@@ -18,6 +18,7 @@
            <Button OnClick="DeleteGoal">
                <i class="fa fa-trash"></i>
            </Button>
+           <ActiveIndicator Active="_goal.Active" OnChange="(value) => UpdateGoal(_goal with { Active = value })"></ActiveIndicator>
          }
     </AdditionalItems>
 </Header>

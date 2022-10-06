@@ -1,0 +1,18 @@
+﻿<div class="active-indicator @(Active ? "active" : null)" @onclick:stopPropagation @onclick="(e) => ChangeEvent(e)">
+    <i class="fa-sharp fa-solid fa-record-vinyl"></i>
+</div>
+
+@code {
+    [Parameter]
+
+    public bool Active { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<bool> OnChange { get; set; }
+
+    protected async Task ChangeEvent(MouseEventArgs e)
+    {
+        Active = !Active;
+        await OnChange.InvokeAsync(Active);
+    }
+}

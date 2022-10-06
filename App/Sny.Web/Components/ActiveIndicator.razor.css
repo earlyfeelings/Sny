@@ -1,0 +1,11 @@
+﻿.active-indicator {
+    cursor: pointer;
+}
+
+.active-indicator:hover {
+    color: rgb(var(--highlightColor));
+}
+
+    .active-indicator.active {
+        color: rgb(var(--highlightColor));
+    }
