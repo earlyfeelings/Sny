@@ -8,11 +8,11 @@
 
         public Task<TasksAggregate.Task> AddTask(string name, string description, DateTime? dueDate, bool isCompleted, Guid goalId);
 
-        public Task<TasksAggregate.Task> EditTask(TasksAggregate.Task task);
+        public Task<TasksAggregate.Task> EditTask(Guid id, string name, string description, DateTime? dueDate, bool isCompleted);
 
-        public void DeleteTask(Guid id);
+        public Task DeleteTask(Guid id);
 
-        public void ChangeCompleteTask(Guid id, bool complete);
+        public Task ChangeCompleteTask(Guid id, bool complete);
 
     }
 }

@@ -161,7 +161,7 @@
     {
         _goal = goal;
 
-        EditRequestGoalDto addGoal = new EditRequestGoalDto(_goal.Id, _goal.Name, _goal.Active, _goal.Description);
+        EditRequestGoalDto addGoal = new EditRequestGoalDto(_goal.Id, _goal.Name, _goal.Active, _goal.IsCompleted, _goal.Description);
         (await _backendProvider.UpdateGoal(addGoal)).ThrowWhenUnsuccessful();
     }
 }

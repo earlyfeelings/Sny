@@ -93,7 +93,7 @@ namespace Sny.Api.Controllers
         {
             try
             {
-                var task = (await _tp.EditTask(new Core.TasksAggregate.Task(model.Id, model.Name, model.Description, model.DueDate, model.IsCompleted, model.GoalId)));
+                var task = (await _tp.EditTask(model.Id, model.Name, model.Description, model.DueDate, model.IsCompleted));
                 var taskMapped = new EditResponseTaskDto(task.Id, task.Name, task.Description, task.DueDate, task.IsCompleted, task.GoalId);
                 return Ok(taskMapped);
             }
@@ -118,7 +118,7 @@ namespace Sny.Api.Controllers
         {
             try
             {
-                _tp.DeleteTask(id);
+                await _tp.DeleteTask(id);
                 return Ok();
             }
             catch (GoalNotFoundException)
@@ -143,7 +143,7 @@ namespace Sny.Api.Controllers
         {
             try
             {
-                _tp.ChangeCompleteTask(id, complete);
+                await _tp.ChangeCompleteTask(id, complete);
                 return Ok();
             }
             catch (GoalNotFoundException)

@@ -51,13 +51,5 @@ namespace Sny.Infrastructure.Services.Repos
             var task = GetTaskById(id).Result;
             _tasks.Remove(task);
         }
-
-        public void ChangeCompleteTask(Guid id, bool complete)
-        {
-            var task = GetTaskById(id).Result;
-            DeleteTask(id);
-            task.IsCompleted = complete;
-            _tasks.Add(task);
-        }
     }
 }

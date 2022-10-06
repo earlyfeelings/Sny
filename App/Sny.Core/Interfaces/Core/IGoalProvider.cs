@@ -10,10 +10,11 @@ namespace Sny.Core.Interfaces.Core
 
         public Task<Goal> AddGoal(string name, bool active, string description);
 
-        public Task<Goal> EditGoal(Guid id, string name, bool active, string description);
+        public Task<Goal> EditGoal(Guid id, string name, bool active, bool isCompleted, string description);
 
-        public void DeleteGoal(Guid id);
+        public Task DeleteGoal(Guid id);
 
-        public void ChangeActiveGoal(Guid id, bool activate);
+        public Task ChangeActiveGoal(Guid id, bool activate);
+        Task ChangeCompleteGoal(Guid id, bool complete);
     }
 }

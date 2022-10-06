@@ -1,6 +1,8 @@
 ﻿using Sny.Core.Goals;
+using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
+using System.Reflection;
 
 namespace Sny.Core.GoalsAggregate.Services
 {
@@ -17,10 +19,12 @@ namespace Sny.Core.GoalsAggregate.Services
             this._cac = cac;
         }
 
-        public Task<Goal> GetGoalById(Guid id)
+        public async Task<Goal> GetGoalById(Guid id)
         {
-
-            return _gror.GetGoalById(id, d => d.Where(d => d.AccountId == _cac.CurrentAccountId));
+            var goal = await _gror.GetGoalById(id);
+            if (goal.AccountId != _cac.CurrentAccountId) 
+                throw new GoalNotFoundException();
+            return goal;
         }
 
         public Task<IReadOnlyCollection<Goal>> GetGoals()
@@ -33,19 +37,34 @@ namespace Sny.Core.GoalsAggregate.Services
             return _gpr.AddGoal(name, active, description, _cac.CurrentAccountId.GetValueOrDefault());
         }
 
-        public Task<Goal> EditGoal(Guid id, string name, bool active, string description)
+        public async Task<Goal> EditGoal(Guid id, string name, bool active, bool isCompleted, string description)
         {
-            return _gpr.EditGoal(id, name, active, description, _cac.CurrentAccountId.GetValueOrDefault(), d => d.Where(d => d.AccountId == _cac.CurrentAccountId));
+            var goal = await GetGoalById(id); //throw exception if unauthorized
+            goal.Name = name;
+            goal.Active = active;
+            goal.IsCompleted = isCompleted;
+            goal.Description = description;
+            return await _gpr.EditGoal(goal);
         }
 
-        public void DeleteGoal(Guid id)
+        public async Task DeleteGoal(Guid id)
         {
-            _gpr.DeleteGoal(id, d => d.Where(d => d.AccountId == _cac.CurrentAccountId));
+            var _ = await GetGoalById(id); //throw exception if unauthorized
+            _gpr.DeleteGoal(id);
         }
 
-        public void ChangeActiveGoal(Guid id, bool activate)
+        public async Task ChangeActiveGoal(Guid id, bool activate)
         {
-            _gpr.ChangeActiveGoal(id, activate, d => d.Where(d => d.AccountId == _cac.CurrentAccountId));
+            var goal = await GetGoalById(id); //throw exception if unauthorized
+            goal.Active = activate;
+            await _gpr.EditGoal(goal);
+        }
+
+        public async Task ChangeCompleteGoal(Guid id, bool complete)
+        {
+            var goal = await GetGoalById(id); //throw exception if unauthorized
+            goal.IsCompleted = complete;
+            await _gpr.EditGoal(goal);
         }
     }
 }

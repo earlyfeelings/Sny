@@ -27,7 +27,7 @@ namespace Sny.Api.Controllers
         [Route("")]
         public async Task<IActionResult> GetList()
         {
-            var list = (await _gp.GetGoals()).Select(d => new GoalDto(d.Id, d.Name, d.Active, d.Description));
+            var list = (await _gp.GetGoals()).Select(d => new GoalDto(d.Id, d.Name, d.Active, d.IsCompleted, d.Description));
             return Ok(list);
         }
 
@@ -47,7 +47,7 @@ namespace Sny.Api.Controllers
             try
             {
                 var goal = (await _gp.GetGoalById(id));
-                var goalMapped = new GoalDto(goal.Id, goal.Name, goal.Active, goal.Description);
+                var goalMapped = new GoalDto(goal.Id, goal.Name, goal.Active, goal.IsCompleted, goal.Description);
                 return Ok(goalMapped);
             }
             catch (GoalNotFoundException)
@@ -85,8 +85,8 @@ namespace Sny.Api.Controllers
         { 
             try
             {
-                var goal = (await _gp.EditGoal(model.Id, model.Name, model.Active, model.Description));
-                var goalMapped = new EditResponseGoalDto(goal.Id, goal.Name, goal.Active, goal.Description);
+                var goal = (await _gp.EditGoal(model.Id, model.Name, model.Active, model.IsCompleted, model.Description));
+                var goalMapped = new EditResponseGoalDto(goal.Id, goal.Name, goal.Active, goal.IsCompleted, goal.Description);
                 return Ok(goalMapped);
             }
             catch (GoalNotFoundException)
@@ -110,7 +110,7 @@ namespace Sny.Api.Controllers
         {
             try 
             {
-                _gp.DeleteGoal(id);
+                await _gp.DeleteGoal(id);
                 return Ok();
             }
             catch (GoalNotFoundException)
@@ -135,7 +135,32 @@ namespace Sny.Api.Controllers
         {
             try
             {
-                _gp.ChangeActiveGoal(id, activate);
+                await _gp.ChangeActiveGoal(id, activate);
+                return Ok();
+            }
+            catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Change state Complete of goal to specified state
+        /// Returns:
+        /// - 404 if the goal was not found.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="complete"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{id}/complete/{complete}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ProblemDetails), 404)]
+        public async Task<IActionResult> ChangeCompleteGoal([FromRoute] Guid id, [FromRoute] bool complete)
+        {
+            try
+            {
+                await _gp.ChangeCompleteGoal(id, complete);
                 return Ok();
             }
             catch (GoalNotFoundException)

@@ -1,4 +1,5 @@
-﻿using Sny.Core.Interfaces.Core;
+﻿using Sny.Core.GoalsAggregate.Exceptions;
+using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
 
 namespace Sny.Core.TasksAggregate.Services
@@ -18,49 +19,53 @@ namespace Sny.Core.TasksAggregate.Services
             _gror = gror;
         }
 
-        public Task<TasksAggregate.Task> GetTaskById(Guid id)
+        public async System.Threading.Tasks.Task<TasksAggregate.Task> GetTaskById(Guid id)
         {
-            var task = _tror.GetTaskById(id);
-            CheckPermissions(task.Result.GoalId);
+            var task = await _tror.GetTaskById(id);
+            await CheckPermissions(task.GoalId);
             return task;
         }
 
-        public Task<IReadOnlyCollection<TasksAggregate.Task>> GetTasksByGoalId(Guid goalId)
+        public async System.Threading.Tasks.Task<IReadOnlyCollection<TasksAggregate.Task>> GetTasksByGoalId(Guid goalId)
         {
-            CheckPermissions(goalId);
-            return _tror.GetTasksByGoalId(goalId);
+            await CheckPermissions(goalId);
+            return await _tror.GetTasksByGoalId(goalId);
         }
 
-        public Task<Task> AddTask(string name, string description, DateTime? dueDate, bool isCompleted, Guid goalId)
-        {
-            return _tpr.AddTask(name, description, dueDate, isCompleted, goalId);
+        public async System.Threading.Tasks.Task<Task> AddTask(string name, string description, DateTime? dueDate, bool isCompleted, Guid goalId)
+        { 
+             await CheckPermissions(goalId);
+             return await _tpr.AddTask(name, description, dueDate, isCompleted, goalId);
         }
 
-        public Task<Task> EditTask(Task task)
+        public async System.Threading.Tasks.Task<Task> EditTask(Guid id, string name, string description, DateTime? dueDate, bool isCompleted)
         {
-            CheckPermissions(task.GoalId);
-            var taskToReplace = _tror.GetTaskById(task.Id);
-            if(task.GoalId != taskToReplace.Result.GoalId) CheckPermissions(taskToReplace.Result.GoalId);
-            return _tpr.EditTask(task);
+            var task = await GetTaskById(id); //throw exception if unauthorized
+            task.Name = name;
+            task.Description = description;
+            task.DueDate = dueDate;
+            task.IsCompleted = isCompleted;
+            return await _tpr.EditTask(task);
         }
 
-        public void DeleteTask(Guid id)
+        public async System.Threading.Tasks.Task DeleteTask(Guid id)
         {
-            var task = _tror.GetTaskById(id);
-            CheckPermissions(task.Result.GoalId);
+            var task = await GetTaskById(id); //throw exception if unauthorized
             _tpr.DeleteTask(id);
         }
         
-        public void ChangeCompleteTask(Guid id, bool complete)
+        public async System.Threading.Tasks.Task ChangeCompleteTask(Guid id, bool complete)
         {
-            var task = _tror.GetTaskById(id);
-            CheckPermissions(task.Result.GoalId);
-            _tpr.ChangeCompleteTask(id, complete);
+            var task = await GetTaskById(id); //throw exception if unauthorized
+            task.IsCompleted = complete;
+            await _tpr.EditTask(task);
         }
 
-        private void CheckPermissions(Guid id)
+        private async System.Threading.Tasks.Task CheckPermissions(Guid id)
         {
-            var goal = _gror.GetGoalById(id, d => d.Where(d => d.AccountId == _cac.CurrentAccountId)).Result;
+            var goal = await _gror.GetGoalById(id);
+            if (goal.AccountId != _cac.CurrentAccountId)
+                throw new GoalNotFoundException();
         }
     }
 }
