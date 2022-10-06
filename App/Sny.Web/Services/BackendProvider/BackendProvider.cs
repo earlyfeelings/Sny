@@ -1,4 +1,5 @@
-﻿using Sny.Api.Dtos.Models.Accounts;
+﻿using Microsoft.AspNetCore.Components;
+using Sny.Api.Dtos.Models.Accounts;
 using Sny.Api.Dtos.Models.Goals;
 using Sny.Web.Exceptions;
 using Sny.Web.Model;
@@ -6,6 +7,7 @@ using Sny.Web.Pages;
 using Sny.Web.Services.LocalStorageService;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Threading.Tasks;
 using static Sny.Api.Dtos.Models.Tasks.Tasks;
 
@@ -17,6 +19,8 @@ namespace Sny.Web.Services.BackendProvider
         private readonly HttpClient _client;
         private BackendApiCredentials? _credentials;
         private ILocalStorageService _localStorageService;
+        private readonly NavigationManager _navManager;
+        private SemaphoreSlim _lockRefreshToken = new SemaphoreSlim(1, 1);
 
 
         public async Task SetCredentials(BackendApiCredentials credentials)
@@ -38,11 +42,12 @@ namespace Sny.Web.Services.BackendProvider
 
         public BackendApiCredentials? CurrentCredentials => _credentials;
 
-        public BackendProvider(Uri baseUri, HttpClient client, ILocalStorageService localStorageService)
+        public BackendProvider(Uri baseUri, HttpClient client, ILocalStorageService localStorageService, NavigationManager navManager)
         {
             _baseUri = baseUri;
             _client = client;
             _localStorageService = localStorageService;
+            this._navManager = navManager;
         }
 
         public Uri GetUri(string relativeUri)
@@ -50,82 +55,126 @@ namespace Sny.Web.Services.BackendProvider
             return new Uri(_baseUri, relativeUri);
         }
 
+        private async Task RotateCredentialsWhenRequired()
+        {
+            var creds = _credentials;
+            if (creds == null) return;
+            if (creds.ExpireAtUtc > DateTime.UtcNow.AddSeconds(10)) return;
+
+            //Token expired
+            await _lockRefreshToken.WaitAsync();
+            try
+            {
+                creds = _credentials;
+                if (creds == null) return;
+                if (creds.ExpireAtUtc > DateTime.UtcNow.AddSeconds(10)) return;
+
+                //rotate credentials
+                var res = await RefreshToken(creds.Jwt, creds.RefreshToken);
+                if (!res.Response.IsSuccessStatusCode)
+                {
+                    //credentials rotation not successed
+                    await ClearCredentials();
+                    _navManager.NavigateTo("/login?logout=true");
+                    return;
+                }
+
+                await SetCredentials(new BackendApiCredentials(res.Data.Jwt, res.Data.RefreshToken, res.Data.expiryAtUtc));
+            }
+            finally
+            {
+                _lockRefreshToken.Release();
+            }
+        }
+
+        private async Task<ApiResponse<T>> MakeStandardRequest<T>(Func<Task<HttpResponseMessage>> handler) where T : class
+        {
+            await RotateCredentialsWhenRequired();
+            return await ValidateResponse<T>(await handler());
+        }
+
+        private async Task<ApiResponse> MakeStandardRequest(Func<Task<HttpResponseMessage>> handler)
+        {
+            await RotateCredentialsWhenRequired();
+            return await ValidateResponse(await handler());
+        }
+
+        /// <summary>
+        /// Method is not calling MakeStandardRequest, because we do not want check credentials validity.
+        /// (it can cause infinity check loop)
+        /// </summary>
+        /// <param name="jwt"></param>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        private async Task<ApiResponse<LoginResponseDto>> RefreshToken(string jwt, string refreshToken)
+        {
+            var raw = await _client.GetAsync(GetUri($"account/refresh-token?jwt={jwt}&refreshToken={refreshToken}"));
+            return await ValidateResponse<LoginResponseDto>(raw);
+        }
+
         public async Task<ApiResponse> Logout(LogoutRequestDto model)
         {
-            var raw = await _client.PostAsJsonAsync(GetUri("account/logout"), model);
-            return await ValidateResponse(raw);
+            return await MakeStandardRequest(() => _client.PostAsJsonAsync(GetUri("account/logout"), model));
         }
 
         public async Task<ApiResponse<MyInfoResponseDto>> GetMyInfo()
         {
-            var raw = await _client.GetAsync(GetUri("account/myinfo"));
-            return await ValidateResponse<MyInfoResponseDto>(raw);
+            return await MakeStandardRequest<MyInfoResponseDto>(() => _client.GetAsync(GetUri("account/myinfo")));
         }
 
         public async Task<ApiResponse> DeleteTask(Guid id)
         {
-            var raw = await _client.DeleteAsync(GetUri($"tasks/{id}"));
-            return await ValidateResponse(raw);
+            return await MakeStandardRequest(() => _client.DeleteAsync(GetUri($"tasks/{id}")));
         }
 
         public async Task<ApiResponse<LoginResponseDto>> Login(LoginRequestDto model)
         {
-            var raw = await _client.PostAsJsonAsync(GetUri("account/login"), model);
-            return await ValidateResponse<LoginResponseDto>(raw);
+            return await MakeStandardRequest<LoginResponseDto>(() => _client.PostAsJsonAsync(GetUri("account/login"), model));
         }
 
         public async Task<ApiResponse<AddResponseTaskDto>> AddTask(AddRequestTaskDto model)
         {
-            var raw = await _client.PostAsJsonAsync(GetUri("tasks"), model);
-            return await ValidateResponse<AddResponseTaskDto>(raw);
+            return await MakeStandardRequest<AddResponseTaskDto>(() => _client.PostAsJsonAsync(GetUri("tasks"), model));
         }
 
         public async Task<ApiResponse<EditResponseGoalDto>> UpdateGoal(EditRequestGoalDto model)
         {
-            var raw = await _client.PutAsJsonAsync(GetUri($"goals/{model.Id}"), model);
-            return await ValidateResponse<EditResponseGoalDto>(raw);
+            return await MakeStandardRequest<EditResponseGoalDto>(() => _client.PutAsJsonAsync(GetUri($"goals/{model.Id}"), model));
         }
 
         public async Task<ApiResponse<EditResponseTaskDto>> UpdateTask(EditRequestTaskDto model)
         {
-            var raw = await _client.PutAsJsonAsync(GetUri($"tasks/{model.Id}"), model);
-            return await ValidateResponse<EditResponseTaskDto>(raw);
+            return await MakeStandardRequest<EditResponseTaskDto>(() => _client.PutAsJsonAsync(GetUri($"tasks/{model.Id}"), model));
         }
 
         public async Task<ApiResponse> SetTaskComplete(Guid id, bool complete)
         {
-            var raw = await _client.PostAsync(GetUri($"tasks/{id}/complete/{complete}"), null);
-            return await ValidateResponse(raw);
+            return await MakeStandardRequest(() => _client.PostAsync(GetUri($"tasks/{id}/complete/{complete}"), null));
         }
 
         public async Task<ApiResponse> SetGoalActive(Guid id, bool active)
         {
-            var raw = await _client.PostAsync(GetUri($"goals/{id}/activate/{active}"), null);
-            return await ValidateResponse(raw);
+            return await MakeStandardRequest(() => _client.PostAsync(GetUri($"goals/{id}/activate/{active}"), null));
         }
 
         public async Task<ApiResponse<GoalDto[]>> GetGoals()
         {
-            var raw = await _client.GetAsync(GetUri("goals"));
-            return await ValidateResponse<GoalDto[]>(raw);
+            return await MakeStandardRequest<GoalDto[]>(() => _client.GetAsync(GetUri("goals")));
         }
 
         public async Task<ApiResponse<GoalDto>> GetGoal(Guid id)
         {
-            var raw = await _client.GetAsync(GetUri($"goals/{id}"));
-            return await ValidateResponse<GoalDto>(raw);
+            return await MakeStandardRequest<GoalDto>(() => _client.GetAsync(GetUri($"goals/{id}")));
         }
 
         public async Task<ApiResponse<TaskDto[]>> GetTasksByGoalId(Guid id)
         {
-            var raw = await _client.GetAsync(GetUri($"tasks/byGoal/{id}"));
-            return await ValidateResponse<TaskDto[]>(raw);
+            return await MakeStandardRequest<TaskDto[]>(() => _client.GetAsync(GetUri($"tasks/byGoal/{id}")));
         }
 
         public async Task<ApiResponse<AddResponseGoalDto>> AddGoal(AddRequestGoalDto model)
         {
-            var raw = await _client.PostAsJsonAsync(GetUri("goals"), model);
-            return await ValidateResponse<AddResponseGoalDto>(raw);
+            return await MakeStandardRequest<AddResponseGoalDto>(() => _client.PostAsJsonAsync(GetUri("goals"), model));
         }
 
         private async Task<ApiResponse> ValidateResponse([NotNull] HttpResponseMessage? response) 

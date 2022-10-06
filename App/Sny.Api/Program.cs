@@ -36,15 +36,15 @@ namespace Sny.Api
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("dev", builder =>
-                builder.AllowAnyMethod()
+                builder.WithOrigins("https://localhost:7172")
+                     .AllowAnyMethod()
                      .AllowCredentials()
-                     .SetIsOriginAllowed((origin) => true)
                      .AllowAnyHeader());
 
                 options.AddPolicy("prod", builder =>
-                builder.AllowAnyMethod()
+                builder.WithOrigins(prodCors)
+                     .AllowAnyMethod()
                      .AllowCredentials()
-                     .SetIsOriginAllowed((origin) => prodCors.Contains(origin))
                      .AllowAnyHeader());
             });
 

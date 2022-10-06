@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace Sny.Web
             }
 
             builder.Services.AddScoped<IBackendProvider>(
-                 (sp) => new BackendProvider(backendUrl, GetService<HttpClient>(sp), GetService<ILocalStorageService>(sp)));
+                 (sp) => new BackendProvider(backendUrl, GetService<HttpClient>(sp), GetService<ILocalStorageService>(sp), GetService<NavigationManager>(sp)));
 
             builder.Services.AddScoped<IUserContext, UserContext>();
             builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
