@@ -1,2 +1,18 @@
-﻿<img src="images/logo_01.svg" class="base" />
-<img src="images/logo_02.svg" class="circle rotating" />
+﻿@if (_showLoading)
+{
+    <img src="images/logo_01.svg" class="base" />
+    <img src="images/logo_02.svg" class="circle rotating" />
+}
+
+
+@code
+{
+    bool _showLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(100);
+        _showLoading = true;
+        StateHasChanged();
+    }
+}

@@ -13,7 +13,7 @@
 <Header Title="@_title"></Header>
 
 <div class="content">
-    @if (_goal is null || _tasks is null) 
+    @if (_goal is null || _tasks is null)
     {
         <Loading></Loading>
     }
@@ -50,11 +50,18 @@
     }
 </div>
 
-<Footer Buttons="FooterButtons()"></Footer>
+
+@if (!_isLoading)
+{
+    <Footer Buttons="FooterButtons()"></Footer>
+}
+
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    private bool _isLoading => _goal is null || _tasks is null;
 
     private GoalDto? _goal;
 
