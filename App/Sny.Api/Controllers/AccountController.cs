@@ -32,10 +32,18 @@ namespace Sny.Api.Controllers
 
         [HttpGet]
         [Route("logout")]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
-            var acc = await _accManager.CurrentAccount();
-            await _accManager.SetValidSecurityRefreshTokenId(acc, Guid.NewGuid().ToString());
+            try
+            {
+                var acc = await _accManager.CurrentAccount();
+                await _accManager.SetValidSecurityRefreshTokenId(acc, Guid.NewGuid().ToString());
+            }
+            catch (AccountNotFoundException)
+            {
+                return Ok();
+            }
             return Ok();
         }
         

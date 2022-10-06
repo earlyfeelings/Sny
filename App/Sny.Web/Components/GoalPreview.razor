@@ -1,7 +1,6 @@
 ﻿@using Sny.Api.Dtos.Models.Goals
 @using Sny.Web.Services.BackendProvider
 @inject NavigationManager _navManager
-@inject HttpClient Http
 @inject IBackendProvider _backendProvider
 
 <div @onclick="() => GoToDetail()" class="goal @(Goal.Active ? "active" : null)">
@@ -23,6 +22,6 @@
     private async Task ChangeActive()
     {
         Goal = Goal with { Active = !Goal.Active };
-        await Http.PostAsync(_backendProvider.GetUri($"goals/{Goal.Id}/activate/{Goal.Active}"), null);
+        await _backendProvider.SetGoalActive(Goal.Id, Goal.Active);
     }
 }

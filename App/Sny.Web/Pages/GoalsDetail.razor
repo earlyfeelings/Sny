@@ -6,7 +6,6 @@
 @using Sny.Web.Services.BackendProvider
 @using static Sny.Api.Dtos.Models.Tasks.Tasks
 @inject NavigationManager _navManager
-@inject HttpClient Http
 @inject IBackendProvider _backendProvider
 @attribute [Authorize]
 
@@ -68,21 +67,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var goalTask = Http.GetFromJsonAsync<GoalDto>(_backendProvider.GetUri($"goals/{Id}"));
-        var taskTask = Http.GetFromJsonAsync<TaskDto[]>(_backendProvider.GetUri($"tasks/byGoal/{Id}"));
+        var goalTask = _backendProvider.GetGoal(Id);
+        var taskTask = _backendProvider.GetTasksByGoalId(Id);
 
-        _goal = await goalTask;
-        _tasks = (await taskTask)?.ToList();
+        _goal = (await goalTask).ThrowWhenUnsuccessful().Data;
+        _tasks = (await taskTask).ThrowWhenUnsuccessful().Data.ToList();
     }
 
-    private async Task ChangeTaskComplete(TaskDto task) {
+    private async Task ChangeTaskComplete(TaskDto task) 
+    {
         if (_tasks == null) return;
 
         var updatedTask = task with { IsCompleted = !task.IsCompleted };
         int index = _tasks.FindIndex(d => d.Id == updatedTask.Id);
         _tasks[index] = updatedTask;
 
-        var goalTask = await Http.PostAsync(_backendProvider.GetUri($"tasks/{task.Id}/complete/{updatedTask.IsCompleted}"), null);
+        (await _backendProvider.SetTaskComplete(task.Id, updatedTask.IsCompleted)).ThrowWhenUnsuccessful();
     }
 
     private async Task UpdateTask(TaskDto updatedTask)
@@ -92,19 +92,21 @@
         int index = _tasks.FindIndex(d => d.Id == updatedTask.Id);
         _tasks[index] = updatedTask;
 
-        EditRequestTaskDto editTask = new EditRequestTaskDto(updatedTask.Id, updatedTask.Name, updatedTask.Description, updatedTask.DueDate, updatedTask.IsCompleted, updatedTask.GoalId);
-        var response = await Http.PutAsJsonAsync<EditRequestTaskDto>(_backendProvider.GetUri($"tasks/{updatedTask.Id}"), editTask);
-        var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
-        if (responseObject == null) throw new ApplicationException("Response is null");
+        EditRequestTaskDto editTask = new EditRequestTaskDto(updatedTask.Id,
+            updatedTask.Name,
+            updatedTask.Description,
+            updatedTask.DueDate, 
+            updatedTask.IsCompleted,
+            updatedTask.GoalId);
+
+        (await _backendProvider.UpdateTask(editTask)).ThrowWhenUnsuccessful();
     }
 
     private async Task AddTask() {
         if (_tasks == null) return;
 
         AddRequestTaskDto addTask = new AddRequestTaskDto(string.Empty, string.Empty, null, false, Id);
-        var response = await Http.PostAsJsonAsync<AddRequestTaskDto>(_backendProvider.GetUri("tasks"), addTask);
-        var responseObject = await response.Content.ReadFromJsonAsync<AddResponseTaskDto>();
-        if (responseObject == null) throw new ApplicationException("Response is null");
+        var responseObject = (await _backendProvider.AddTask(addTask)).ThrowWhenUnsuccessful().Data;
 
         _tasks.Add(new TaskDto(responseObject.Id,
             responseObject.Name, 
@@ -112,8 +114,6 @@
             responseObject.DueDate,
             responseObject.IsCompleted,
             Id));
-
-        if (_tasks == null) return;
     }
 
     private async Task DeleteTask(TaskDto task)
@@ -123,7 +123,7 @@
         int index = _tasks.FindIndex(d => d.Id == task.Id);
         _tasks.RemoveAt(index);
 
-        var goalTask = await Http.DeleteAsync(_backendProvider.GetUri($"tasks/{task.Id}"));
+        (await _backendProvider.DeleteTask(task.Id)).ThrowWhenUnsuccessful();
     }
 
     private async Task UpdateGoal(GoalDto goal)
@@ -131,8 +131,6 @@
         _goal = goal;
 
         EditRequestGoalDto addGoal = new EditRequestGoalDto(_goal.Id, _goal.Name, _goal.Active, _goal.Description);
-        var response = await Http.PutAsJsonAsync<EditRequestGoalDto>(_backendProvider.GetUri($"goals/{Id}"), addGoal);
-        var responseObject = await response.Content.ReadFromJsonAsync<EditResponseTaskDto>();
-        if (responseObject == null) throw new ApplicationException("Response is null");
+        (await _backendProvider.UpdateGoal(addGoal)).ThrowWhenUnsuccessful();
     }
 }

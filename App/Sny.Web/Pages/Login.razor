@@ -4,10 +4,10 @@
 @using Sny.Web.Components
 @using Sny.Web.Services.UserContext
 @using Services.BackendProvider
-@inject NavigationManager NavManager
+@inject NavigationManager _navManager
 @inject IBackendProvider _backendProvider
-@inject IUserContext UserContext
-@inject HttpClient Http
+@inject IUserContext _userContext
+
 
 <Header Title="Login"></Header>
 
@@ -55,40 +55,37 @@
     private async Task TryLogin()
     {
         LoginRequestDto loginDto = new LoginRequestDto(Email, Password);
-        var response = await Http.PostAsJsonAsync<LoginRequestDto>(_backendProvider.GetUri("account/login"), loginDto);
+        var response = await _backendProvider.Login(loginDto);
 
-        if (!response.IsSuccessStatusCode) 
+        if (!response.Response.IsSuccessStatusCode) 
         {
             Password = string.Empty;
             LoginErrorMessage = "Nepodařilo se přihlásit.";
             return;
         }
 
-        var responseObject = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
-        if (responseObject == null) throw new ApplicationException("Response is null");
+        await _userContext.Login(response.Data.Jwt);
 
-        await UserContext.Login(responseObject.Jwt);
-
-        NavManager.NavigateTo(ReturnUrl ?? "/");
+        _navManager.NavigateTo(ReturnUrl ?? "/");
     }
 
     protected override async Task OnInitializedAsync()
     {
         if (Logout.HasValue && Logout == true) 
         {
-            await UserContext.Logout();
-            NavManager.NavigateTo("/");
+            await _userContext.Logout();
+            _navManager.NavigateTo("/");
             return;
         }
 
         if (Jwt != null ) 
         {
-            await UserContext.Login(Jwt);
-            NavManager.NavigateTo("/");
+            await _userContext.Login(Jwt);
+            _navManager.NavigateTo("/");
         }
         else
         {
-            await UserContext.Logout();
+            await _userContext.Logout();
             this.StateHasChanged();
         }
     }

@@ -2,6 +2,7 @@
 using Sny.Web.Services.BackendProvider;
 using Sny.Web.Services.LocalStorageService;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 
 namespace Sny.Web.Services.UserContext
 {
@@ -55,13 +56,13 @@ namespace Sny.Web.Services.UserContext
 
             try
             {
-                var res = await _client.GetFromJsonAsync<MyInfoResponseDto>(_ibp.GetUri("account/myinfo"));
 
+                var res = await _ibp.GetMyInfo();
 
-                if (res != null)
+                if (res.Response.IsSuccessStatusCode)
                 {
                     IsLoggedIn = true;
-                    Email = res.Email;
+                    Email = res.Data.Email;
                     _jwt = jwtToken;
                     await _localStorageService.SetItem("jwt", jwtToken);
                 }
@@ -77,7 +78,10 @@ namespace Sny.Web.Services.UserContext
                 await Logout();
                 return;
             }
-            NotifyStateChanged();
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public event Action? StateChanged;
@@ -89,16 +93,21 @@ namespace Sny.Web.Services.UserContext
 
         public async Task Logout()
         {
-            IsLoggedIn = false;
-            Email = String.Empty;
-            _jwt = String.Empty;
-            _client.DefaultRequestHeaders.Remove("Authorization");
-            await _localStorageService.RemoveItem("jwt");
+            try
+            {
+                IsLoggedIn = false;
+                Email = String.Empty;
+                _jwt = String.Empty;
+                _client.DefaultRequestHeaders.Remove("Authorization");
+                await _localStorageService.RemoveItem("jwt");
 
-            //invalidate refresh token on server side
-            var _ = await _client.GetAsync(_ibp.GetUri("account/logout"));
-
-            NotifyStateChanged();
+                //invalidate refresh token on server side
+                (await _ibp.Logout()).ThrowWhenUnsuccessful();
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
     }
 }

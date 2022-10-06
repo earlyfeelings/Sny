@@ -17,14 +17,24 @@ namespace Sny.Web
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-          
+
             if (builder.HostEnvironment.IsDevelopment())
             {
-                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://localhost:7026")));
+                builder.Services.AddScoped<IBackendProvider>(
+                    (sp) =>
+                        new BackendProvider(new Uri("https://localhost:7026"),
+                        sp.GetService<HttpClient>() ?? throw new ApplicationException("HttpClient service not found.")
+                        )
+                    );
             }
             else
             {
-                builder.Services.AddScoped<IBackendProvider>((sp) => new BackendProvider(new Uri("https://snyapi.azurewebsites.net")));
+                builder.Services.AddScoped<IBackendProvider>(
+                    (sp) =>
+                        new BackendProvider(new Uri("https://snyapi.azurewebsites.net"),
+                        sp.GetService<HttpClient>() ?? throw new ApplicationException("HttpClient service not found.")
+                        )
+                    );
             }
             
             builder.Services.AddScoped<IUserContext, UserContext>();
