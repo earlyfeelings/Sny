@@ -1,7 +1,7 @@
 ﻿#goals {
     display: grid;
     justify-content: space-between;
-    grid-auto-rows: minmax(400px, auto);
+    grid-auto-rows: minmax(400px, min-content);
     grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
     grid-gap: 2em;
     grid-area: content;

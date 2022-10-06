@@ -7,6 +7,8 @@
     grid-area: content;
     display: grid;
     place-items: center;
+    align-content: baseline;
+    gap: 2rem;
 }
 
 .login-form {
