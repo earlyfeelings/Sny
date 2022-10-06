@@ -13,6 +13,7 @@ namespace Sny.Web.Services.BackendProvider
         Task<ApiResponse<Tasks.AddResponseTaskDto>> AddTask(Tasks.AddRequestTaskDto model);
         Task ClearCredentials();
         Task<ApiResponse> DeleteTask(Guid id);
+        Task<ApiResponse> DeleteGoal(Guid id);
         Task<ApiResponse<GoalDto>> GetGoal(Guid id);
         Task<ApiResponse<GoalDto[]>> GetGoals();
         Task<ApiResponse<MyInfoResponseDto>> GetMyInfo();

@@ -1,9 +1,13 @@
-﻿<div class="button @(Style is not null ? Style : null)" @onclick="(e) => ClickEvent(e)">@Text</div>
+﻿<div class="button @(Style is not null ? Style : null)" @onclick="(e) => ClickEvent(e)">@ChildContent @Text</div>
 
 @code
 {
+
     [Parameter]
-    public string Text { get; set; } = default!;
+    public RenderFragment? ChildContent { get; set; } = default!;
+
+    [Parameter]
+    public string? Text { get; set; } = default!;
 
     [Parameter]
     public string? Style { get; set; }

@@ -10,7 +10,17 @@
 @attribute [Authorize]
 
 <PageTitle>Detail cíle</PageTitle>
-<Header Title="@_title"></Header>
+
+<Header Title="@_title">
+    <AdditionalItems>
+         @if (_goal is not null && _tasks is not null)
+         {
+           <Button OnClick="DeleteGoal">
+               <i class="fa fa-trash"></i>
+           </Button>
+         }
+    </AdditionalItems>
+</Header>
 
 <div class="content">
     @if (_goal is null || _tasks is null)
@@ -27,7 +37,7 @@
         <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateGoal(_goal with { Description = value })"></TextAreaInput>
 
         <div class="d-flex taskHeader">
-          <div><b>Úkoly</b></div> <Button Text="Přidat" Style="highlight" OnClick="AddTask"></Button>
+            <div><b>Úkoly</b></div> <Button Style="highlight" OnClick="AddTask" Text="Přidat"></Button>
         </div>
         <div class="gridEditTask">
             @foreach (var a in _tasks)
@@ -134,6 +144,16 @@
         _tasks.RemoveAt(index);
 
         (await _backendProvider.DeleteTask(task.Id)).ThrowWhenUnsuccessful();
+    }
+
+    private async Task DeleteGoal()
+    {
+        if (_goal == null) return;
+
+        (await _backendProvider.DeleteGoal(_goal.Id)).ThrowWhenUnsuccessful();
+
+        _navManager.NavigateTo("/goals");
+      
     }
 
     private async Task UpdateGoal(GoalDto goal)

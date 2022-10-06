@@ -9,11 +9,15 @@
             var onClick = btn.Action;
             <Button Text="@title" Style="highlight" OnClick="() => onClick()"></Button>
         }
+        @AdditionalItems
     </div>
 </div>
 
 @code
 {
+    [Parameter]
+    public RenderFragment? AdditionalItems { get; set; }
+
     [Parameter]
     public string Title { get; set; } = default!;
 

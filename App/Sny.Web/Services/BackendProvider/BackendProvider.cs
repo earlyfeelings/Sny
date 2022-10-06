@@ -195,6 +195,11 @@ namespace Sny.Web.Services.BackendProvider
             var r = await response.Content.ReadFromJsonAsync<T>();
             return new ApiResponse<T>(response, r);
         }
+
+        public async Task<ApiResponse> DeleteGoal(Guid id)
+        {
+            return await MakeStandardRequest(() => _client.DeleteAsync(GetUri($"goals/{id}")));
+        }
     }
 
     public record ApiResponse<T>(HttpResponseMessage Response, T? RawResponseData)

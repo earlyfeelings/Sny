@@ -45,7 +45,7 @@
 
     private async Task AddNewGoal() 
     {
-        AddRequestGoalDto addGoal = new AddRequestGoalDto("Nový cíl", false, "Popisek cíle. Můžete napsat třeba svojí motivaci, proč stojíte o dosáhnutí vybraného cíle.");
+        AddRequestGoalDto addGoal = new AddRequestGoalDto("Nový cíl", false, "Popisek cíle. Můžete napsat třeba svojí motivaci, proč stojíte o dosažení vybraného cíle.");
         var responseObject = (await _backendProvider.AddGoal(addGoal)).ThrowWhenUnsuccessful().Data;
         _navManager.NavigateTo($"goals/{responseObject.Id}");
     }
