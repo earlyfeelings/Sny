@@ -7,8 +7,8 @@
 
 .gridEditTask {
     display: grid;
-    grid-template-columns: 50px 120px auto 25px;
-    grid-auto-rows: 50px;
+    grid-template-columns: min-content min-content auto min-content;
+    grid-auto-rows: max-content;
     align-items: center;
     column-gap: 5px;
 }

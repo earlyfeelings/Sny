@@ -1,12 +1,13 @@
 ﻿.text_input {
     border: none;
-    background-color: rgba(var(--greyShadowColor));
+    background-color: rgba(var(--greyInputColor));
     width: 100%;
     transition: .2s;
     color: rgb(var(--fontColor));
     padding: 10px;
     border-radius: 5px;
     margin: 5px 0;
+    min-height: 38px;
 }
 
     .text_input:active,

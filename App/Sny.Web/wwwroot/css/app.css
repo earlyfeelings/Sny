@@ -42,6 +42,7 @@ box-sizing: border-box;
     --fontColor: 255, 255, 255;
     --borderRadius: 15px;
     --greyShadowColor: 127, 118, 132, 0.1;
+    --greyInputColor: 174, 174, 174, 0.15;
 }
 @font-face {
     font-family: Roboto;
@@ -55,7 +56,7 @@ html {
 
 #page {
     display: grid;
-    grid: 50px 100px auto 100px / 10% 80% 10%;
+    grid: 50px 100px minmax(60vh, max-content) 100px / 10% 80% 10%;
     grid-template-areas:
         "empty loggnedUser loggnedUser"
         "header header header"
@@ -70,3 +71,4 @@ html {
 .d-flex{
     display:flex;
 }
+
