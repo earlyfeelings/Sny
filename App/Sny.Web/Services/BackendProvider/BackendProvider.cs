@@ -79,7 +79,7 @@ namespace Sny.Web.Services.BackendProvider
                     return;
                 }
 
-                await SetCredentials(new BackendApiCredentials(res.Data.Jwt, res.Data.RefreshToken, res.Data.expiryAtUtc));
+                await SetCredentials(new BackendApiCredentials(res.Data.Jwt, res.Data.RefreshToken, res.Data.ExpiryAtUtc));
             }
             finally
             {

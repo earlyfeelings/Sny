@@ -11,7 +11,7 @@ namespace Sny.Api.Dtos.Models.Accounts
 
     public record RegisterRequestDto(string Email, string Password, string PasswordAgain);
 
-    public record LoginResponseDto(string Jwt, string RefreshToken, DateTime expiryAtUtc);
+    public record LoginResponseDto(string Jwt, string RefreshToken, DateTime ExpiryAtUtc);
 
     public record MyInfoResponseDto(string Email);
 

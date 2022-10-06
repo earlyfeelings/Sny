@@ -36,11 +36,11 @@
 
 @code {
     [Parameter]
-    [SupplyParameterFromQuery(Name = "Jwt")]
+    [SupplyParameterFromQuery(Name = "jwt")]
     public string? Jwt { get; set; }
 
     [Parameter]
-    [SupplyParameterFromQuery(Name = "RefreshToken")]
+    [SupplyParameterFromQuery(Name = "refreshToken")]
     public string? RefreshToken { get; set; }
 
     [Parameter]
@@ -69,7 +69,7 @@
             return;
         }
 
-        await _userContext.Login(new BackendApiCredentials(response.Data.Jwt, response.Data.RefreshToken, response.Data.expiryAtUtc));
+        await _userContext.Login(new BackendApiCredentials(response.Data.Jwt, response.Data.RefreshToken, response.Data.ExpiryAtUtc));
 
         _navManager.NavigateTo(ReturnUrl ?? "/");
     }

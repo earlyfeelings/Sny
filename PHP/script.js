@@ -1,7 +1,7 @@
 const $snyapi = "https://snyapi.azurewebsites.net/";
 const $snyweb = "https://snyweb.azurewebsites.net/";
 
-let $images = [
+const $images = [
     'HappyPerson1.jpg',
     'plan.jpg',
     'scales.jpg',
@@ -19,10 +19,9 @@ let $images = [
     'ezgif.com-gif-maker.jpg',
     
 ];
-let $quotes = [
+const $quotes = [
     'Nepropadejte Panice!',
     'Všechno bude v pořádku',
-    'Přestaňte krvácet z konečníku',
     'Nemusíš se bát',
     'Dosáhni úspěchu',
     'Splň si své sny',
@@ -129,8 +128,8 @@ $counter = 3;
 $( "#LogForm" ).submit(function( event ) {
     event.preventDefault();
     FormReset();
-    let $email = $("#email").val();
-    let $password = $("#password").val();
+    const $email = $("#email").val();
+    const $password = $("#password").val();
     switch (true) {
         case !!$email && !!$password: callLOGIN($email, $password); break;
         case !$email && !$password: addError("#email", 'Email je potřeba napsat'); addError("#password", 'a heslo taky'); break;
@@ -143,9 +142,9 @@ $( "#LogForm" ).submit(function( event ) {
 $( "#RegForm" ).submit(function( event ) {
     event.preventDefault();
     FormReset();
-    let $email = $("#reg-email").val();
-    let $password = $("#reg-password").val();
-    let $password2 = $("#reg-password2").val();
+    const $email = $("#reg-email").val();
+    const $password = $("#reg-password").val();
+    const $password2 = $("#reg-password2").val();
     if (!!$email && !!$password && !!$password2) {
         callREG($email, $password, $password2);
     } else {
@@ -171,7 +170,7 @@ function addImage() {
 }
 
 function loginSuccess(data) {
-    window.location.replace($snyweb + "/login?jwt=" + data.jwt);
+    window.location.replace($snyweb + "/login?jwt=" + data.jwt + "&refreshToken=" + data.refreshToken);
 }
 
 function Loading($do) {
@@ -187,7 +186,7 @@ function Loading($do) {
 
 function callLOGIN($email, $password) {
     Loading(true);
-    let url = $snyapi + "account/login";
+    const url = $snyapi + "account/login";
 
     $.ajax({
         type: 'POST',
@@ -239,7 +238,7 @@ function regSuccess() {
 
 function callREG($email, $password, $password2) {
     Loading(true);
-    let url = $snyapi + "account/register";
+    const url = $snyapi + "account/register";
     $.ajax({
         type: 'POST',
         crossDomain: true,
@@ -264,7 +263,7 @@ function callREG($email, $password, $password2) {
 
 
 function addAlert(text, type) {
-    let alert = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">'
+    const alert = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">'
         + text +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
     $('#alerts').append(alert);
@@ -273,16 +272,16 @@ function addAlert(text, type) {
 
 function getRandomQuote() {
     if ($quotes.length === 0) return '';
-    let random = Math.floor(Math.random() * $quotes.length);
-    let $ret = $quotes[random];
+    const random = Math.floor(Math.random() * $quotes.length);
+    const $ret = $quotes[random];
     $quotes.splice(random, 1);
     return $ret;
 }
 
 function getRandomImage() {
     if ($images.length === 0) return '';
-    let random = Math.floor(Math.random() * $images.length);
-    let $ret = $images[random];
+    const random = Math.floor(Math.random() * $images.length);
+    const $ret = $images[random];
     $images.splice(random, 1);
     return 'HappyImages/' + $ret;
 }
@@ -292,8 +291,8 @@ function getRandomSize() {
 }
 
 function generateLine() {
-    let $size = getRandomSize();
-    let $imageLine = '<div class="col-lg-' + $size + '"><div class="border"><img alt="image" src="' + getRandomImage() + '"></div></div>';
-    let $quoteLine = '<div class="col-lg-' + (12 - $size) + '"> ' + getRandomQuote() + '</div>';
+    const $size = getRandomSize();
+    const $imageLine = '<div class="col-lg-' + $size + '"><div class="border"><img alt="image" src="' + getRandomImage() + '"></div></div>';
+    const $quoteLine = '<div class="col-lg-' + (12 - $size) + '"> ' + getRandomQuote() + '</div>';
     return (Math.floor(Math.random() * 2) === 0 ) ? $imageLine + $quoteLine : $quoteLine + $imageLine;
 }
