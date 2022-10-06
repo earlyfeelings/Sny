@@ -17,7 +17,7 @@
     }
     else
     {
-        foreach (var goal in _goals.OrderByDescending(d => d.Active))
+        foreach (var goal in _goals.OrderBy(d => d.Id))
         {
             <GoalPreview Goal="goal"></GoalPreview>
         }

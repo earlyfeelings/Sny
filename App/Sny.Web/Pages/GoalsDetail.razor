@@ -18,7 +18,8 @@
            <Button OnClick="DeleteGoal">
                <i class="fa fa-trash"></i>
            </Button>
-           <ActiveIndicator Active="_goal.Active" OnChange="(value) => UpdateGoal(_goal with { Active = value })"></ActiveIndicator>
+            <ActiveIndicator Active="_goal.Active" OnChange="(value) => UpdateGoal(_goal with { Active = value })"></ActiveIndicator>
+            <TaskStateCheckbox Value="_goal.IsCompleted" OnClick="(value) => UpdateGoal(_goal with { IsCompleted = value })"></TaskStateCheckbox>
          }
     </AdditionalItems>
 </Header>
@@ -41,10 +42,10 @@
             <div><b>Úkoly</b></div> <Button Style="highlight" OnClick="AddTask" Text="Přidat"></Button>
         </div>
         <div class="gridEditTask">
-            @foreach (var a in _tasks)
+            @foreach (var a in _tasks.OrderBy(d => d.Id))
             {
                 <div>
-                    <TaskStateCheckbox Value="a.IsCompleted" OnClick="async () => await ChangeTaskComplete(a)"></TaskStateCheckbox>
+                    <TaskStateCheckbox Value="a.IsCompleted" OnClick="(value) => UpdateTask(a with { IsCompleted = value })"></TaskStateCheckbox>
                 </div>
                 <div>
                     <DateInput Value="a.DueDate" OnChange="(value) => UpdateTask(a with { DueDate = value })"></DateInput>
@@ -93,17 +94,6 @@
         _goal = (await goalTask).ThrowWhenUnsuccessful().Data;
         _title = _goal.Name;
         _tasks = (await taskTask).ThrowWhenUnsuccessful().Data.ToList();
-    }
-
-    private async Task ChangeTaskComplete(TaskDto task) 
-    {
-        if (_tasks == null) return;
-
-        var updatedTask = task with { IsCompleted = !task.IsCompleted };
-        int index = _tasks.FindIndex(d => d.Id == updatedTask.Id);
-        _tasks[index] = updatedTask;
-
-        (await _backendProvider.SetTaskComplete(task.Id, updatedTask.IsCompleted)).ThrowWhenUnsuccessful();
     }
 
     private async Task UpdateTask(TaskDto updatedTask)
