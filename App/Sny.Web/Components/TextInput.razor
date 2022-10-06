@@ -2,7 +2,8 @@
     type="@Type" 
     placeholder="@Placeholder" 
     value="@Value" 
-    @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"  />
+    @onchange="@((ChangeEventArgs e) => ChangeEvent(e?.Value?.ToString() ?? string.Empty))"
+    @oninput="@((ChangeEventArgs e) => OnInputEvent(e?.Value?.ToString() ?? string.Empty))" />
 
 @code
 {
@@ -21,5 +22,13 @@
     protected async Task ChangeEvent(string value)
     {
         await ValueChanged.InvokeAsync(value);
+    }
+
+    [Parameter]
+    public EventCallback<string> OnInput { get; set; }
+
+    protected async Task OnInputEvent(string value)
+    {
+        await OnInput.InvokeAsync(value);
     }
 }

@@ -10,7 +10,7 @@
 @attribute [Authorize]
 
 <PageTitle>Detail cíle</PageTitle>
-<Header Title="Detail cíle"></Header>
+<Header Title="@_title"></Header>
 
 <div class="content">
     @if (_goal is null || _tasks is null) 
@@ -23,7 +23,7 @@
             <b>Info o cíli:</b>
         </p>
 
-        <TextInput Placeholder="Název" Value="@_goal.Name" ValueChanged="(value) => UpdateGoal(_goal with { Name = value })"></TextInput>
+        <TextInput OnInput="(val) => _title = val" Placeholder="Název" Value="@_goal.Name" ValueChanged="(value) => UpdateGoal(_goal with { Name = value })"></TextInput>
         <TextAreaInput Value="@_goal.Description" OnChange="(value) => UpdateGoal(_goal with { Description = value })"></TextAreaInput>
 
         <div class="d-flex taskHeader">
@@ -60,6 +60,8 @@
 
     private List<TaskDto>? _tasks;
 
+    private string _title = "Detail cíle";
+
     private IEnumerable<HeaderButton> FooterButtons()
     {
         yield return new HeaderButton("Zpět na Cíle", () => _navManager.NavigateTo("/goals"));
@@ -71,6 +73,7 @@
         var taskTask = _backendProvider.GetTasksByGoalId(Id);
 
         _goal = (await goalTask).ThrowWhenUnsuccessful().Data;
+        _title = _goal.Name;
         _tasks = (await taskTask).ThrowWhenUnsuccessful().Data.ToList();
     }
 
