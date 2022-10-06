@@ -18,9 +18,6 @@ namespace Sny.Core.AccountsAggregate.Services
         private readonly IAccountProviderRepo _apr;
         private readonly ICurrentAccountContext _cac;
 
-        //TODO: make validRefreshTokens as service
-        private static Dictionary<Guid, string> _validRefreshTokens { get; set; } = new Dictionary<Guid, string>();
-        
         private static SemaphoreSlim _addAccountLock = new SemaphoreSlim(1, 1);
         private PasswordOptions _passwordOptions = default!;
         public AccountManager(IAccountReadOnlyRepo arop, 
@@ -100,18 +97,6 @@ namespace Sny.Core.AccountsAggregate.Services
         {
             var acc = await _arop.FindAcount(id);
             return acc ?? throw new AccountNotFoundException(); 
-        }
-
-        public async Task SetValidSecurityRefreshTokenId(Account acc, string tokenIdentifier)
-        {
-            _validRefreshTokens[acc.Id] = tokenIdentifier;
-        }
-
-        public async Task<string?> GetValidSecurityRefreshTokenId(Account acc)
-        {
-            if (_validRefreshTokens.TryGetValue(acc.Id, out var token))
-                return token;
-            return null;
         }
     }
 }

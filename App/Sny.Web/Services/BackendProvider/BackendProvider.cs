@@ -1,25 +1,48 @@
 ﻿using Sny.Api.Dtos.Models.Accounts;
 using Sny.Api.Dtos.Models.Goals;
 using Sny.Web.Exceptions;
+using Sny.Web.Model;
 using Sny.Web.Pages;
+using Sny.Web.Services.LocalStorageService;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using static Sny.Api.Dtos.Models.Tasks.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace Sny.Web.Services.BackendProvider
 {
     public class BackendProvider : IBackendProvider
     {
-
         private Uri _baseUri;
         private readonly HttpClient _client;
+        private BackendApiCredentials? _credentials;
+        private ILocalStorageService _localStorageService;
 
-        public BackendProvider(Uri baseUri, HttpClient client)
+
+        public async Task SetCredentials(BackendApiCredentials credentials)
+        {
+            _credentials = credentials;
+            _client.DefaultRequestHeaders.Remove("Authorization");
+            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {credentials.Jwt}");
+            await _localStorageService.SetItem(LocalStorageKeys.Jwt, credentials.Jwt);
+            await _localStorageService.SetItem(LocalStorageKeys.RefreshToken, credentials.RefreshToken);
+        }
+
+        public async Task ClearCredentials()
+        {
+            _credentials = null;
+            _client.DefaultRequestHeaders.Remove("Authorization");
+            await _localStorageService.RemoveItem(LocalStorageKeys.Jwt);
+            await _localStorageService.RemoveItem(LocalStorageKeys.RefreshToken);
+        }
+
+        public BackendApiCredentials? CurrentCredentials => _credentials;
+
+        public BackendProvider(Uri baseUri, HttpClient client, ILocalStorageService localStorageService)
         {
             _baseUri = baseUri;
-            this._client = client;
+            _client = client;
+            _localStorageService = localStorageService;
         }
 
         public Uri GetUri(string relativeUri)
@@ -27,9 +50,9 @@ namespace Sny.Web.Services.BackendProvider
             return new Uri(_baseUri, relativeUri);
         }
 
-        public async Task<ApiResponse> Logout()
+        public async Task<ApiResponse> Logout(LogoutRequestDto model)
         {
-            var raw = await _client.GetAsync(GetUri("account/logout"));
+            var raw = await _client.PostAsJsonAsync(GetUri("account/logout"), model);
             return await ValidateResponse(raw);
         }
 

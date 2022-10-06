@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sny.Api.Dtos.Models.Accounts;
-using Sny.Api.Dtos.Models.Goals;
 using Sny.Core.AccountsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
 using Sny.Api.Mappers;
-using Microsoft.IdentityModel.Tokens;
-using Sny.Api.Options;
-using Sny.Core.AccountsAggregate;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Sny.Api.Services;
 using Sny.Api.Middlewares;
@@ -23,22 +17,33 @@ namespace Sny.Api.Controllers
     {
         private readonly IAccountManager _accManager;
         private readonly IJwtService _jwtService;
+        private readonly ILoginTokenManager _loginTokenManager;
 
-        public AccountController(IAccountManager accManager, IJwtService jwtService)
+        public AccountController(IAccountManager accManager, 
+            IJwtService jwtService, 
+            ILoginTokenManager loginTokenManager)
         {
             this._accManager = accManager;
             this._jwtService = jwtService;
+            this._loginTokenManager = loginTokenManager;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("logout")]
+        [ProducesResponseType(200)]
         [AllowAnonymous]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(LogoutRequestDto model)
         {
             try
             {
+                var validated = _jwtService.ValidateJwtAndGetPrincipal(model.RefreshToken);
+                if (validated is null) return Ok();
+
+                var refreshTokenId = validated.Claims.SingleOrDefault(d => d.Type == ClaimTypes.Sid);
+                if (refreshTokenId == null) return Ok();
+
                 var acc = await _accManager.CurrentAccount();
-                await _accManager.SetValidSecurityRefreshTokenId(acc, Guid.NewGuid().ToString());
+                await _loginTokenManager.InvalidateToken(acc, refreshTokenId.Value);
             }
             catch (AccountNotFoundException)
             {
@@ -65,19 +70,19 @@ namespace Sny.Api.Controllers
             if (userId == null) goto response401;
 
             var acc = await _accManager.GetAccountById(userId.Value);
-            var validRefreshTokenId = await _accManager.GetValidSecurityRefreshTokenId(acc);
-            if (validRefreshTokenId == null) goto response401;
-
+         
             var refreshTokenId = validated.Claims.SingleOrDefault(d => d.Type == ClaimTypes.Sid);
             if (refreshTokenId == null) goto response401;
 
-            if (refreshTokenId.Value != validRefreshTokenId) goto response401;
+            if (!await _loginTokenManager.TokenIsValid(acc, refreshTokenId.Value)) 
+                goto response401;
 
             var newRefreshToken = _jwtService.CreateRefreshJwt();
             var newJwtToken = _jwtService.CreateJWT(acc);
 
-            //persist new token
-            await _accManager.SetValidSecurityRefreshTokenId(acc, newRefreshToken.RefreshTokenId);
+            //invalid current token and persist new token
+            await _loginTokenManager.InvalidateToken(acc, refreshTokenId.Value);
+            await _loginTokenManager.SetToken(acc, newRefreshToken.RefreshTokenId);
 
             return Ok(new LoginResponseDto(newJwtToken.Jwt, newRefreshToken.Jwt, newJwtToken.expiryAt));
 
@@ -107,7 +112,7 @@ namespace Sny.Api.Controllers
                     var jwtToken = _jwtService.CreateJWT(result.Account);
 
                     //persist new token
-                    await _accManager.SetValidSecurityRefreshTokenId(result.Account, refreshToken.RefreshTokenId);
+                    await _loginTokenManager.SetToken(result.Account, refreshToken.RefreshTokenId);
 
                     return Ok(new LoginResponseDto(jwtToken.Jwt, refreshToken.Jwt, jwtToken.expiryAt));
                 }

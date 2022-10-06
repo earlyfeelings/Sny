@@ -130,6 +130,8 @@ namespace Sny.Api
             builder.Services.AddSingleton<ITaskReadOnlyRepo>(inMemoryTaskRepo);
             builder.Services.AddSingleton<ITaskProviderRepo>(inMemoryTaskRepo);
 
+            builder.Services.AddSingleton<ILoginTokenManager, LoginTokenManager>();
+
             var app = builder.Build();
 
             app.UseSwagger();

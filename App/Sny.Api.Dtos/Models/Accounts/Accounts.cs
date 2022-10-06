@@ -17,6 +17,8 @@ namespace Sny.Api.Dtos.Models.Accounts
 
     public record RegisterResponseDto(RegisterStatusDto RegisterStatus);
 
+    public record LogoutRequestDto(string RefreshToken);
+
     public enum RegisterStatusDto
     {
         Success,

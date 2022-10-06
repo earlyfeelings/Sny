@@ -2,6 +2,7 @@
 @page "/login"
 @using Sny.Api.Dtos.Models.Accounts
 @using Sny.Web.Components
+@using Sny.Web.Model
 @using Sny.Web.Services.UserContext
 @using Services.BackendProvider
 @inject NavigationManager _navManager
@@ -39,6 +40,10 @@
     public string? Jwt { get; set; }
 
     [Parameter]
+    [SupplyParameterFromQuery(Name = "RefreshToken")]
+    public string? RefreshToken { get; set; }
+
+    [Parameter]
     [SupplyParameterFromQuery(Name = "returnUrl")]
     public string? ReturnUrl { get; set; }
 
@@ -64,7 +69,7 @@
             return;
         }
 
-        await _userContext.Login(response.Data.Jwt);
+        await _userContext.Login(new BackendApiCredentials(response.Data.Jwt, response.Data.RefreshToken, response.Data.expiryAtUtc));
 
         _navManager.NavigateTo(ReturnUrl ?? "/");
     }
@@ -78,9 +83,9 @@
             return;
         }
 
-        if (Jwt != null ) 
+        if (Jwt != null && RefreshToken != null) 
         {
-            await _userContext.Login(Jwt);
+            await _userContext.Login(new BackendApiCredentials(Jwt, RefreshToken, DateTime.MinValue));
             _navManager.NavigateTo("/");
         }
         else

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sny.Core.Interfaces.Core
 {
+
     public interface IAccountManager
     {
         public Task<(LoginResult Result, Account Account)> Login(LoginModel model);
@@ -17,10 +18,6 @@ namespace Sny.Core.Interfaces.Core
         public Task<Account> CurrentAccount();
 
         public Task<Account> GetAccountById(Guid id);
-
-        public Task SetValidSecurityRefreshTokenId(Account acc, string tokenIdentifier);
-
-        public Task<string?> GetValidSecurityRefreshTokenId(Account acc);
     }
 
     public record LoginModel(string Email, string Password);

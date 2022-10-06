@@ -18,25 +18,15 @@ namespace Sny.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            if (builder.HostEnvironment.IsDevelopment())
+            var backendUrl = new Uri("https://localhost:7026");
+            if (!builder.HostEnvironment.IsDevelopment())
             {
-                builder.Services.AddScoped<IBackendProvider>(
-                    (sp) =>
-                        new BackendProvider(new Uri("https://localhost:7026"),
-                        sp.GetService<HttpClient>() ?? throw new ApplicationException("HttpClient service not found.")
-                        )
-                    );
+                backendUrl = new Uri("https://snyapi.azurewebsites.net");
             }
-            else
-            {
-                builder.Services.AddScoped<IBackendProvider>(
-                    (sp) =>
-                        new BackendProvider(new Uri("https://snyapi.azurewebsites.net"),
-                        sp.GetService<HttpClient>() ?? throw new ApplicationException("HttpClient service not found.")
-                        )
-                    );
-            }
-            
+
+            builder.Services.AddScoped<IBackendProvider>(
+                 (sp) => new BackendProvider(backendUrl, GetService<HttpClient>(sp), GetService<ILocalStorageService>(sp)));
+
             builder.Services.AddScoped<IUserContext, UserContext>();
             builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 
@@ -46,6 +36,11 @@ namespace Sny.Web
             await uc.Initialize();
 
             await host.RunAsync();
+        }
+
+        private static T GetService<T>(IServiceProvider sp)
+        {
+            return sp.GetService<T>() ?? throw new ApplicationException("HttpClient service not found.");
         }
     }
 }
