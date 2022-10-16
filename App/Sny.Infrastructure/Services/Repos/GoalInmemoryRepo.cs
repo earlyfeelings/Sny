@@ -37,9 +37,9 @@ namespace Sny.Infrastructure.Services.Repos
             return goal ?? throw new GoalNotFoundException();
         }
 
-        public async Task<IReadOnlyCollection<Goal>> GetGoals(Func<IQueryable<Goal>, IQueryable<Goal>> filter)
+        public async Task<IReadOnlyCollection<Goal>> GetGoals()
         {
-            return filter(_goals.AsQueryable()).ToArray();
+            return _goals.AsReadOnly();
         }
 
         public void DeleteGoal(Guid id)

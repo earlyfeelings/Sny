@@ -2,7 +2,6 @@
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
-using System.Reflection;
 
 namespace Sny.Core.GoalsAggregate.Services
 {
@@ -27,9 +26,10 @@ namespace Sny.Core.GoalsAggregate.Services
             return goal;
         }
 
-        public Task<IReadOnlyCollection<Goal>> GetGoals()
+        public async Task<IReadOnlyCollection<Goal>> GetGoals()
         {
-            return _gror.GetGoals(d => d.Where(d => d.AccountId == _cac.CurrentAccountId));
+            var goals = await _gror.GetGoals();
+            return goals.Where(g => g.AccountId == _cac.CurrentAccountId).ToList().AsReadOnly();
         }
         
         public Task<Goal> AddGoal(string name, bool active, string description)
