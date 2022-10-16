@@ -17,18 +17,18 @@ namespace Sny.Infrastructure.Services.Repos
             new Goal(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b6"), "Cíl test6", false, false, "Tak ale toto je cool popisek!6", new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b4")),
         };
 
-        public Task<Goal> AddGoal(string name, bool active, string description, Guid accountId)
+        public async Task<Goal> AddGoal(string name, bool active, string description, Guid accountId)
         {
             var goal = new Goal(Guid.NewGuid(), name, active, false, description, accountId);
             _goals.Add(goal);
-            return Task.FromResult(goal);
+            return goal;
         }
 
-        public Task<Goal> EditGoal(Goal model)
+        public async Task<Goal> EditGoal(Goal model)
         {
             DeleteGoal(model.Id);
             _goals.Add(model);
-            return Task.FromResult(model);
+            return model;
         }
 
         public async Task<Goal> GetGoalById(Guid id)
@@ -41,11 +41,11 @@ namespace Sny.Infrastructure.Services.Repos
         {
             return _goals.AsReadOnly();
         }
-
-        public void DeleteGoal(Guid id)
+        
+        public async void DeleteGoal(Guid id)
         {
-            var goal = GetGoalById(id);
-            _goals.Remove(goal.Result);
+            var goal =  await GetGoalById(id);
+            _goals.Remove(goal);
         }
     }
 }

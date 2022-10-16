@@ -1,10 +1,5 @@
-﻿using Sny.Core.AccountsAggregate;
-using Sny.Core.Goals;
-using Sny.Core.GoalsAggregate.Exceptions;
-using Sny.Core.Interfaces.Infrastructure;
+﻿using Sny.Core.Interfaces.Infrastructure;
 using Sny.Core.TasksAggregate.Exceptions;
-using System;
-using System.Xml.Linq;
 
 namespace Sny.Infrastructure.Services.Repos
 {
@@ -21,18 +16,18 @@ namespace Sny.Infrastructure.Services.Repos
             new Core.TasksAggregate.Task(new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42bc"), "Meditovat test6", "Tak ale toto je cool popisek!6", null, false, new Guid("8fcfc3fa-590d-462d-b063-dbac4e4b42b4")),
         };
         
-        public Task<Core.TasksAggregate.Task> AddTask(string name, string description, DateTime? dueDate, bool isCompleted, Guid goalId)
+        public async Task<Core.TasksAggregate.Task> AddTask(string name, string description, DateTime? dueDate, bool isCompleted, Guid goalId)
         {
             var task = new Core.TasksAggregate.Task(Guid.NewGuid(), name, description, dueDate, isCompleted, goalId);
             _tasks.Add(task);
-            return Task.FromResult(task);
+            return task;
         }
 
-        public Task<Core.TasksAggregate.Task> EditTask(Core.TasksAggregate.Task task)
+        public async Task<Core.TasksAggregate.Task> EditTask(Core.TasksAggregate.Task task)
         {
             DeleteTask(task.Id);
             _tasks.Add(task);
-            return Task.FromResult(task);
+            return task;
         }
         
         public async Task<Core.TasksAggregate.Task> GetTaskById(Guid id)
@@ -46,9 +41,9 @@ namespace Sny.Infrastructure.Services.Repos
             return _tasks.Where(d => d.GoalId == id).ToList();
         }        
 
-        public void DeleteTask(Guid id)
+        public async void DeleteTask(Guid id)
         {
-            var task = GetTaskById(id).Result;
+            var task = await GetTaskById(id);
             _tasks.Remove(task);
         }
     }
