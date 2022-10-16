@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sny.Kernel", "Sny.Kernel\Sny.Kernel.csproj", "{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sny.DB", "Sny.DB\Sny.DB.csproj", "{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{F1815316-A22E-4B6B-A62D-C3DD42771992} = {ACA7FEB6-B41A-4D81-B007-5A66A959AFE2}
 		{C4F32583-F5D4-40C1-862B-CBFF318E58D8} = {E3CC6557-491C-4EA6-9C40-44CB58B3097F}
 		{588EFCCC-71F1-4C02-BFE2-BF166D7A82AE} = {E3CC6557-491C-4EA6-9C40-44CB58B3097F}
+		{422F11A6-29F5-4C1E-B294-F41EF9A1F9A9} = {31150DE3-84CC-4C60-88AD-5B45E9DA332E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B835BCB5-18D5-4885-B2D0-88527A9DFAF3}

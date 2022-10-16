@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sny.Core\Sny.Core.csproj" />
+    <ProjectReference Include="..\Sny.DB\Sny.DB.csproj" />
   </ItemGroup>
 
 </Project>

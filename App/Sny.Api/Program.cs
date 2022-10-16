@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sny.Api.Middlewares;
@@ -12,6 +12,7 @@ using Sny.Core.GoalsAggregate.Services;
 using Sny.Core.Interfaces.Core;
 using Sny.Core.Interfaces.Infrastructure;
 using Sny.Core.TasksAggregate.Services;
+using Sny.DB.Data;
 using Sny.Infrastructure.Services.Repos;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -111,24 +112,44 @@ namespace Sny.Api
 
             builder.Services.AddScoped<IGoalProvider, GoalProvider>();
 
-            GoalInmemoryRepo inMemoryGoalRepo = new GoalInmemoryRepo();
-            builder.Services.AddSingleton<IGoalReadOnlyRepo>(inMemoryGoalRepo);
-            builder.Services.AddSingleton<IGoalProviderRepo>(inMemoryGoalRepo);
+            DbContextOptionsBuilder<SnySQLiteContext> dbContextOptionsBuilder = new DbContextOptionsBuilder<SnySQLiteContext>();
+            dbContextOptionsBuilder.UseSqlite("Data Source=..//LocalDatabase.db", b => b.MigrationsAssembly("Sny.DB"));
+            dbContextOptionsBuilder.UseLazyLoadingProxies();
+
+            SnySQLiteContext snySQLiteContext = new SnySQLiteContext(dbContextOptionsBuilder.Options);
+            builder.Services.AddDbContext<SnySQLiteContext>(options => new SnySQLiteContext(dbContextOptionsBuilder.Options));
+            SnySQLiteContextSeed.SeedAsync(snySQLiteContext).Wait();
 
             builder.Services.AddScoped<IAccountManager, AccountManager>();
             builder.Services.AddSingleton<IJwtService, JwtService>();
 
-            AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
-            builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
-            builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
+
+            builder.Services.AddScoped<ITaskProvider, TaskProvider>();
+
+            builder.Services.AddScoped<ITaskReadOnlyRepo, TaskSQLiteRepo>();
+            builder.Services.AddScoped<ITaskProviderRepo, TaskSQLiteRepo>();
+
+            builder.Services.AddScoped<IGoalReadOnlyRepo, GoalSQLiteRepo>();
+            builder.Services.AddScoped<IGoalProviderRepo, GoalSQLiteRepo>();
+
+            builder.Services.AddScoped<IAccountReadOnlyRepo, AccountSQLiteRepo>();
+            builder.Services.AddScoped<IAccountProviderRepo, AccountSQLiteRepo>();
 
             builder.Services.AddScoped<ICurrentAccountContext, CurrentAccountContext>();
 
             builder.Services.AddScoped<ITaskProvider, TaskProvider>();
 
-            TaskInmemoryRepo inMemoryTaskRepo = new TaskInmemoryRepo();
-            builder.Services.AddSingleton<ITaskReadOnlyRepo>(inMemoryTaskRepo);
-            builder.Services.AddSingleton<ITaskProviderRepo>(inMemoryTaskRepo);
+            //GoalInmemoryRepo inMemoryGoalRepo = new GoalInmemoryRepo();
+            //builder.Services.AddSingleton<IGoalReadOnlyRepo>(inMemoryGoalRepo);
+            //builder.Services.AddSingleton<IGoalProviderRepo>(inMemoryGoalRepo);
+            
+            //AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
+            //builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
+            //builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
+            
+            //TaskInmemoryRepo inMemoryTaskRepo = new TaskInmemoryRepo();
+            //builder.Services.AddSingleton<ITaskReadOnlyRepo>(inMemoryTaskRepo);
+            //builder.Services.AddSingleton<ITaskProviderRepo>(inMemoryTaskRepo);
 
             builder.Services.AddSingleton<ILoginTokenManager, LoginTokenManager>();
 
