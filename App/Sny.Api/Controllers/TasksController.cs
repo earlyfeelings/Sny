@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Core;
+using Sny.Core.TasksAggregate.Exceptions;
 using static Sny.Api.Dtos.Models.Tasks.Tasks;
 
 namespace Sny.Api.Controllers
@@ -61,6 +62,10 @@ namespace Sny.Api.Controllers
             {
                 return NotFound();
             }
+            catch (TaskNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -101,6 +106,10 @@ namespace Sny.Api.Controllers
             {
                 return NotFound();
             }
+            catch (TaskNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -122,6 +131,10 @@ namespace Sny.Api.Controllers
                 return Ok();
             }
             catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (TaskNotFoundException)
             {
                 return NotFound();
             }
@@ -147,6 +160,10 @@ namespace Sny.Api.Controllers
                 return Ok();
             }
             catch (GoalNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (TaskNotFoundException)
             {
                 return NotFound();
             }
