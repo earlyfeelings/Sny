@@ -19,9 +19,11 @@ Aplikace pro seberozvoj - správu snů, cílů a motivace k dosažení milníků
 ## Poznámky
 
 Příkaz na vytvoření migrace pro projekt Sny.DB:
+```
 dotnet ef migrations add InitialCreate --project ..\Sny.DB --startup-project ..\Sny.Api
-
+```
 Příkaz na aktualizaci databáze pro projekt Sny.DB:
+```
 dotnet ef database update --project ..\Sny.DB --startup-project ..\Sny.Api
-
+```
 
