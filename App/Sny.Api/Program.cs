@@ -138,19 +138,6 @@ namespace Sny.Api
             builder.Services.AddScoped<ICurrentAccountContext, CurrentAccountContext>();
 
             builder.Services.AddScoped<ITaskProvider, TaskProvider>();
-
-            //GoalInmemoryRepo inMemoryGoalRepo = new GoalInmemoryRepo();
-            //builder.Services.AddSingleton<IGoalReadOnlyRepo>(inMemoryGoalRepo);
-            //builder.Services.AddSingleton<IGoalProviderRepo>(inMemoryGoalRepo);
-            
-            //AccountInmemoryRepo inMemoryAccountRepo = new AccountInmemoryRepo();
-            //builder.Services.AddSingleton<IAccountReadOnlyRepo>(inMemoryAccountRepo);
-            //builder.Services.AddSingleton<IAccountProviderRepo>(inMemoryAccountRepo);
-            
-            //TaskInmemoryRepo inMemoryTaskRepo = new TaskInmemoryRepo();
-            //builder.Services.AddSingleton<ITaskReadOnlyRepo>(inMemoryTaskRepo);
-            //builder.Services.AddSingleton<ITaskProviderRepo>(inMemoryTaskRepo);
-
             builder.Services.AddSingleton<ILoginTokenManager, LoginTokenManager>();
 
             var app = builder.Build();

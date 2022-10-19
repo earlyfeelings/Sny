@@ -28,8 +28,7 @@ namespace Sny.Core.GoalsAggregate.Services
 
         public async Task<IReadOnlyCollection<Goal>> GetGoals()
         {
-            var goals = await _gror.GetGoals();
-            return goals.Where(g => g.AccountId == _cac.CurrentAccountId).ToList().AsReadOnly();
+            return await _gror.GetGoals(_cac.CurrentAccountId);
         }
         
         public Task<Goal> AddGoal(string name, bool active, string description)

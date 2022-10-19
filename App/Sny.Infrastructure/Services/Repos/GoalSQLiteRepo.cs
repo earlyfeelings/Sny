@@ -1,4 +1,5 @@
-﻿using Sny.Core.Goals;
+﻿using Microsoft.EntityFrameworkCore;
+using Sny.Core.Goals;
 using Sny.Core.GoalsAggregate.Exceptions;
 using Sny.Core.Interfaces.Infrastructure;
 using Sny.DB.Data;
@@ -54,9 +55,14 @@ namespace Sny.Infrastructure.Services.Repos
             return new Goal(goal.Id!.Value, goal.Name, goal.Active, goal.IsCompleted, goal.Description, goal.AccountId);
         }
 
-        public async Task<IReadOnlyCollection<Goal>> GetGoals()
+        public async Task<IReadOnlyCollection<Goal>> GetGoals(Guid? accountId)
         {
-            return _context.Goals.Select(d => new Goal(d.Id!.Value, d.Name, d.Active, d.IsCompleted, d.Description, d.AccountId)).ToList();
+            var goals = _context.Goals.AsNoTracking();
+            if (accountId != null)
+            {
+                goals = goals.Where(d => d.AccountId == accountId);
+            }
+            return goals.Select(d => new Goal(d.Id!.Value, d.Name, d.Active, d.IsCompleted, d.Description, d.AccountId)).ToList();
         }
 
         private DB.Entities.Goal GetGoalByIdFromDB(Guid id)

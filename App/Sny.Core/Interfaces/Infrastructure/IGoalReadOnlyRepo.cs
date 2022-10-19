@@ -6,7 +6,7 @@ namespace Sny.Core.Interfaces.Infrastructure
     {
         public Task<Goal> GetGoalById(Guid id);
 
-        public Task<IReadOnlyCollection<Goal>> GetGoals();
+        public Task<IReadOnlyCollection<Goal>> GetGoals(Guid? accountId);
 
     }
 }
